@@ -29,6 +29,26 @@
   ],
   "timeline": [
     {
+      "date": "Jan 7 2019",
+      "tags": [
+        "gaming",
+        "security",
+        "accolade"
+      ],
+      "url": "https://hackerone.com/reports/409850",
+      "title": "Steam Remote Code Execution",
+      "description": "Technical writeup on a vulnerability that allowed an attacker to take remote control over Steam users' computers."
+    },
+    {
+      "date": "Dec 15 2018",
+      "tags": [
+        "security",
+      ],
+      "url": "https://medium.com/@Zemnmez/%C3%BCbersicht-remote-code-execution-spotify-takeover-a5f6fd6809d0",
+      "title": "Übersicht Remote Code Execution, Spotify takeover",
+      "description": "Quick article on the security of modern desktop web applications"
+    },
+    {
       "date": "Jan 22 2018",
       "tags": [
         "gaming",
