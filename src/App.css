@@ -76,6 +76,10 @@ a:visited { color: inherit }
   .App {
     grid: "header" 100vh "article" min-content / 1fr;
   }
+
+  .App > article {
+    overflow: initial;
+  }
 }
 
 .timeline {
@@ -216,5 +220,5 @@ svg {
   margin: auto;
 }
 
-.tagline { grid-area: tagline; text-align: center }
+.tagline { grid-area: tagline; text-align: center; display: none }
 
