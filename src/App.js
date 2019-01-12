@@ -106,7 +106,7 @@ let Event = ({date, tags, url, title, description}) => <div className="event">
   <a className="title" href={url}>{title}</a> <span className="description">{description}</span>
 </div>
 
-let VideoBackground = ({...props}) => <video poster="ash.jpg" autoPlay loop muted className="video-background">
+let VideoBackground = ({...props}) => <video poster="ash.jpg" autoPlay muted playsinline loop className="video-background">
   <source src="ash.mp4" type="video/mp4" />
 </video>
 

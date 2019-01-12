@@ -12,6 +12,7 @@ a:link { color: inherit; text-decoration-skip: spaces ; font-style: italic }
 a:visited { color: inherit }
 
 .video-background {
+  -webkit-transform-style: preserve-3d;
   z-index: -1;
   background: black;
   object-fit: cover;
@@ -58,6 +59,7 @@ a:visited { color: inherit }
   margin: auto;
   background: var(--bgc);
   padding: 1rem;
+  z-index: 2;
 }
 
 .App > article {
