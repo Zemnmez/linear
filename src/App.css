@@ -1,32 +1,220 @@
+@import url('https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i');
+* { box-sizing: border-box }
+body, html {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family: "Lora", serif;
+}
+
+a:link { color: inherit; text-decoration-skip: spaces ; font-style: italic }
+a:visited { color: inherit }
+
+.video-background {
+  z-index: -1;
+  background: black;
+  object-fit: cover;
+  grid-area: header;
+  width: 100%;
+  height: 100%;
+}
+
+
+.name, .handle { text-transform: lowercase }
+.name > * { display: inline-block }
+
+.border-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+
+
+.App, .App.Day {
+  --fgc: black;
+  --bgc: white;
+}
+
+.App.Night {
+  --fgc: white;
+  --bgc: black;
+}
 .App {
+  transition: color, background-color ease-in-out;
+  display: grid;
+  width: 100vw;
+  min-height: 100vh;
+  color: var(--fgc);
+}
+
+.App > header {
+  font-size: 3rem;
+  display: grid;
+  grid-area: header;
+}
+
+.App > header > * {
+  margin: auto;
+  background: var(--bgc);
+  padding: 1rem;
+}
+
+.App > article {
+  grid-area: article;
+  background: var(--bgc);
+  overflow: auto;
+}
+
+@media (orientation: landscape) {
+  .App {
+    grid: "header article" 100vh /  1fr 1fr;
+  }
+}
+
+@media (orientation: portrait) {
+  .App {
+    grid: "header" 100vh "article" min-content / 1fr;
+  }
+}
+
+.timeline {
+  --marker-size: 1px;
+  --year-font-size: 2rem;
+  --month-font-size: 1rem;
+  --marker-colour: var(--fgc);
+  display: grid;
+  grid: auto-flow min-content / auto;
+}
+
+.timeline .year {
+  display: grid;
+  border-top: 1px dotted var(--fgc);
+  grid: ". title marker ." min-content / .5rem 1fr 20% .5rem;
+  grid-auto-rows: min-content;
+}
+
+.timeline .year::before {
+  content: counter(year, upper-roman);
+  grid-area: title;
+  font-size: var(--year-font-size);
+}
+
+.year::after {
+  content: attr(data-year);
+  grid-area: marker;
+  font-size: var(--year-font-size);
+  text-align: right;
+  /*border-top: var(--marker-size) solid var(--marker-colour); */
+}
+
+.year .month {
+  display: grid;
+  grid: ". title marker" minmax(min-content, 1fr) / 1rem 1fr 10%;
+  grid-column: 2 / span 2 ;
+}
+
+.month::after {
+  grid-area: marker;
+  /* border-top: var(--marker-size) solid var(--marker-colour); */
+  content: "";
+  font-size: var(--month-font-size);
+}
+
+.month::before {
+  opacity: .5;
+  grid-area: title;
+  text-transform:lowercase;
+}
+
+.month[data-month="0"]::before { content: "Jan" }
+.month[data-month="1"]::before { content: "Feb" }
+.month[data-month="2"]::before { content: "Mar" }
+.month[data-month="3"]::before { content: "Apr" }
+.month[data-month="4"]::before { content: "May" }
+.month[data-month="5"]::before { content: "Jun" }
+.month[data-month="6"]::before { content: "Jul" }
+.month[data-month="7"]::before { content: "Aug" }
+.month[data-month="8"]::before { content: "Sep" }
+.month[data-month="9"]::before { content: "Oct" }
+.month[data-month="10"]::before { content: "Nov" }
+.month[data-month="11"]::before { content: "Dec" }
+
+.month .event {
+  grid-column: 2 ;
+  max-width: 30rem;
+  padding: 1rem 0 1rem 3rem;
+  text-transform: lowercase;
+}
+
+.month .event::before {
+  content: "– ";
+  opacity: .5;
+}
+
+.profile {
+  display: grid;
+  grid: "header" min-content "timeline" 1fr "footer" 10rem;
+}
+
+.profile header {
+  display: grid;
+  grid: "." 4rem "eye" "." 2rem "text" "." 3rem / 1fr
+}
+
+header .text {
+  grid-area: text;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.text .name {
+  display: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.profile header .sad-icon {
+  grid-area: eye;
+  margin: auto;
+  width: 15%;
+}
+
+.text .links {
+  max-width: 20rem;
+  margin: auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.text .links > * { margin: auto }
+
+svg {
+  stroke: var(--fgc);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.profile footer {
+  grid-area: footer;
+  display: grid;
+  grid: ". left-spacer future right-spacer ." auto ". tagline tagline tagline ." auto / 1fr 2rem 10% 2rem 1fr
 }
+
+
+.profile footer .future{
+  grid-area:future;
+  width: 100%;
+  height: 100%;
+}
+
+
+.profile footer::before {
+  content:"–";
+  grid-area:left-spacer;
+  margin:auto;
+}
+
+
+.profile footer::after {
+  content:"–";
+  grid-area:right-spacer;
+  margin: auto;
+}
+
+.tagline { grid-area: tagline; text-align: center }
+
