@@ -1,8 +1,8 @@
 {
-  "name": {
-    "givenName": "Thomas",
-    "surname": "Shadwell",
-    "middleNames": [
+  "title": {
+    "giventitle": "Thomas",
+    "surtitle": "Shadwell",
+    "middletitles": [
       "Neil",
       "James"
     ],
@@ -28,6 +28,15 @@
     }
   ],
   "timeline": [
+     {
+      "date": "Jan 1 2013",
+      "tags": [
+        "science",
+        "accolade"
+      ],
+      "url": "https://twitter.com/tf2shmoo/status/1028462663368507392",
+      "title": "hack fortress DEFCON 2018 winners"
+    },
     {
       "date": "Jan 7 2019",
       "tags": [
@@ -209,7 +218,7 @@
         "writing",
         "disclosure"
       ],
-      "url": "https://cve.mitre.org/cgi-bin/cvename.cgi?name:CVE-2016-2049",
+      "url": "https://cve.mitre.org/cgi-bin/cvetitle.cgi?title:CVE-2016-2049",
       "title": "CVE-2016-2049",
       "description": "Host based account hijack attack on php-openid"
     },
@@ -221,7 +230,7 @@
         "accolade"
       ],
       "url": "http://steamcommunity.com/id/both/inventory/#440_2_4398163918",
-      "name": "Burning Flames Finder’s Fee",
+      "title": "Burning Flames Finder’s Fee",
       "description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issue allowing decryption of all Steam traffic"
     },
     {
@@ -232,7 +241,7 @@
         "accolade"
       ],
       "url": "http://steamcommunity.com/id/both/inventory/#440_2_4228772424",
-      "name": "Nebula Finder’s Fee",
+      "title": "Nebula Finder’s Fee",
       "description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing remote access to computers running the video game"
     },
     {
@@ -243,7 +252,7 @@
         "accolade"
       ],
       "url": "http://steamcommunity.com/id/both/inventory/#440_2_4818206214",
-      "name": "Sunbeams Ebenezer",
+      "title": "Sunbeams Ebenezer",
       "description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing movement millions of dollars of virtual items between arbitrary accounts via account takeover"
     },
     {
@@ -253,7 +262,7 @@
         "accolade"
       ],
       "url": "https://web.archive.org/web/20120306190316/http://youngrewiredstate.org/2011-08/cant-vote-but-can-put-a-wind-in-governments-sails/",
-      "name": "Best example of Coding",
+      "title": "Best example of Coding",
       "description": "Young Rewired State 2011"
     },
     {
@@ -263,7 +272,7 @@
         "accolade"
       ],
       "url": "https://web.archive.org/web/20121105174535/http://rewiredstate.org:80/blog/2011/11/press-release-for-rewired-state-parliament",
-      "name": "Better understanding of the work of Parliament Prize",
+      "title": "Better understanding of the work of Parliament Prize",
       "description": "Rewired State: Parliament"
     },
     {
@@ -273,7 +282,7 @@
         "accolade"
       ],
       "url": "https://web.archive.org/web/20121113024249/http://londonrealtime.co.uk/",
-      "name": "Geckoboard Prize",
+      "title": "Geckoboard Prize",
       "description": "London Real Time Hackathon"
     },
     {
@@ -283,7 +292,7 @@
         "accolade"
       ],
       "url": "https://www.theguardian.com/info/developer-blog/2011/apr/05/national-hack-the-government-day-2011",
-      "name": "Wallace and Gromit Prize",
+      "title": "Wallace and Gromit Prize",
       "description": "National Hack the Government Day 2011"
     },
     {
@@ -292,7 +301,7 @@
         "science",
         "accolade"
       ],
-      "name": "7th place Cambridge Chemistry Challenge (C3L6)",
+      "title": "7th place Cambridge Chemistry Challenge (C3L6)",
       "description": "international chemistry challenge"
     },
     {
@@ -301,7 +310,7 @@
         "science",
         "accolade"
       ],
-      "name": "5th place, Cambridge Chemistry Challenge (C3L6)",
+      "title": "5th place, Cambridge Chemistry Challenge (C3L6)",
       "description": "international chemistry challenge"
     },
     {
