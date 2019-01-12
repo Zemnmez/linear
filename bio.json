@@ -28,10 +28,22 @@
     }
   ],
   "timeline": [
-     {
-      "date": "Jan 1 2013",
+    {
+      "date": "Jan 8 2019",
       "tags": [
-        "science",
+        "security",
+        "disclosure",
+        "comment"
+      ],
+      "url": "https://www.forbes.com/sites/thomasbrewster/2019/01/08/7500-steam-weakness-let-hackers-take-remote-control-of-gamers-pcs",
+      "title": "$7,500 Steam Weakness Let Hackers Take Remote Control Of Gamers' PCs",
+      "description": "news coverage of steam rce"
+    },
+     {
+      "date": "12 Aug 2018",
+      "tags": [
+        "security",
+        "gaming",
         "accolade"
       ],
       "url": "https://twitter.com/tf2shmoo/status/1028462663368507392",
