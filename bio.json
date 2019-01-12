@@ -1,11 +1,6 @@
 {
-  "title": {
-    "giventitle": "Thomas",
-    "surtitle": "Shadwell",
-    "middletitles": [
-      "Neil",
-      "James"
-    ],
+  "who": {
+    "name": ["thomas", ["neil", "james"], "shadwell"],
     "handle": "zemnmez"
   },
   "birthdate": "May 17 1994",
