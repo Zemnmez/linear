@@ -214,9 +214,8 @@
         "work",
         "gaming"
       ],
-      "title": "Sr. Admin",
-      "where": "TF2Outpost",
-      "duration": "3 years"
+      "title": "Sr. Admin, TF2Outpost",
+      "description": "Volunteer role at once largest trading website in the Steam community. Worked on administration of high-profile trades & scams"
     },
     {
       "date": "Jan 24 2016",
@@ -337,9 +336,9 @@
         "security",
         "work"
       ],
-      "title": "Security Engineer",
-      "where": "Twitch",
-      "duration": "current"
+      "url": "https://twitch.tv"
+      "title": "Security Engineer, Twitch",
+      "description": "first security engineer at the video game streaming website. designed security architecture for many flagship projects including bits, extensions and the login system passport",
     }
   ]
 }
