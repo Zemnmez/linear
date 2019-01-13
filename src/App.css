@@ -200,7 +200,7 @@ svg {
 .profile footer {
   grid-area: footer;
   display: grid;
-  grid: ". left-spacer future right-spacer ." auto ". tagline tagline tagline ." auto / 1fr 2rem 10% 2rem 1fr
+  grid: ". left-spacer future right-spacer ." auto ". tagline tagline tagline ." auto / 1fr 2rem 4rem 2rem 1fr
 }
 
 
@@ -215,6 +215,7 @@ svg {
   content:"–";
   grid-area:left-spacer;
   margin:auto;
+  opacity: .5;
 }
 
 
@@ -222,6 +223,7 @@ svg {
   content:"–";
   grid-area:right-spacer;
   margin: auto;
+  opacity: .5;
 }
 
 .tagline { grid-area: tagline; text-align: center; display: none }
