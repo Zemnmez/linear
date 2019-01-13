@@ -79,6 +79,8 @@ a:visited { color: inherit }
     grid: "header" 100vh "article" min-content / 1fr;
   }
 
+  .future * { fill: black; stroke: none }
+
   .App > article {
     overflow: initial;
   }
@@ -180,7 +182,7 @@ header .text {
 .profile header .sad-icon {
   grid-area: eye;
   margin: auto;
-  width: 15%;
+  width: 10rem;
 }
 
 .text .links {
