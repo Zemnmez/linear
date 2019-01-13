@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i');
 * { box-sizing: border-box }
 body, html {
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   padding: 0;
   margin: 0;
@@ -44,7 +44,7 @@ a:visited { color: inherit }
 .App {
   transition: color, background-color ease-in-out;
   display: grid;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   color: var(--fgc);
 }
