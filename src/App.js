@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-const morning = [6, 0];
-const night = [20, 0];
-
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {data: undefined};
+    this.state = {data: undefined, phase: App.getPhase()};
   }
 
-  phase() {
+  static get phases() {
+    const morning = "day", night = "day";
+    return ({morning, night});
+  }
+
+  static getPhase() {
     const now = new Date;
 
     let setTime = (date, [Hours, Minutes]) => {
@@ -20,23 +22,32 @@ class App extends Component {
       return date;
     }
 
-    const morning = setTime(new Date(+now), morning);
-    const night = setTime(new Date(+now), night);
+    const morning = setTime(new Date(+now), [6, 0]);
+    const night = setTime(new Date(+now), [19, 0]);
 
+    let phase = now > morning? this.phases.morning: this.phases.night;
 
+    phase = now > night? this.phases.night: phase;
+
+    return phase;
   }
 
   componentDidMount() {
+    this.phaseTimer = setInterval(() => this.setState({phase: this.getPhase()}), 60 * 1000 * 30);
     fetch("https://raw.githubusercontent.com/Zemnmez/bio/master/bio.json?"+Math.random())
       .then(r => r.json())
       .then(data => this.setState({data}));
+  }
+
+  componentDidUnmount() {
+    this.phaseTimer && clearInterval(this.phaseTimer);
   }
 
 
   render() {
     if (!this.state.data) return "";
     return (
-      <div className="App">
+      <div className={["App", this.state.phase].join(" ")}>
         <VideoBackground />
         <header> <div className="innerText">{this.state.data.who.handle}</div> </header>
         <article> <Profile data={this.state.data} /> </article>
@@ -54,7 +65,18 @@ let Profile = ({data: {who, timeline, links}}) => <div className="profile">
 
 let ProfileFooter = ({...props}) => <footer>
   <Future />
-  <div className="tagline">help me i am not good with computer</div>
+  <div className="tagline">
+The sky before sunrise is soaked with light.<br/>
+Rosy colour tints buildings, bridges, and the Seine. <br/>
+I was here when she, with whom I walk, wasn't born yet <br />
+And the cities on a distant plain stood intact <br/>
+Before they rose in the air with the dust of sepulchral brick <br/>
+And the people who lived there didn't know. <br/>
+Only this moment at dawn is real to me.  <br/>
+The bygone lives are like my own past life, uncertain. <br/>
+I cast a spell on a city asking it to last. <br/>
+<cite>Czesław Miłosz (translated from the Polish by Czesław Miłosz and Robert Hass)</cite>
+</div>
 </footer>
 
 let Links = ({links}) => <div className="links">
@@ -124,7 +146,7 @@ let ProfileHeader = ({who: {name: names, handle}, links}) => <header>
   </div>
 </header>
 
-let SadHumans = ({...props}) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.78 7.81"><g style={{stroke:"var(--fgc)"}} transform="translate(-13.03 -62.53)"><path fill="none" strokeWidth=".26" d="M16.73 62.66l-3.47 6.02h17.32l-3.47-6.02z"/><circle cx="21.92" cy="65.47" r="1.61" fill="none" strokeWidth=".16"/><ellipse cx="21.92" cy="65.47" fill="none" strokeWidth=".23" rx="3.23" ry="1.58"/><path style={{fill:"var(--bgc)"}} strokeWidth=".16" d="M23.53 68.65a1.61 1.61 0 0 1-3.22 0c0-.9.72-1.2 1.61-1.62.9.42 1.61.73 1.61 1.62z"/><circle cx="21.92" cy="65.47" r=".54" strokeWidth=".08"/></g></svg>
+let SadHumans = ({...props}) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.78 7.81"><g style={{stroke:"var(--fgc)"}} transform="translate(-13.03 -62.53)"><path fill="none" strokeWidth=".26" d="M16.73 62.66l-3.47 6.02h17.32l-3.47-6.02z"/><circle cx="21.92" cy="65.47" r="1.61" fill="none" strokeWidth=".16"/><ellipse cx="21.92" cy="65.47" fill="none" strokeWidth=".23" rx="3.23" ry="1.58"/><path style={{fill:"var(--bgc)"}} strokeWidth=".16" d="M23.53 68.65a1.61 1.61 0 0 1-3.22 0c0-.9.72-1.2 1.61-1.62.9.42 1.61.73 1.61 1.62z"/><circle style={{fill:"var(--fgc)"}} cx="21.92" cy="65.47" r=".54" strokeWidth=".08"/></g></svg>
 
 let Future = ({...props}) => <svg className="future" {...props} xmlns="http://www.w3.org/2000/svg" width="446" height="348" viewBox="0 0 446 348" version="1"><path fill="none" d="M174 0L54 120l33 32L207 33 174 0zm98 0l-32 33 119 119 33-32L272 0zm-49 59L109 174l114 114 115-114L223 59zM33 141L0 174l33 33 33-33-33-33zm380 0l-32 33 32 33 33-33-33-33zM87 195l-33 33 120 120 33-33L87 195zm272 0L240 315l32 33 120-120-33-33z" vectorEffect="non-scaling-stroke"/></svg>
 

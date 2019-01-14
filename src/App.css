@@ -32,12 +32,12 @@ a:visited { color: inherit }
 
 
 
-.App, .App.Day {
+.App, .App.day {
   --fgc: black;
   --bgc: white;
 }
 
-.App.Night {
+.App.night {
   --fgc: white;
   --bgc: black;
 }
@@ -162,7 +162,7 @@ a:visited { color: inherit }
 
 .profile {
   display: grid;
-  grid: "header" min-content "timeline" 1fr "footer" 10rem;
+  grid: "header" min-content "timeline" 1fr "footer" min-content;
 }
 
 .profile header {
@@ -200,7 +200,7 @@ svg {
 .profile footer {
   grid-area: footer;
   display: grid;
-  grid: ". left-spacer future right-spacer ." auto ". tagline tagline tagline ." auto / 1fr 2rem 4rem 2rem 1fr
+  grid: ". left-spacer future right-spacer ." 10rem "tagline tagline tagline tagline tagline" min-content ". . . . ." 4rem / 1fr 2rem 4rem 2rem 1fr
 }
 
 
@@ -226,5 +226,5 @@ svg {
   opacity: .5;
 }
 
-.tagline { grid-area: tagline; text-align: center; display: none }
+.tagline { grid-area: tagline; text-align: center; opacity: .5; display: none }
 
