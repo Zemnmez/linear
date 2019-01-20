@@ -20,7 +20,33 @@
 			"since": "May 2018"
 		}
 	],
-	"timeline": [{
+	"timeline": [
+		
+		{
+			"date": "Jan 20 2019",
+			"tags": ["accolade", "security", "gaming"],
+			"url": "https://twitter.com/tf2shmoo/status/1086785642514796544",
+			"title": "hack fortress 2019 champions",
+			"description": "hybrid ctf / esports competition winners"
+		},
+		
+		{
+			"date": "Jan 14 2019",
+			"tags": ["software", "library", "d3", "react"],
+			"url": "https://github.com/Zemnmez/reactive-d3",
+			"title": "reactive-d3",
+			"description": "react helper bindings for d3"
+		},
+		
+		{
+			"date": "Jan 7 2019",
+			"tags": ["software", "react"],
+			"url": "https://github.com/Zemnmez/linear",
+			"title": "linear",
+			"description": "personal website 2019"
+		},
+		
+		{
 			"date": "Jan 8 2019",
 			"tags": [
 				"security",
