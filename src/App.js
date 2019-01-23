@@ -184,86 +184,126 @@ class Graph extends React.Component {
       ([, count], [, count2]) => d3.ascending(count, count2)
     );
 
+    let years = data.reduce((years, entry) => {
+        years.set(
+          entry.date.getFullYear(),
+          (years.get(entry.date.getFullYear()) || []).concat(entry)
+      );
+      return years;
+    }, new Map());
+
+    /*let years = data.reduce((years, entry) => {
+      entry.tags.forEach(tag =>
+        years.set(
+          entry.date.getFullYear(),
+          (years.get(entry.date.getFullYear()) || []).concat({entry, tag})
+        )
+      );
+      return years;
+    }, new Map());*/
+
+    years = [...years].map(([year, events]) => ({
+      year,
+      events,
+    }))
+
+    console.log({years});
 
     const scales = {}
-    scales.incidence = new class {
-      constructor(){ this.scaleData = this.scaleData.bind(this); }
+    scales.incidence = d3.scaleLinear()
+        .domain([0, d3.max(years, ({events}) =>
+          events.reduce((a,c) => a + c.tags.length, 0))]);
 
-      scale = d3.scaleLinear()
-        .domain([0, tags[0][1]]);
-
-      scaleData({tag}) { return this.scale(tag) }
-    };
 
     tags = tags.map(([tag, count]) => tag)
 
-    scales.tag = new class {
-      constructor(){ this.scaleData = this.scaleData.bind(this) }
+    let stack = d3.stack()
+      .keys(tags)
 
-      scale = d3.scaleOrdinal()
+    scales.tag = d3.scaleOrdinal()
         .unknown("#ccc")
         .domain(tags)
-        .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse())
-
-      scaleData({tag}) { return this.scale(tag) }
-    }
+        .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), tags.length).reverse())
 
 
-    scales.date = new class {
-      constructor(){
-        this.scaleData = this.scaleData.bind(this)
-      }
+    let [minYear, maxYear] = d3.extent(years, y => y.year);
+    minYear = new Date(minYear, 0);
+    maxYear = new Date(maxYear+1, 0);
 
-      scale = d3.scaleTime()
-        .domain(d3.extent(data, d => d.date))
-
-      scaleData({date}) { return this.scale(date) }
-    };
+    scales.date = d3.scaleTime()
+        .domain([minYear, maxYear]);
 
     const axes = {};
 
     [axes.x, axes.y] = [scales.date, scales.incidence];
 
-    axes.x.scale = axes.x.scale.range([margin.left, width - margin.right])
+    axes.x.range([margin.left, width - margin.right]);
 
-    axes.y.scale = axes.y.scale.range([height - margin.bottom, margin.top])
-
-
-    let tagColors = d3.scaleOrdinal()
-      .unknown("#ccc")
-      .domain(tags)
-    .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), tags.length).reverse());
+    axes.y.range([height - margin.bottom, margin.top]);
 
     svg.select(".y.axis")
       .attr("transform", `translate(${margin.left},0)`)
-      .call(d3.axisLeft(axes.y.scale));
+      .call(d3.axisLeft(axes.y));
 
     svg.select(".x.axis")
       .attr("transform", `translate(0,${height-margin.bottom})`)
-      .call(d3.axisBottom(axes.x.scale));
+      .call(d3.axisBottom(axes.x));
 
-    let events = svg.select(".boxes").selectAll("g")
-      .data(data.map(({tags,date})=>tags.map(tag=>({tag,date}))));
+    let yearGroups = svg.select(".years").selectAll(".year").data(years);
 
-    events.exit().remove();
+    yearGroups.exit().remove();
 
-    events = events.enter().append("g")
-      .classed("event", true)
-      .merge(events);
+    const inspect = (first, ...a) => {console.log(first, ...a); return first }
 
-    let boxes = events.selectAll("rect").data(d=>d);
+    yearGroups = yearGroups.enter().append("g")
+      .classed("year", true)
+      .merge(yearGroups)
+      .attr("data-year", d => d.year);
 
-    boxes.exit().remove();
-    console.log(new Date(+axes.x.scale.domain()[0]))
+    let tagTypes = yearGroups.datum(({events}) => {
+      let tags = [...events.reduce((group, {tags, ...etc}) => {
+        tags.map(tag => group.set(tag, (group.get(tag) || []).concat({tag, ...etc})))
+        return group;
+      }, new Map())]
+        .map(([tag, events]) => ({tag, events}))
+        .sort((a,b) => d3.ascending(a.length, b.length));
 
-    boxes = boxes.enter().append("rect")
-      .merge(boxes)
-      .attr("x", axes.x.scaleData)
-      .attr("y", axes.y.scaleData)
-      .attr("height", axes.y.scale.bandwidth())
-      .attr("width", ({date}) => axes.x.scale(new Date(+date+1000*60*60*24*30)) - axes.x.scale(date))
-      .attr("style", "opacity:.2");
-      //.attr("fill", ({tag}) => tagColors(tag));
+        for (let i = 0; i < tags.length; i++) {
+          tags[i].offset = ((tags[i-1] || {offset:0}).offset || 0) +
+              (tags[i-1] || {events:{length:0}}).events.length;
+        }
+        return inspect(tags);
+    }).selectAll("g").data(d=>d);
+
+    tagTypes.exit().remove();
+
+    tagTypes = tagTypes.enter().append("g")
+      .classed("tag-type", true)
+      .merge(tagTypes)
+      .attr("data-tag", ({tag}) => tag)
+      .attr("transform", ({offset}) => `translate(0,${-scales.incidence(offset)})`);
+
+
+    let tagBoxes = tagTypes.datum(({events}) => events).selectAll("rect").data(d => d);
+    tagBoxes.exit().remove();
+
+    //const firstEvent = years[0].events[0];
+
+    //const yearWidth = scales.date(new Date(firstEvent.date.getFullYear()+1, 0))
+    //  - scales.date(new Date(firstEvent.date.getFullYear() , 0));
+
+
+    tagBoxes = tagBoxes.enter().append("rect")
+      .merge(tagBoxes)
+      // assign to the year
+      .attr("x", ({date}) => scales.date(new Date(date.getFullYear(), 0)))
+      //.attr("x", ({date}) => scales.date(date))
+      .attr("y", ((_, i) => scales.incidence(i+1)))
+      .attr("height", scales.incidence(0) - scales.incidence(1))
+      .attr("data-tag", ({tag}) => tag)
+      //width of a single year
+      .attr("width", 10)
+      .attr("fill", ({tag}) => scales.tag(tag));
 
   }
 
@@ -273,7 +313,7 @@ class Graph extends React.Component {
   render() {
     return <D3 className="graph" join={(...args) => this.join(...args)}>
       <svg>
-        <g className="boxes" />
+        <g className="years" />
         <g className="x axis" />
         <g className="y axis" />
       </svg>

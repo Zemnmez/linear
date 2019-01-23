@@ -31,7 +31,6 @@ a:visited { color: inherit }
 }
 
 
-
 .App, .App.day {
   --fgc: black;
   --bgc: white;
@@ -244,7 +243,7 @@ footer .graph {
 
 footer .graph * { stroke: none }
 footer .graph .event:hover {
-  fill: grey;
+  fill: grey !important;
 }
 
 .profile footer .future{
