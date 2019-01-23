@@ -246,9 +246,6 @@ footer .graph .event:hover {
   fill: grey !important;
 }
 
-footer rect {
-}
-
 .profile footer .future{
   grid-area:future;
   width: 100%;

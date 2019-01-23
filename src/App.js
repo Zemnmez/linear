@@ -260,18 +260,32 @@ class Graph extends React.Component {
       .merge(yearGroups)
       .attr("data-year", d => d.year);
 
-    let tagBoxes = yearGroups.datum(({events}) => {
+    let tagTypes = yearGroups.datum(({events}) => {
       let tags = [...events.reduce((group, {tags, ...etc}) => {
         tags.map(tag => group.set(tag, (group.get(tag) || []).concat({tag, ...etc})))
         return group;
       }, new Map())]
-        .map(([tag, events]) => events)
-        .sort((a,b) => d3.ascending(a.length, b.length))
+        .map(([tag, events]) => ({tag, events}))
+        .sort((a,b) => d3.ascending(a.length, b.length));
 
-      return inspect([].concat(...tags));
-    }).selectAll("rect").data(d=>d);
+        for (let i = 0; i < tags.length; i++) {
+          tags[i].offset = ((tags[i-1] || {offset:0}).offset || 0) +
+              (tags[i-1] || {events:{length:0}}).events.length;
+        }
+        return inspect(tags);
+    }).selectAll("g").data(d=>d);
 
-   tagBoxes.exit().remove();
+    tagTypes.exit().remove();
+
+    tagTypes = tagTypes.enter().append("g")
+      .classed("tag-type", true)
+      .merge(tagTypes)
+      .attr("data-tag", ({tag}) => tag)
+      .attr("transform", ({offset}) => `translate(0,${-scales.incidence(offset)})`);
+
+
+    let tagBoxes = tagTypes.datum(({events}) => events).selectAll("rect").data(d => d);
+    tagBoxes.exit().remove();
 
     //const firstEvent = years[0].events[0];
 
@@ -288,7 +302,7 @@ class Graph extends React.Component {
       .attr("height", scales.incidence(0) - scales.incidence(1))
       .attr("data-tag", ({tag}) => tag)
       //width of a single year
-      .attr("width", 20)
+      .attr("width", 10)
       .attr("fill", ({tag}) => scales.tag(tag));
 
   }
