@@ -174,42 +174,29 @@ class Graph extends React.Component {
     svg.attr("viewBox", `0 0 ${width} ${height}`);
     const margin = ({top: 20, right: 30, bottom: 30, left: 60});
 
-    let tags = [...data.reduce((a, c) => {
-      c.tags.forEach(tag => a.set(
-        tag,
-        (a.get(tag) || 0) + 1
-      ));
-      return a;
-    }, new Map())].sort(
-      ([, count], [, count2]) => d3.ascending(count, count2)
-    );
-
-
-    const scales = {}
-    scales.incidence = new class {
+    const tags = [...data.reduce((a, c) => {
+          c.tags.forEach(tag => a.set(
+            tag,
+            (a.get(tag) || 0) + 1
+          ));
+          return a;
+        }, new Map())].sort(
+          ([, count], [, count2]) => d3.ascending(count, count2)
+        ).map(([tag, count]) => tag);
+    const axes = {}
+    axes.tags = new class {
       constructor(){ this.scaleData = this.scaleData.bind(this); }
 
-      scale = d3.scaleLinear()
-        .domain([0, tags[0][1]]);
+      scale = d3.scaleBand()
+        .domain(tags)
 
       scaleData({tag}) { return this.scale(tag) }
     };
 
-    tags = tags.map(([tag, count]) => tag)
-
-    scales.tag = new class {
-      constructor(){ this.scaleData = this.scaleData.bind(this) }
-
-      scale = d3.scaleOrdinal()
-        .unknown("#ccc")
-        .domain(tags)
-        .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), data.length).reverse())
-
-      scaleData({tag}) { return this.scale(tag) }
-    }
 
 
-    scales.date = new class {
+
+    axes.date = new class {
       constructor(){
         this.scaleData = this.scaleData.bind(this)
       }
@@ -217,12 +204,20 @@ class Graph extends React.Component {
       scale = d3.scaleTime()
         .domain(d3.extent(data, d => d.date))
 
+      /*
+      couldn't get this to literally anything...
+      scale = d3.scaleLog()
+        .base(10000)
+        .domain(d3.extent(data, d => d.date))
+        //.domain([new Date() -10000, +new Date()])
+      /*
+      */
+
+
       scaleData({date}) { return this.scale(date) }
     };
 
-    const axes = {};
-
-    [axes.x, axes.y] = [scales.date, scales.incidence];
+    [axes.x, axes.y] = [axes.date, axes.tags];
 
     axes.x.scale = axes.x.scale.range([margin.left, width - margin.right])
 
@@ -254,15 +249,13 @@ class Graph extends React.Component {
     let boxes = events.selectAll("rect").data(d=>d);
 
     boxes.exit().remove();
-    console.log(new Date(+axes.x.scale.domain()[0]))
 
     boxes = boxes.enter().append("rect")
       .merge(boxes)
       .attr("x", axes.x.scaleData)
       .attr("y", axes.y.scaleData)
       .attr("height", axes.y.scale.bandwidth())
-      .attr("width", ({date}) => axes.x.scale(new Date(+date+1000*60*60*24*30)) - axes.x.scale(date))
-      .attr("style", "opacity:.2");
+      .attr("width", ({date}) => 1);
       //.attr("fill", ({tag}) => tagColors(tag));
 
   }
