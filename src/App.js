@@ -8,30 +8,7 @@ class App extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {data: App.parseDates(bio), phase: App.getPhase()};
-  }
-
-  static get phases() {
-    const morning = "day", night = "day";
-    return ({morning, night});
-  }
-
-  static getPhase() {
-    const now = new Date();
-
-    let setTime = (date, [Hours, Minutes]) => {
-      Object.entries({Hours, Minutes}).forEach(([k, v]) => date["set"+k](v));
-      return date;
-    }
-
-    const morning = setTime(new Date(+now), [6, 0]);
-    const night = setTime(new Date(+now), [19, 0]);
-
-    let phase = now > morning? this.phases.morning: this.phases.night;
-
-    phase = now > night? this.phases.night: phase;
-
-    return phase;
+    this.state = {data: App.parseDates(bio)};
   }
 
   static parseDates(data) {
@@ -45,7 +22,6 @@ class App extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.phaseTimer = setInterval(() => this.setState({phase: this.getPhase()}), 60 * 1000 * 30);
     fetch("https://raw.githubusercontent.com/Zemnmez/bio/master/bio.json?")
       .then(r => r.json(), (error) => {
         console.log(error);
@@ -56,14 +32,13 @@ class App extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    this.phaseTimer && clearInterval(this.phaseTimer);
   }
 
 
   render() {
     if (!this.state.data) return "";
     return (
-      <div className={["App", this.state.phase].join(" ")}>
+      <div className="App">
         <VideoBackground />
         <header> <div className="innerText">{this.state.data.who.handle}</div> </header>
         <article> <Profile data={this.state.data} /> </article>
