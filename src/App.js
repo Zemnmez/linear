@@ -9,7 +9,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {data: undefined, phase: App.getPhase()};
+    this.state = {data: App.parseDates(bio), phase: App.getPhase()};
   }
 
   static get phases() {
@@ -35,6 +35,16 @@ class App extends Component {
     return phase;
   }
 
+  static parseDates(data) {
+    data.timeline = data.timeline.map(({date, ...etc}) => {
+      date = parseSimpleDate(date);
+
+      return ({date, ...etc});
+    });
+
+    return data;
+  }
+
   componentDidMount() {
     this.phaseTimer = setInterval(() => this.setState({phase: this.getPhase()}), 60 * 1000 * 30);
     fetch("https://raw.githubusercontent.com/Zemnmez/bio/master/bio.json?"+Math.random())
@@ -42,15 +52,7 @@ class App extends Component {
         console.log(error);
         return bio;
       })
-      .then(data => {
-        data.timeline = data.timeline.map(({date, ...etc}) => {
-          date = parseSimpleDate(date);
-
-          return ({date, ...etc});
-        });
-
-        return data;
-      })
+      .then(data => App.parseDates(data))
       .then(data => this.setState({data}))
 
   }
