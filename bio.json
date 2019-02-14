@@ -21,31 +21,33 @@
 		}
 	],
 	"timeline": [
-		
+
 		{
 			"date": "Jan 20 2019",
 			"tags": ["accolade", "security", "gaming"],
 			"url": "https://twitter.com/tf2shmoo/status/1086785642514796544",
 			"title": "hack fortress 2019 champions",
-			"description": "hybrid ctf / esports competition winners"
+			"description": "hybrid ctf / esports competition winners",
+			"priority": 6
 		},
-		
+
 		{
 			"date": "Jan 14 2019",
 			"tags": ["software", "library", "d3", "react"],
 			"url": "https://github.com/Zemnmez/reactive-d3",
 			"title": "reactive-d3",
-			"description": "react helper bindings for d3"
+			"description": "react helper bindings for d3",
+			"priority": 6
 		},
-		
+
 		{
 			"date": "Jan 7 2019",
 			"tags": ["software", "react"],
 			"url": "https://github.com/Zemnmez/linear",
 			"title": "linear",
-			"description": "personal website 2019"
+			"description": "personal website 2019",
+			"priority": 6
 		},
-		
 		{
 			"date": "Jan 8 2019",
 			"tags": [
@@ -55,7 +57,8 @@
 			],
 			"url": "https://www.forbes.com/sites/thomasbrewster/2019/01/08/7500-steam-weakness-let-hackers-take-remote-control-of-gamers-pcs",
 			"title": "$7,500 Steam Weakness Let Hackers Take Remote Control Of Gamers' PCs",
-			"description": "news coverage of steam rce"
+			"description": "news coverage of steam rce",
+			"priority": 7
 		},
 		{
 			"date": "Aug 12 2018",
@@ -65,7 +68,8 @@
 				"accolade"
 			],
 			"url": "https://twitter.com/tf2shmoo/status/1028462663368507392",
-			"title": "hack fortress DEFCON 2018 winners"
+			"title": "hack fortress DEFCON 2018 winners",
+			"priority": 6
 		},
 		{
 			"date": "Jan 7 2019",
@@ -76,7 +80,8 @@
 			],
 			"url": "https://hackerone.com/reports/409850",
 			"title": "Steam Remote Code Execution",
-			"description": "Technical writeup on a vulnerability that allowed an attacker to take remote control over Steam users' computers."
+			"description": "Technical writeup on a vulnerability that allowed an attacker to take remote control over Steam users' computers.",
+			"priority": 8
 		},
 		{
 			"date": "Dec 15 2018",
@@ -85,7 +90,8 @@
 			],
 			"url": "https://medium.com/@Zemnmez/%C3%BCbersicht-remote-code-execution-spotify-takeover-a5f6fd6809d0",
 			"title": "Übersicht Remote Code Execution, Spotify takeover",
-			"description": "Quick article on the security of modern desktop web applications"
+			"description": "Quick article on the security of modern desktop web applications",
+			"priority": 7
 		},
 		{
 			"date": "Jan 22 2018",
@@ -96,7 +102,8 @@
 			],
 			"url": "https://www.forbes.com/profile/thomas-shadwell/#42731c8b7130",
 			"title": "forbes 30 under 30, tech, europe",
-			"description": ""
+			"description": "",
+			"priority": 8
 		},
 		{
 			"date": "Jan 22 2018",
@@ -105,7 +112,8 @@
 				"work"
 			],
 			"title": "Application Security Engineer, UK National Cyber Security Centre",
-			"description": "part of exchange program to provide private sector expertise to UK cyber advisory / defence group"
+			"description": "part of exchange program to provide private sector expertise to UK cyber advisory / defence group",
+			"priority": 8
 		},
 		{
 			"date": "Nov 23 2017",
@@ -116,7 +124,8 @@
 			],
 			"url": "https://twitter.com/zemnmez/status/933847040198574080",
 			"title": "how to hack the uk tax system: the talk",
-			"description": "talk at owasp about critical uk tax system flaw in obfuscated system and the 57 day trek to get it fixed"
+			"description": "talk at owasp about critical uk tax system flaw in obfuscated system and the 57 day trek to get it fixed",
+			"priority": 6
 		},
 		{
 			"date": "Sep 8 2017",
@@ -127,7 +136,8 @@
 			],
 			"url": "http://www.bbc.co.uk/news/technology-41188008",
 			"title": "'Serious' security flaws found on official UK tax site",
-			"description": "news post on manipulation of UK tax data"
+			"description": "news post on manipulation of UK tax data",
+			"priority": 7
 		},
 		{
 			"date": "Jan 25 2016",
@@ -138,7 +148,8 @@
 			],
 			"url": "https://packetstormsecurity.com/files/135368",
 			"title": "Buffalo NAS Remote Shutdown",
-			"description": "unauthorized remote shutdown of Buffalo-made network attached storage devices"
+			"description": "unauthorized remote shutdown of Buffalo-made network attached storage devices",
+			"priority": 6
 		},
 		{
 			"date": "May 1 2012",
@@ -146,7 +157,8 @@
 				"work"
 			],
 			"title": "consultant; full stack web engineer",
-			"duration": "2 years"
+			"duration": "2 years",
+			"priority": 7
 		},
 		{
 			"date": "May 16 2016",
@@ -157,7 +169,8 @@
 			],
 			"url": "https://www.forbes.com/sites/thomasbrewster/2016/05/16/mr-robot-imagetragick-usa-network-wide-open-to-hackers/#7d49f6f66d77",
 			"title": "'Mr. Robot' Web Weaknesses Left Fans And USA Network Vulnerable, Warns Non-Fictional Hacker",
-			"description": "code execution in official Mr Robot site"
+			"description": "code execution in official Mr Robot site",
+			"priority": 6
 		},
 		{
 			"date": "May 11 2016",
@@ -168,7 +181,8 @@
 			],
 			"url": "https://www.forbes.com/sites/thomasbrewster/2016/05/11/flaw-in-mr-robot-website-allowed-facebook-attack/#747437ef6bed",
 			"title": "Irony Alert: Hacker Finds Vulnerability In Mr Robot Website",
-			"description": "XSS in Mr Robot official site"
+			"description": "XSS in Mr Robot official site",
+			"priority": 6
 		},
 		{
 			"date": "Sep 8 2017",
@@ -179,7 +193,8 @@
 			],
 			"url": "https://medium.com/@Zemnmez/how-to-hack-the-uk-tax-system-i-guess-3e84b70f8b",
 			"title": "how to hack the uk tax system, i guess",
-			"description": "manipulation of UK tax data"
+			"description": "manipulation of UK tax data",
+			"priority": 8
 		},
 		{
 			"date": "Feb 18 2017",
@@ -197,7 +212,8 @@
 			],
 			"title": "r.no.ms",
 			"url": "http://r.no.ms",
-			"description": "minimal reactive d3.js resistor colour code calculator"
+			"description": "minimal reactive d3.js resistor colour code calculator",
+			"priority": 6
 		},
 		{
 			"date": "Apr 27 2016",
@@ -219,7 +235,8 @@
 			],
 			"url": "http://archive.is/UXD8j",
 			"title": "WHEN SECURITY CREATES INSECURITY",
-			"description": "detecting login state for almost any website on the internet"
+			"description": "detecting login state for almost any website on the internet",
+			"priority": 9
 		},
 		{
 			"date": "Jul 4 2017",
@@ -229,7 +246,8 @@
 			],
 			"url": "https://www.infoq.com/presentations/go-security",
 			"title": "This Will Cut You: Go's Sharper Edges",
-			"description": "musings on go-specific security gotchas"
+			"description": "musings on go-specific security gotchas",
+			"priority": 5
 		},
 		{
 			"date": "Sep 1 2011",
@@ -238,7 +256,8 @@
 				"gaming"
 			],
 			"title": "Sr. Admin, TF2Outpost",
-			"description": "Volunteer role at once largest trading website in the Steam community. Worked on administration of high-profile trades & scams"
+			"description": "Volunteer role at once largest trading website in the Steam community. Worked on administration of high-profile trades & scams",
+			"priority": 5
 		},
 		{
 			"date": "Jan 24 2016",
@@ -249,7 +268,8 @@
 			],
 			"url": "https://cve.mitre.org/cgi-bin/cvetitle.cgi?title:CVE-2016-2049",
 			"title": "CVE-2016-2049",
-			"description": "Host based account hijack attack on php-openid"
+			"description": "Host based account hijack attack on php-openid",
+			"priority": 6
 		},
 		{
 			"date": "Dec 14 2015",
@@ -260,7 +280,8 @@
 			],
 			"url": "http://steamcommunity.com/id/both/inventory/#440_2_4398163918",
 			"title": "Burning Flames Finder’s Fee",
-			"description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issue allowing decryption of all Steam traffic"
+			"description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issue allowing decryption of all Steam traffic",
+			"priority": 6.5
 		},
 		{
 			"date": "Oct 19 2015",
@@ -271,7 +292,8 @@
 			],
 			"url": "http://steamcommunity.com/id/both/inventory/#440_2_4228772424",
 			"title": "Nebula Finder’s Fee",
-			"description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing remote access to computers running the video game"
+			"description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing remote access to computers running the video game",
+			"priority": 7
 		},
 		{
 			"date": "Apr 22 2014",
@@ -282,7 +304,8 @@
 			],
 			"url": "http://steamcommunity.com/id/both/inventory/#440_2_4818206214",
 			"title": "Sunbeams Ebenezer",
-			"description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing movement millions of dollars of virtual items between arbitrary accounts via account takeover"
+			"description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing movement millions of dollars of virtual items between arbitrary accounts via account takeover",
+			"priority": 6.5
 		},
 		{
 			"date": "Feb 1 2011",
@@ -292,7 +315,8 @@
 			],
 			"url": "https://web.archive.org/web/20120306190316/http://youngrewiredstate.org/2011-08/cant-vote-but-can-put-a-wind-in-governments-sails/",
 			"title": "Best example of Coding",
-			"description": "Young Rewired State 2011"
+			"description": "Young Rewired State 2011",
+			"priority": 5
 		},
 		{
 			"date": "Aug 5 2011",
@@ -302,7 +326,8 @@
 			],
 			"url": "https://web.archive.org/web/20121105174535/http://rewiredstate.org:80/blog/2011/11/press-release-for-rewired-state-parliament",
 			"title": "Better understanding of the work of Parliament Prize",
-			"description": "Rewired State: Parliament"
+			"description": "Rewired State: Parliament",
+			"priority": 5
 		},
 		{
 			"date": "Apr 1 2011",
@@ -312,7 +337,8 @@
 			],
 			"url": "https://web.archive.org/web/20121113024249/http://londonrealtime.co.uk/",
 			"title": "Geckoboard Prize",
-			"description": "London Real Time Hackathon"
+			"description": "London Real Time Hackathon",
+			"priority": 5
 		},
 		{
 			"date": "Apr 1 2011",
@@ -322,7 +348,8 @@
 			],
 			"url": "https://www.theguardian.com/info/developer-blog/2011/apr/05/national-hack-the-government-day-2011",
 			"title": "Wallace and Gromit Prize",
-			"description": "National Hack the Government Day 2011"
+			"description": "National Hack the Government Day 2011",
+			"priority": 5
 		},
 		{
 			"date": "Jan 1 2013",
@@ -331,7 +358,8 @@
 				"accolade"
 			],
 			"title": "7th place Cambridge Chemistry Challenge (C3L6)",
-			"description": "international chemistry challenge"
+			"description": "international chemistry challenge",
+			"priority": 6
 		},
 		{
 			"date": "Jan 1 2014",
@@ -340,7 +368,8 @@
 				"accolade"
 			],
 			"title": "5th place, Cambridge Chemistry Challenge (C3L6)",
-			"description": "international chemistry challenge"
+			"description": "international chemistry challenge",
+			"priority": 5
 		},
 		{
 			"date": "Nov 8 2011",
@@ -350,7 +379,8 @@
 			],
 			"url": "http://www.denieuwereporter.nl/2011/11/mozfest-rewired-state-geeft-jonge-programmeurs-een-kans/",
 			"title": "MozFest: Rewired State geeft jonge programmeurs een kans",
-			"description": "Interview on National Hack the Government Day prize (dutch)"
+			"description": "Interview on National Hack the Government Day prize (dutch)",
+			"priority": 5
 		},
 		{
 			"date": "Sep 1 2014",
@@ -361,7 +391,8 @@
 			],
 			"url": "https://twitch.tv",
 			"title": "Security Engineer, Twitch",
-			"description": "first security engineer at the video game streaming website. designed security architecture for many flagship projects including bits, extensions and the login system passport"
+			"description": "first security engineer at the video game streaming website. designed security architecture for many flagship projects including bits, extensions and the login system passport",
+			"priority": 9
 		}
 	]
 }
