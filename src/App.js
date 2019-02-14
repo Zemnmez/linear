@@ -55,8 +55,6 @@ class App extends React.PureComponent {
       .then(data => this.setState({data}))
   }
 
-  should
-
   componentWillUnmount() {
     this.phaseTimer && clearInterval(this.phaseTimer);
   }
