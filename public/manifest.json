@@ -63,8 +63,7 @@
       "sizes": "64x64"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
+  "start_url": ".?utm_source=pwa",
+  "display": "fullscreen",
   "background_color": "#ffffff"
 }
