@@ -3,7 +3,7 @@
 		"name": ["thomas", ["neil", "james"], "shadwell"],
 		"handle": "zemnmez"
 	},
-	"bio": "I'm a security engineer with particularly strong skills in the Go programming language and the design of robust modern application security architectures.",
+	"bio": "security engineer with particularly strong skills in the Go programming language and the design of robust modern application security architectures.",
 	"skills": [
 		"Go",
 		"Python",
