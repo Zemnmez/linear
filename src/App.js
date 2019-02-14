@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import * as d3 from 'd3';
 import bio from './bio.json';
 import D3 from 'reactive-d3';
 
-class App extends Component {
+class App extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -18,7 +17,7 @@ class App extends Component {
   }
 
   static getPhase() {
-    const now = new Date;
+    const now = new Date();
 
     let setTime = (date, [Hours, Minutes]) => {
       Object.entries({Hours, Minutes}).forEach(([k, v]) => date["set"+k](v));
@@ -104,26 +103,26 @@ I cast a spell on a city asking it to last. <br/>
 </div>
 </footer>
 
-let Links = ({links}) => <div className="links">
+/*let Links = ({links}) => <div className="links">
   {Object.entries(links).map(([name, link], i) => <a key={i} href={link}>{name}</a>)}
-</div>
+</div> */
 
 const months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
 let parseSimpleDate = (date) => {
     let [month, day, year] = date.split(" ");
     month = months.indexOf(month);
 
-    if (month == -1) throw `invalid date ${date}`;
+    if (month === -1) throw Error(`invalid date ${date}`);
 
     return new Date(year, month, day);
 }
 
 let Timeline = ({timeline}) => {
-  let years = new Map;
+  let years = new Map();
 
   timeline.forEach(({date, ...etc}) => {
     const year = date.getFullYear();
-    if (!years.has(year)) years.set(year, new Map);
+    if (!years.has(year)) years.set(year, new Map());
     const months = years.get(year);
 
     const month = date.getMonth();
@@ -172,7 +171,7 @@ let SadHumans = ({...props}) => <svg {...props} xmlns="http://www.w3.org/2000/sv
 let Future = ({...props}) => <svg className="future" {...props} xmlns="http://www.w3.org/2000/svg" width="446" height="348" viewBox="0 0 446 348" version="1"><path fill="none" d="M174 0L54 120l33 32L207 33 174 0zm98 0l-32 33 119 119 33-32L272 0zm-49 59L109 174l114 114 115-114L223 59zM33 141L0 174l33 33 33-33-33-33zm380 0l-32 33 32 33 33-33-33-33zM87 195l-33 33 120 120 33-33L87 195zm272 0L240 315l32 33 120-120-33-33z" vectorEffect="non-scaling-stroke"/></svg>
 
 
-class Graph extends React.Component {
+class Graph extends React.PureComponent {
   join({main, width, height}) {
     const data = this.props.timeline;
 
@@ -197,7 +196,7 @@ class Graph extends React.Component {
         .domain(tags)
 
       scaleData({tag}) { return this.scale(tag) }
-    };
+    }();
 
 
 
@@ -221,7 +220,7 @@ class Graph extends React.Component {
 
 
       scaleData({date}) { return this.scale(date) }
-    };
+    }();
 
     [axes.x, axes.y] = [axes.date, axes.tags];
 
@@ -230,10 +229,10 @@ class Graph extends React.Component {
     axes.y.scale = axes.y.scale.range([height - margin.bottom, margin.top])
 
 
-    let tagColors = d3.scaleOrdinal()
+    /*let tagColors = d3.scaleOrdinal()
       .unknown("#ccc")
       .domain(tags)
-    .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), tags.length).reverse());
+    .range(d3.quantize(t => d3.interpolateSpectral(t * 0.8 + 0.1), tags.length).reverse());*/
 
     svg.select(".y.axis")
       .attr("transform", `translate(${margin.left},0)`)
