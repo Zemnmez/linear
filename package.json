@@ -9,9 +9,9 @@
     "reactive-d3": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "make -j all && react-scripts start",
+    "build": "make -j all && react-scripts build",
+    "test": "make -j all && react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

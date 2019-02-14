@@ -1,0 +1,22 @@
+{
+  "short_name": "zemn.me",
+  "name": "zemn.me",
+  "icons": [
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "favicon-16x16.png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "safari-pinned-tab.svg",
+      "sizes": "48x48 72x72 96x96 128x128 256x256 512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

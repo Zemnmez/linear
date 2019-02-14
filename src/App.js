@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import * as d3 from 'd3';
+import bio from './bio.json';
 import D3 from 'reactive-d3';
 
 class App extends Component {
@@ -37,7 +38,10 @@ class App extends Component {
   componentDidMount() {
     this.phaseTimer = setInterval(() => this.setState({phase: this.getPhase()}), 60 * 1000 * 30);
     fetch("https://raw.githubusercontent.com/Zemnmez/bio/master/bio.json?"+Math.random())
-      .then(r => r.json())
+      .then(r => r.json(), (error) => {
+        console.log(error);
+        return bio;
+      })
       .then(data => {
         data.timeline = data.timeline.map(({date, ...etc}) => {
           date = parseSimpleDate(date);
@@ -47,7 +51,7 @@ class App extends Component {
 
         return data;
       })
-      .then(data => this.setState({data}));
+      .then(data => this.setState({data}))
 
   }
 
