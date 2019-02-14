@@ -46,15 +46,16 @@ class App extends React.PureComponent {
 
   componentDidMount() {
     this.phaseTimer = setInterval(() => this.setState({phase: this.getPhase()}), 60 * 1000 * 30);
-    fetch("https://raw.githubusercontent.com/Zemnmez/bio/master/bio.json?"+Math.random())
+    fetch("https://raw.githubusercontent.com/Zemnmez/bio/master/bio.json?")
       .then(r => r.json(), (error) => {
         console.log(error);
         return bio;
       })
       .then(data => App.parseDates(data))
       .then(data => this.setState({data}))
-
   }
+
+  should
 
   componentWillUnmount() {
     this.phaseTimer && clearInterval(this.phaseTimer);
