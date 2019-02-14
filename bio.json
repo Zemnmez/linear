@@ -3,6 +3,25 @@
 		"name": ["thomas", ["neil", "james"], "shadwell"],
 		"handle": "zemnmez"
 	},
+	"bio": "I'm a security engineer with particularly strong skills in the Go programming language and the design of robust modern application security architectures.",
+	"skills": [
+		"Go",
+		"Python",
+		"PHP",
+		"Javascript",
+		"React",
+		"d3",
+		"Bash",
+		"Make",
+		"Ruby",
+		"ECMA5",
+		"application security architecture",
+		"electron",
+		"AWS",
+		"penetration testing",
+		"code review",
+		"cryptography systems"
+	],
 	"birthdate": "May 17 1994",
 	"links": {
 		"twitter": "https://twitter.com/zemnmez",
@@ -113,6 +132,7 @@
 			],
 			"title": "Application Security Engineer, UK National Cyber Security Centre",
 			"description": "part of exchange program to provide private sector expertise to UK cyber advisory / defence group",
+			"longDescription": "following my much publicised hack on the UK tax system, I was asked to join the UK National Cyber Security Center as part of the Industry 100 program in which I provide consulting to the UKNCSC in areas I have expertise in",
 			"priority": 8
 		},
 		{
@@ -158,6 +178,7 @@
 			],
 			"title": "consultant; full stack web engineer",
 			"duration": "2 years",
+			"longDescription": "I spent two years working in various full stack positions. I built a number of MVPs for startups with Go, PHP and vanilla javascript, some of which are successful funded startups today. I worked with the charity Rewired State in paid and pro-bono capacities building prototype products for charities and for profit companies.",
 			"priority": 7
 		},
 		{
