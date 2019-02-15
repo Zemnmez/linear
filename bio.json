@@ -64,7 +64,7 @@
 			"tags": ["software", "react"],
 			"url": "https://github.com/Zemnmez/linear",
 			"title": "linear",
-			"description": "personal website 2019",
+			"description": "react based personal website for 2019",
 			"priority": 6
 		},
 		{
@@ -99,7 +99,7 @@
 			],
 			"url": "https://hackerone.com/reports/409850",
 			"title": "Steam Remote Code Execution",
-			"description": "Technical writeup on a vulnerability that allowed an attacker to take remote control over Steam users' computers.",
+			"description": "Technical writeup on a vulnerability that allowed an attacker to take remote control over Steam users' computers",
 			"priority": 8
 		},
 		{
