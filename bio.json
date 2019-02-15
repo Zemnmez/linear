@@ -3,7 +3,7 @@
 		"name": ["thomas", ["neil", "james"], "shadwell"],
 		"handle": "zemnmez"
 	},
-	"bio": "security engineer with particularly strong skills in the Go programming language, Javascript and the design of robust modern application security architectures.",
+	"bio": "security engineer with particularly strong skills in the Go programming language and the design of robust modern application security architectures.",
 	"skills": [
 		"Go",
 		"Python",
@@ -133,6 +133,7 @@
 			"title": "Application Security Engineer, UK National Cyber Security Centre",
 			"description": "part of exchange program to provide private sector expertise to UK cyber advisory / defence group",
 			"longDescription": "following my much publicised hack on the UK tax system, I was asked to join the UK National Cyber Security Center as part of the Industry 100 program in which I provide consulting to the UKNCSC in areas I have expertise in",
+			"duration": "ongoing",
 			"priority": 8
 		},
 		{
@@ -412,6 +413,7 @@
 			],
 			"url": "https://twitch.tv",
 			"title": "Security Engineer, Twitch",
+			"duration": "ongoing",
 			"description": "first security engineer at the video game streaming website. designed security architecture for many flagship projects including bits, extensions and the login system passport",
 			"priority": 9
 		}
