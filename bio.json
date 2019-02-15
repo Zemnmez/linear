@@ -177,9 +177,9 @@
 			"tags": [
 				"work"
 			],
-			"title": "consultant; full stack web engineer",
+			"title": "Full Stack Web Engineer, Consultant",
 			"duration": "2 years",
-			"longDescription": "I spent two years working in various full stack positions. I built a number of MVPs for startups with Go, PHP and vanilla javascript, some of which are successful funded startups today. I worked with the charity Rewired State in paid and pro-bono capacities building prototype products for charities and for profit companies.",
+			"description": "freelance work building MVPs for london startups & wrangling data for hackathons",
 			"priority": 7
 		},
 		{
@@ -277,6 +277,7 @@
 				"work",
 				"gaming"
 			],
+			"duration": "3 years",
 			"title": "Sr. Admin, TF2Outpost",
 			"description": "Volunteer role at once largest trading website in the Steam community. Worked on administration of high-profile trades & scams",
 			"priority": 5
