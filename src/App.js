@@ -56,7 +56,8 @@ class App extends React.PureComponent {
           <Switch>
           <Route exact path="/" render={() => <Home {...{data:this.state.data}}/>}/>
 
-          <Route exact path="/cv/:focuses?" render={({ match: {params: {focuses}} }) =>
+          <Route exact path="/cv/" render={() => <Redirect to="/cv/work,security"/>}/>
+          <Route exact path="/cv/:focuses" render={({ match: {params: {focuses}} }) =>
             <CV {...{data: this.state.data, focuses}} />
           }/>
 
@@ -75,20 +76,22 @@ const Home = ({data}) => <div className="Home">
         <article> <Profile data={data} /> </article>
 </div>
 
-const CV = ({data: {who, bio,  timeline, skills = []}, focuses = ""}) => <div className="CV">
-    <ProfileHeader {...{
-      who,
-      links: { "zemn.me": "https://zemn.me"}
-    }} />
-    <p className="bio">{bio}</p>
-    <p> Skills: {skills.sort().join(" ")}</p>
-    <Timeline {...{
-      timeline,
-      focuses: focuses.split(",").map(v=>v.trim()),
-      minimumPriority: 6,
-      limit: 6
-    }} />
-</div>
+const CV = ({data: {who, bio,  timeline, skills = []}, focuses = ""}) => {
+  return <div className="CV">
+      <ProfileHeader {...{
+        who,
+        links: { "zemn.me": "https://zemn.me"}
+      }} />
+      <p className="bio">{bio}</p>
+      <p> Skills: {skills.sort().join(" ")}</p>
+      <Timeline {...{
+        timeline,
+        focuses: focuses.split(",").map(v=>v.trim()),
+        minimumPriority: 6,
+        limit: 6
+      }} />
+  </div>
+}
 
 const Profile = ({data: {who, timeline, links}}) => <div className="profile">
   <ProfileHeader {...{who, links}}/>
@@ -176,6 +179,8 @@ const Timeline = ({timeline, minimumPriority, focuses = [], limit = Infinity}) =
 
       return acc;
     }, {equal: Math.floor(limit / focuses.length), timeline: []}).timeline;
+
+  if (timeline.length == 0) return <Redirect to="."/>
 
   timeline = timeline.sort(({date: a}, {date:b}) => b-a);
 
