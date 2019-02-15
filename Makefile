@@ -4,5 +4,9 @@ public/% src/%: .FORCE
 .PHONY: all
 all: .FORCE public/manifest.json src/bio.json
 
+.PHONY: invalidate cache
+invalidate cache:
+	./invalidate-cache.sh
+
 .PHONY: .FORCE
 .FORCE:

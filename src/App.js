@@ -3,6 +3,17 @@ import './App.css';
 import * as d3 from 'd3';
 import bio from './bio.json';
 import D3 from 'reactive-d3';
+import Moment from 'react-moment';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect
+} from 'react-router-dom';
+
+import ashVideo from "./static/ash.mp4";
+import ashPoster from "./static/ash.jpg";
 
 class App extends React.PureComponent {
   constructor(props) {
@@ -22,13 +33,15 @@ class App extends React.PureComponent {
   }
 
   componentDidMount() {
-    fetch("https://raw.githubusercontent.com/Zemnmez/bio/master/bio.json?")
+    /*
+    fetch("https://raw.githubusercontent.com/Zemnmez/bio/master/bio.json?" + Math.random())
       .then(r => r.json(), (error) => {
         console.log(error);
         return bio;
       })
       .then(data => App.parseDates(data))
       .then(data => this.setState({data}))
+    */
   }
 
   componentWillUnmount() {
@@ -39,15 +52,45 @@ class App extends React.PureComponent {
     if (!this.state.data) return "";
     return (
       <div className="App">
-        <VideoBackground />
-        <header> <div className="innerText">{this.state.data.who.handle}</div> </header>
-        <article> <Profile data={this.state.data} /> </article>
+        <Router>
+          <Switch>
+          <Route exact path="/" render={() => <Home {...{data:this.state.data}}/>}/>
+
+          <Route exact path="/cv/:focuses?" render={({ match: {params: {focuses}} }) =>
+            <CV {...{data: this.state.data, focuses}} />
+          }/>
+
+          <Route render={() => <Redirect to="/"/>}/>
+          </Switch>
+
+        </Router>
       </div>
     );
   }
 }
 
-let Profile = ({data: {who, timeline, links}}) => <div className="profile">
+const Home = ({data}) => <div className="Home">
+        <VideoBackground />
+        <header> <div className="innerText">{data.who.handle}</div> </header>
+        <article> <Profile data={data} /> </article>
+</div>
+
+const CV = ({data: {who, bio,  timeline, skills = []}, focuses = ""}) => <div className="CV">
+    <ProfileHeader {...{
+      who,
+      links: { "zemn.me": "https://zemn.me"}
+    }} />
+    <p className="bio">{bio}</p>
+    <p> Skills: {skills.sort().join(" ")}</p>
+    <Timeline {...{
+      timeline,
+      focuses: focuses.split(",").map(v=>v.trim()),
+      minimumPriority: 6,
+      limit: 6
+    }} />
+</div>
+
+const Profile = ({data: {who, timeline, links}}) => <div className="profile">
   <ProfileHeader {...{who, links}}/>
 
 
@@ -60,7 +103,7 @@ let Profile = ({data: {who, timeline, links}}) => <div className="profile">
   <ProfileFooter timeline={timeline} />
 </div>
 
-let ProfileFooter = ({timeline, ...props}) => <footer>
+const ProfileFooter = ({timeline, ...props}) => <footer>
   <Graph timeline={timeline} />
   <Future />
   <div className="tagline">
@@ -91,7 +134,51 @@ let parseSimpleDate = (date) => {
     return new Date(year, month, day);
 }
 
-let Timeline = ({timeline}) => {
+const Timeline = ({timeline, minimumPriority, focuses = [], limit = Infinity}) => {
+  if (minimumPriority) timeline = timeline.filter(({ priority }) => priority >= minimumPriority);
+  if (focuses.length) timeline = timeline.filter(({ tags }) => tags.some(a => focuses.some(b => a === b )));
+
+  // find up to 'limit' events, filling with highest score
+  if (limit != Infinity) timeline =
+    [...timeline.sort(( {priority: a}, {priority: b} ) => b-a)
+    // group by tag
+    .reduce((tags, event) => {
+      event.tags.forEach(tag => tags.set(tag, (tags.get(tag) || []).concat(event) )); // by reference
+      console.log(tags);
+      return tags;
+    }, new Map())]
+
+    .sort(( [a], [b] ) => {
+      [a, b] = [a, b].map(v => {
+        const o = focuses.indexOf(v);
+        if (o === -1) return Infinity
+        return o;
+      });
+
+      return a - b;
+    })
+
+    // produce single timeline getting roughly equal bits of each
+    .reduce((acc, [tag, events]) => {
+      if (acc.timeline.length >= limit) return acc;
+      const want = acc.want || acc.equal;
+      const segment = events.filter(({added}) => !added).slice(0, want);
+
+      console.log({acc, tag, events, segment});
+
+      segment.forEach(event => event.added = true);
+
+      // if we don't get a full equal segment, we still want
+      // to add up to the limit, so we give the next
+      // tag our remaining count
+      acc.want = acc.equal + (want - segment.length);
+      acc.timeline = acc.timeline.concat(segment);
+
+      return acc;
+    }, {equal: Math.floor(limit / focuses.length), timeline: []}).timeline;
+
+  timeline = timeline.sort(({date: a}, {date:b}) => b-a);
+
   let years = new Map();
 
   timeline.forEach(({date, ...etc}) => {
@@ -104,29 +191,45 @@ let Timeline = ({timeline}) => {
     months.get(month).push({date, ...etc});
   });
 
- return <div className="timeline">
+ return <div className={
+   focuses.concat("timeline").join(" ")
+  }>
     {[...years.entries()].map(([year, months]) => <Year {...{year, months, key: year}}/> )}
 </div>
 }
 
-let Year = ({year, months}) => <div className="year" data-year={year} style={{counterReset: `year ${year-1994}`}}>
+const Year = ({year, months}) => <div className="year" data-year={year} style={{counterReset: `year ${year-1994}`}}>
   {[...months.entries()].map(([month, events]) => <Month {...{month, events, key: month}} />)}
 </div>
 
-let Month =({month, events}) => <div className="month" data-month={month} style={{counterReset: `month ${month}`}}>
+const Month =({month, events}) => <div className="month" data-month={month} style={{counterReset: `month ${month}`}}>
   {events.map((event, i) => <Event {...{...event, key: i}}/>)}
 </div>
 
-let Event = ({date, tags, url, title, description}) => <div className="event">
-
-  <a className="title" href={url}>{title}</a> <span className="description">{description}</span>
+const Event = ({date, tags, url, title, description, longDescription, duration}) => <div className={
+  tags.concat("event").join(" ")
+}>
+  <a className="title" href={url}>
+    {title.split(",").map((segment, i) => <span key={i}>{segment.trim()}</span>)}
+  </a>{" "}
+  {duration?<Duration {...{date, duration}}/>:""}
+  {/*longDescription?<span className="description long">{longDescription}</span>: ""*/}
+  <span className="description">{description}</span>
 </div>
 
-let VideoBackground = ({...props}) => <video poster="ash.jpg" autoPlay muted playsInline loop className="video-background">
-  <source src="ash.mp4" type="video/mp4" />
+const aToOne = (str) => str.replace(/\ba\b/g, "1");
+const Duration = ({date, duration}) => {
+  if (duration === "ongoing") return <div className="duration">
+    <Moment fromNow ago filter={aToOne}>{date}</Moment> (present)
+  </div>
+  return <div className="duration">{duration}</div>;
+}
+
+const VideoBackground = ({...props}) => <video poster={ashPoster} autoPlay muted playsInline loop className="video-background">
+  <source src={ashVideo} type="video/mp4" />
 </video>
 
-let ProfileHeader = ({who: {name: names, handle}, links}) => <header>
+const ProfileHeader = ({who: {name: names, handle}, links}) => <header className="profile">
   <SadHumans className="sad-icon"/>
 
   <div className="text">
@@ -140,9 +243,9 @@ let ProfileHeader = ({who: {name: names, handle}, links}) => <header>
   </div>
 </header>
 
-let SadHumans = ({...props}) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.78 7.81"><g style={{stroke:"var(--fgc)"}} transform="translate(-13.03 -62.53)"><path fill="none" strokeWidth=".26" d="M16.73 62.66l-3.47 6.02h17.32l-3.47-6.02z"/><circle cx="21.92" cy="65.47" r="1.61" fill="none" strokeWidth=".16"/><ellipse cx="21.92" cy="65.47" fill="none" strokeWidth=".23" rx="3.23" ry="1.58"/><path style={{fill:"var(--bgc)"}} strokeWidth=".16" d="M23.53 68.65a1.61 1.61 0 0 1-3.22 0c0-.9.72-1.2 1.61-1.62.9.42 1.61.73 1.61 1.62z"/><circle style={{fill:"var(--fgc)"}} cx="21.92" cy="65.47" r=".54" strokeWidth=".08"/></g></svg>
+const SadHumans = ({...props}) => <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.78 7.81"><g style={{stroke:"var(--fgc)"}} transform="translate(-13.03 -62.53)"><path fill="none" strokeWidth=".26" d="M16.73 62.66l-3.47 6.02h17.32l-3.47-6.02z"/><circle cx="21.92" cy="65.47" r="1.61" fill="none" strokeWidth=".16"/><ellipse cx="21.92" cy="65.47" fill="none" strokeWidth=".23" rx="3.23" ry="1.58"/><path style={{fill:"var(--bgc)"}} strokeWidth=".16" d="M23.53 68.65a1.61 1.61 0 0 1-3.22 0c0-.9.72-1.2 1.61-1.62.9.42 1.61.73 1.61 1.62z"/><circle style={{fill:"var(--fgc)"}} cx="21.92" cy="65.47" r=".54" strokeWidth=".08"/></g></svg>
 
-let Future = ({...props}) => <svg className="future" {...props} xmlns="http://www.w3.org/2000/svg" width="446" height="348" viewBox="0 0 446 348" version="1"><path fill="none" d="M174 0L54 120l33 32L207 33 174 0zm98 0l-32 33 119 119 33-32L272 0zm-49 59L109 174l114 114 115-114L223 59zM33 141L0 174l33 33 33-33-33-33zm380 0l-32 33 32 33 33-33-33-33zM87 195l-33 33 120 120 33-33L87 195zm272 0L240 315l32 33 120-120-33-33z" vectorEffect="non-scaling-stroke"/></svg>
+const Future = ({...props}) => <svg className="future" {...props} xmlns="http://www.w3.org/2000/svg" width="446" height="348" viewBox="0 0 446 348" version="1"><path fill="none" d="M174 0L54 120l33 32L207 33 174 0zm98 0l-32 33 119 119 33-32L272 0zm-49 59L109 174l114 114 115-114L223 59zM33 141L0 174l33 33 33-33-33-33zm380 0l-32 33 32 33 33-33-33-33zM87 195l-33 33 120 120 33-33L87 195zm272 0L240 315l32 33 120-120-33-33z" vectorEffect="non-scaling-stroke"/></svg>
 
 
 class Graph extends React.PureComponent {

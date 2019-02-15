@@ -8,6 +8,12 @@ body, html {
   font-family: "Lora", serif;
 }
 
+h1, h2, h3, h4 { font-weight: inherit }
+
+@media print {
+  html, body { max-width: 210mm ; max-height: 297mm; margin: auto }
+}
+
 a:link { color: inherit; text-decoration-skip: spaces ; font-style: italic }
 a:visited { color: inherit }
 
@@ -40,7 +46,7 @@ a:visited { color: inherit }
   --fgc: white;
   --bgc: black;
 }
-.App {
+.App, .Home {
   transition: color, background-color ease-in-out;
   display: grid;
   width: 100%;
@@ -48,46 +54,46 @@ a:visited { color: inherit }
   color: var(--fgc);
 }
 
-.App > header {
+.Home > header {
   font-size: 3rem;
   display: grid;
   grid-area: header;
 }
 
-.App > header > * {
+.Home > header > * {
   margin: auto;
   background: var(--bgc);
   padding: 1rem;
   z-index: 2;
 }
 
-.App > article {
+.Home > article {
   grid-area: article;
   background: var(--bgc);
   overflow: auto;
 }
 
 @media (orientation: landscape) {
-  .App {
+  .Home {
     grid: "header article" 100vh /  1fr 1fr;
   }
 }
 
 @media (orientation: portrait) {
-  .App {
+  .Home {
     grid: "header" 100vh "article" min-content / 1fr;
   }
 
   .future * { fill: black; stroke: none }
 
-  .App > article {
+  .Home > article {
     overflow: initial;
   }
 }
 
 .timeline {
   --marker-size: 1px;
-  --year-font-size: 2rem;
+  --year-font-size: 200%;
   --month-font-size: 1rem;
   --marker-colour: var(--fgc);
   display: grid;
@@ -100,6 +106,8 @@ a:visited { color: inherit }
   grid: ". title marker ." min-content / .5rem 1fr 20% .5rem;
   grid-auto-rows: min-content;
 }
+
+.timeline .duration { display: none }
 
 .timeline .year::before {
   content: counter(year, upper-roman);
@@ -150,7 +158,7 @@ a:visited { color: inherit }
 .month .event {
   grid-column: 2 ;
   max-width: 30rem;
-  padding: 1rem 0 1rem 3rem;
+  padding: 1em 0 1em 3em;
   text-transform: lowercase;
 }
 
@@ -158,6 +166,8 @@ a:visited { color: inherit }
   content: "– ";
   opacity: .5;
 }
+
+.event .description.long { display: none }
 
 .profile {
   display: grid;
@@ -196,9 +206,15 @@ a:visited { color: inherit }
   grid-area: line-right;
 }
 
-.profile header {
+@page {
+  size: A4;
+  margin: 0;
+  marks: none;
+}
+
+header.profile {
   display: grid;
-  grid: "." 4rem "eye" "." 2rem "text" "." 3rem / 1fr
+  grid: "." 4rem "eye" "." 1rem "text" "." 3rem / 1fr
 }
 
 header .text {
@@ -206,14 +222,22 @@ header .text {
   text-align: center;
 }
 
+header.profile .text .links {
+  margin-top: 1rem;
+}
+
+header.profile .name {
+  font-size: larger;
+}
+
 .text .name {
   display: none;
 }
 
-.profile header .sad-icon {
+header.profile .sad-icon {
   grid-area: eye;
   margin: auto;
-  width: 10rem;
+  width: 10em;
 }
 
 .text .links {
@@ -242,31 +266,45 @@ footer .graph {
 }
 
 footer .graph * { stroke: none }
-footer .graph .event:hover {
-  fill: grey;
-}
+footer .graph .event:hover { fill: grey }
 
-.profile footer .future{
-  grid-area:future;
-  width: 100%;
-  height: 100%;
-}
+.profile footer .future{ grid-area:future; width: 100%; height: 100% }
 
+.profile footer::before { content:"–"; grid-area:left-spacer; margin:auto; opacity: .5 }
+.profile footer::after { content:"–"; grid-area: right-spacer; margin: auto; opacity: .5 }
 
-.profile footer::before {
-  content:"–";
-  grid-area:left-spacer;
-  margin:auto;
-  opacity: .5;
-}
-
-
-.profile footer::after {
-  content:"–";
-  grid-area:right-spacer;
-  margin: auto;
-  opacity: .5;
-}
+.title { grid-area: title }
+.title > * + *::before { content: ", " }
+.duration { grid-area: duration }
+.description { grid-area: description }
 
 .tagline { grid-area: tagline; text-align: center; opacity: .5; display: none }
 
+.CV .timeline .duration { display: block }
+.CV .timeline { --year-font-size: 100% }
+.CV { width: 100%; height: 100%; max-width: 210mm; height: 297mm; margin: auto ; overflow: hidden }
+.CV header.profile .name { display: block }
+.CV header.profile {  grid: "." 2rem "eye" "." 1rem "text" "." 1rem /1fr }
+.CV .month .event { padding: .5em 0 .5em 3em }
+.work.timeline .month::before { content: ""; }
+
+/*.CV a:link::before{ content: attr(href) ; text-transform: initial ; grid-area: href }*/
+.CV { font-size: 80%; box-sizing: border-box; padding-top: 4mm }
+.CV .timeline, .CV p { max-width: 30rem; margin: 0 auto 1rem auto }
+.CV .timeline .year { margin-bottom: 1em; border-top: 0 }
+.CV .event .title > * { display: block }
+.CV .event .title > *::before { content: initial }
+.work.timeline a:link { text-decoration: inherit; font-style: inherit }
+.work.timeline .year::before,
+.work.timeline .year::after { }
+.work.timeline .event::before { content: "" }
+.work.timeline .title { display: block; text-transform: capitalize }
+.work.timeline .description.long { display: initial }
+.work.timeline .description.long ~ .description { display: none }
+.work.timeline .event + .event { margin-top: 1em }
+.work.timeline .work.event { display: grid; grid:
+  "title ."
+  ". ." .4em
+  "duration ."
+  ". ." .8em
+  "description description" / 80% 1fr }

@@ -4,8 +4,11 @@
   "private": true,
   "dependencies": {
     "d3": "^5.9.1",
+    "moment": "^2.24.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-moment": "^0.8.4",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.3",
     "reactive-d3": "^1.0.1"
   },
@@ -14,7 +17,7 @@
     "build": "make -j all && react-scripts build",
     "test": "make -j all && react-scripts test",
     "deploy": "yarn run build && aws s3 sync build s3://zemn.me --acl public-read && yarn run deploy.invalidateCache",
-    "deploy.invalidateCache": "./invalidate-cache.sh",
+    "deploy.invalidateCache": "make -j invalidate cache",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
