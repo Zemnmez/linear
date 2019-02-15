@@ -418,5 +418,17 @@
 			"description": "first security engineer at the video game streaming website. designed security architecture for many flagship projects including bits, extensions and the login system passport",
 			"priority": 9
 		}
+		{
+			"date": "Mar 1 2012",
+			"tags": [
+				"software",
+				"security",
+				"work"
+			],
+			"title": "Developer, Rewired State",
+			"duration": "3 years",
+			"description": "variously paid & charity work for good causes running and participating in hackathons",
+			"priority": 6
+		}
 	]
 }
