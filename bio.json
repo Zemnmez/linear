@@ -3,7 +3,7 @@
 		"name": ["thomas", ["neil", "james"], "shadwell"],
 		"handle": "zemnmez"
 	},
-	"bio": "security engineer with particularly strong skills in the Go programming language and the design of robust modern application security architectures.",
+	"bio": "security engineer with strong skills in the Go programming language and the design of robust modern application security architectures",
 	"skills": [
 		"Go",
 		"Python",
@@ -99,7 +99,7 @@
 			],
 			"url": "https://hackerone.com/reports/409850",
 			"title": "Steam Remote Code Execution",
-			"description": "Technical writeup on a vulnerability that allowed an attacker to take remote control over Steam users' computers",
+			"description": "writeup on a vulnerability that allowed an attacker to take remote control over Steam users' computers",
 			"priority": 8
 		},
 		{
