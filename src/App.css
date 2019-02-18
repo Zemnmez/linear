@@ -8,10 +8,13 @@ body, html {
   font-family: "Lora", serif;
 }
 
+svg { width: 100%; height: 100% }
+
 h1, h2, h3, h4 { font-weight: inherit }
 
 @media print {
   html, body { max-width: 210mm ; max-height: 297mm; margin: auto }
+  .CV { border: 0 }
 }
 
 a:link { color: inherit; text-decoration-skip: spaces ; font-style: italic }
@@ -30,13 +33,6 @@ a:visited { color: inherit }
 .name, .handle { text-transform: lowercase }
 .name > * { display: inline-block }
 
-.border-wrapper {
-  width: 100%;
-  height: 100%;
-}
-
-
-
 .App, .App.day {
   --fgc: black;
   --bgc: white;
@@ -46,7 +42,8 @@ a:visited { color: inherit }
   --fgc: white;
   --bgc: black;
 }
-.App, .Home {
+
+.App  {
   transition: color, background-color ease-in-out;
   display: grid;
   width: 100%;
@@ -77,6 +74,8 @@ a:visited { color: inherit }
   .Home {
     grid: "header article" 100vh /  1fr 1fr;
   }
+
+  .CV .future * { fill: black; stroke: none }
 }
 
 @media (orientation: portrait) {
@@ -214,7 +213,7 @@ a:visited { color: inherit }
 
 header.profile {
   display: grid;
-  grid: "." 4rem "eye" "." 1rem "text" "." 3rem / 1fr
+  grid: "." 4em "eye" 4em "." 1rem "text" "." 3em / 1fr
 }
 
 header .text {
@@ -237,7 +236,6 @@ header.profile .name {
 header.profile .sad-icon {
   grid-area: eye;
   margin: auto;
-  width: 10em;
 }
 
 .text .links {
@@ -270,8 +268,8 @@ footer .graph .event:hover { fill: grey }
 
 .profile footer .future{ grid-area:future; width: 100%; height: 100% }
 
-.profile footer::before { content:"–"; grid-area:left-spacer; margin:auto; opacity: .5 }
-.profile footer::after { content:"–"; grid-area: right-spacer; margin: auto; opacity: .5 }
+.profile footer::before, .CV::before { content:"–"; grid-area:left-spacer; margin:auto; opacity: .5 }
+.profile footer::after, .CV::after { content:"–"; grid-area: right-spacer; margin: auto; opacity: .5 }
 
 .title { grid-area: title }
 .title > * + *::before { content: ", " }
@@ -280,11 +278,22 @@ footer .graph .event:hover { fill: grey }
 
 .tagline { grid-area: tagline; text-align: center; opacity: .5; display: none }
 
+.CV { grid: "header header header header header" min-content
+            "bio bio bio bio bio" min-content
+            "skills skills skills skills skills" min-content
+            "timeline timeline timeline timeline timeline" min-content
+            ". left-spacer future right-spacer ."
+            / 1fr 2rem 4em 2rem 1fr}
+.CV > header.profile { grid-area: header }
+.CV > .bio { grid-area: bio }
+.CV > .skills { grid-area: skills }
+.CV > .timeline { grid-area: timeline }
+.CV > .future { grid-area: future }
 .CV .timeline .duration { display: block }
 .CV .timeline { --year-font-size: 100% }
-.CV { width: 100%; height: 100%; max-width: 210mm; height: 297mm; margin: auto ; overflow: hidden }
+.CV { width: 100%; height: 100%; max-width: 210mm; height: 297mm; margin: auto ; border: 1px solid black }
 .CV header.profile .name { display: block }
-.CV header.profile {  grid: "." 2rem "eye" "." 1rem "text" "." 1rem /1fr }
+.CV header.profile {  /*grid: "." 2rem "eye" "." 1rem "text" "." 1rem /1fr */ }
 .CV .month .event { padding: .5em 0 .5em 3em }
 .work.timeline .month::before { content: ""; }
 
@@ -304,7 +313,6 @@ footer .graph .event:hover { fill: grey }
 .work.timeline .event + .event { margin-top: 1em }
 .work.timeline .work.event { display: grid; grid:
   "title ."
-  ". ." .4em
   "duration ."
   ". ." .8em
   "description description" / 80% 1fr }

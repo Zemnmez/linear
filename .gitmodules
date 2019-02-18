@@ -1,0 +1,3 @@
+[submodule "src/bio"]
+	path = src/bio
+	url = git@github.com:Zemnmez/bio.git

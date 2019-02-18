@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import * as d3 from 'd3';
-import bio from './bio.json';
+import bio from './bio/bio.json';
 import D3 from 'reactive-d3';
 import Moment from 'react-moment';
 import {
@@ -50,46 +50,49 @@ class App extends React.PureComponent {
 
   render() {
     if (!this.state.data) return "";
+    const className = "App";
     return (
-      <div className="App">
         <Router>
           <Switch>
-          <Route exact path="/" render={() => <Home {...{data:this.state.data}}/>}/>
+          <Route exact path="/" render={() => <Home {...{
+            data: this.state.data,
+            className
+          }}/>}/>
 
           <Route exact path="/cv/" render={() => <Redirect to="/cv/work,security"/>}/>
           <Route exact path="/cv/:focuses" render={({ match: {params: {focuses}} }) =>
-            <CV {...{data: this.state.data, focuses}} />
+            <CV {...{data: this.state.data, focuses, className}} />
           }/>
 
           <Route render={() => <Redirect to="/"/>}/>
           </Switch>
 
         </Router>
-      </div>
     );
   }
 }
 
-const Home = ({data}) => <div className="Home">
+const Home = ({data, className}) => <div className={["Home"].concat(className).join(" ")}>
         <VideoBackground />
         <header> <div className="innerText">{data.who.handle}</div> </header>
         <article> <Profile data={data} /> </article>
 </div>
 
-const CV = ({data: {who, bio,  timeline, skills = []}, focuses = ""}) => {
-  return <div className="CV">
+const CV = ({data: {who, bio,  timeline, skills = []}, className, focuses = "", limit = 6}) => {
+  return <div className={["CV"].concat(className).join(" ")}>
       <ProfileHeader {...{
         who,
         links: { "zemn.me": "https://zemn.me"}
       }} />
       <p className="bio">{bio}</p>
-      <p> Skills: {skills.sort().join(" ")}</p>
+      <p className="skills"> Skills: {skills.sort().join(" ")}</p>
       <Timeline {...{
         timeline,
         focuses: focuses.split(",").map(v=>v.trim()),
         minimumPriority: 6,
-        limit: 6
+        limit
       }} />
+      <Future />
   </div>
 }
 
