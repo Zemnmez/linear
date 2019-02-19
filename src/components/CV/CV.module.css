@@ -1,0 +1,48 @@
+@media print {
+  .CV { border: 0 }
+}
+
+.cv {
+  font-size: 80%;
+  box-sizing: border-box;
+  padding: 20mm;
+  width: 100%;
+  height: 100%;
+  max-width: 210mm;
+  height: 297mm;
+  margin: auto ;
+  border: 1px solid black;
+
+  grid: "heading heading heading" min-content
+        "contact-caption . website" min-content
+        "contact-caption . email" min-content
+        "contact-caption . phone" min-content;
+
+}
+
+.email { grid-area: email }
+.phone { grid-area: phone }
+.name { grid-area: name }
+.date { grid-area: date }
+
+.heading {
+  display: grid;
+  grid-area: heading;
+  grid: "name icon date"
+        ". . ." 1em
+        "phone website email"
+        / 1fr 1fr 1fr;
+
+  justify-items: center;
+  align-items: center;
+}
+
+.heading::before {
+  white-space: nowrap;
+  grid-area: caption;
+  align-self: start;
+}
+
+
+.heading .website { grid-area: website }
+.heading .headerIcon { grid-area: icon ; height: 2em }

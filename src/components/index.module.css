@@ -1,0 +1,34 @@
+.sadIcon { }
+.future { }
+.rule {
+  display:none;
+  grid-area: asterism;
+  margin: auto;
+  font-size: 150%;
+  text-align: center;
+  display: grid;
+  width: 100%;
+  grid: "line-left . text . line-right" min-content / 1fr 2rem min-content 2rem 1fr;
+}
+
+.rule > * {
+  grid-area:text;
+  margin: auto;
+}
+
+.rule:last-of-type::after,
+  .rule:last-of-type::before{
+  content: "";
+  height: 0;
+  border-top: 1px dotted black;
+  margin: auto;
+  width: 100%;
+}
+
+.rule::after {
+  grid-area: line-left;
+}
+
+.rule::before {
+  grid-area: line-right;
+}

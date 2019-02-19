@@ -1,0 +1,77 @@
+.timeline {
+  --marker-size: 1px;
+  --year-font-size: 200%;
+  --month-font-size: 1rem;
+  --marker-colour: var(--fgc);
+  display: grid;
+  grid: auto-flow min-content / auto;
+}
+
+.year {
+  display: grid;
+  border-top: 1px dotted var(--fgc);
+  grid: ". title marker ." min-content / .5rem 1fr 20% .5rem;
+  grid-auto-rows: min-content;
+}
+
+.duration { display: none }
+
+.title > * + *::before { content: ", " }
+
+.year::after {
+  content: attr(data-year);
+  grid-area: marker;
+  font-size: var(--year-font-size);
+  text-align: right;
+  /*border-top: var(--marker-size) solid var(--marker-colour); */
+}
+
+.year::before {
+  content: counter(year, upper-roman);
+  grid-area: title;
+  font-size: var(--year-font-size);
+}
+
+.month {
+  display: grid;
+  grid: ". title marker" minmax(min-content, 1fr) / 1rem 1fr 10%;
+  grid-column: 2 / span 2 ;
+}
+
+.month::after {
+  grid-area: marker;
+  /* border-top: var(--marker-size) solid var(--marker-colour); */
+  content: "";
+  font-size: var(--month-font-size);
+}
+
+.month::before {
+  opacity: .5;
+  grid-area: title;
+  text-transform:lowercase;
+}
+
+.month[data-month="0"]::before { content: "Jan" }
+.month[data-month="1"]::before { content: "Feb" }
+.month[data-month="2"]::before { content: "Mar" }
+.month[data-month="3"]::before { content: "Apr" }
+.month[data-month="4"]::before { content: "May" }
+.month[data-month="5"]::before { content: "Jun" }
+.month[data-month="6"]::before { content: "Jul" }
+.month[data-month="7"]::before { content: "Aug" }
+.month[data-month="8"]::before { content: "Sep" }
+.month[data-month="9"]::before { content: "Oct" }
+.month[data-month="10"]::before { content: "Nov" }
+.month[data-month="11"]::before { content: "Dec" }
+
+.event {
+  grid-column: 2 ;
+  max-width: 30rem;
+  padding: 1em 0 1em 3em;
+  text-transform: lowercase;
+}
+
+.event::before {
+  content: "– ";
+  opacity: .5;
+}

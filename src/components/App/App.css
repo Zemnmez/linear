@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i');
+* { box-sizing: border-box }
+body, html {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  font-family: "Lora", serif;
+}
+
+svg { width: 100%; height: 100% }
+
+h1, h2, h3, h4 { font-weight: inherit }
+
+@media print {
+  html, body { max-width: 210mm ; max-height: 297mm; margin: auto }
+}
+
+@page {
+  size: A4;
+  margin: 0;
+  marks: none;
+}
+
+a:link { color: inherit; text-decoration-skip: spaces ; font-style: italic }
+a:visited { color: inherit }
+
+
+.App, .App.day {
+  --fgc: black;
+  --bgc: white;
+}
+
+.App.night {
+  --fgc: white;
+  --bgc: black;
+}
+
+.App  {
+  transition: color, background-color ease-in-out;
+  display: grid;
+  width: 100%;
+  min-height: 100vh;
+  color: var(--fgc);
+}
+
+svg {
+  stroke: var(--fgc);
+}
+
+.profile footer::before, .CV::before { content:"–"; grid-area:left-spacer; margin:auto; opacity: .5 }
+.profile footer::after, .CV::after { content:"–"; grid-area: right-spacer; margin: auto; opacity: .5 }
+
+.duration { grid-area: duration }
+.description { grid-area: description }
+
+.tagline { grid-area: tagline; text-align: center; opacity: .5; display: none }
