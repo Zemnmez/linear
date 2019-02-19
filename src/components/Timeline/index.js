@@ -91,8 +91,14 @@ const Event = ({date, tags, url, title, description, longDescription, duration, 
     {title.split(",").map((segment, i) => <span key={i}>{segment.trim()}</span>)}
   </a>{" "}
   {duration?<Duration {...{date, duration}}/>:""}
-  <span className="description">{description}</span>
+  <Description {...{description}} />
 </div>
+
+export const Description = ({ description, className }) => <span {...{
+    className: ["description"].concat(className).join(" ")
+  }}>
+  {description.split("\n").map((para, i) => <p key={i}>{para}</p>)}
+</span>
 
 const aToOne = (str) => str.replace(/\ba\b/g, "1");
 const Duration = ({date, duration, className}) => {

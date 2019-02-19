@@ -5,7 +5,7 @@
 .cv {
   font-size: 80%;
   box-sizing: border-box;
-  padding: 20mm;
+  padding: 20mm 30mm;
   width: 100%;
   height: 100%;
   max-width: 210mm;
@@ -13,11 +13,10 @@
   margin: auto ;
   border: 1px solid black;
 
-  grid: "heading heading heading" min-content
-        "contact-caption . website" min-content
-        "contact-caption . email" min-content
-        "contact-caption . phone" min-content;
-
+  display: grid;
+  grid: "header" min-content
+        "experience" 1fr
+        "skills" 1fr;
 }
 
 .email { grid-area: email }
@@ -25,24 +24,66 @@
 .name { grid-area: name }
 .date { grid-area: date }
 
-.heading {
+.header {
   display: grid;
-  grid-area: heading;
-  grid: "name icon date"
-        ". . ." 1em
-        "phone website email"
-        / 1fr 1fr 1fr;
-
   justify-items: center;
   align-items: center;
+  grid: "name icon date" min-content
+        ". . ." 1em
+        "phone website email" min-content
+        ". . ." 2em
+        / 1fr 1fr 1fr;
 }
 
-.heading::before {
-  white-space: nowrap;
-  grid-area: caption;
-  align-self: start;
+.header .website { grid-area: website }
+.header .headerIcon { grid-area: icon ; height: 2.5em }
+
+.experience {
+  display: grid
 }
 
+.work {
+  display: grid;
+  grid: "employer employer . start dash end" min-content
+        "position position . duration duration duration" min-content
+        ". . . . . ." .5em
+        ". content . . . ."
+        ". . . . . ." 1em
+        / 1em 1fr 1em 4.5em 2em 4em;
 
-.heading .website { grid-area: website }
-.heading .headerIcon { grid-area: icon ; height: 2em }
+}
+
+.work::before {
+  content: " - ";
+  grid-area: dash;
+  justify-self: center;
+}
+
+.work .start,
+.work .end,
+.work .duration { white-space: nowrap }
+.work .duration { opacity: .7 }
+
+.work .employer { grid-area: employer }
+.work .position { grid-area: position }
+.work .start { grid-area: start; justify-self: end }
+.work .end { grid-area: end ; justify-self: end }
+.work .duration { grid-area: duration ; justify-self: end }
+.work .content { grid-area: content }
+.work .content p:last-of-type::after { content: "." }
+.work .content:first-letter, .work .content *:first-letter { text-transform: uppercase }
+.work .content ul { list-style-type: none }
+.work .content ul { margin: 0 ; padding: 0 }
+.work .content li + li { margin-top: 1em }
+
+.skills {
+  grid-area: skills;
+  display: grid;
+  grid: 1fr / 1fr 1fr 1fr 1fr 1fr;
+  text-transform: lowercase;
+  grid-auto-flow: dense;
+  align-items: center;
+  justify-items: center;
+}
+
+.cv a:link { text-decoration: none }
