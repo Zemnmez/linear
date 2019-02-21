@@ -15,17 +15,17 @@
   display: grid;
   grid: "header header header header header" min-content
         "experience-title experience-title experience-title experience-title experience-title" min-content
-        ". . . . ." 1em
+        ". . . . ." .4fr
         "experience experience experience experience experience" 7fr
         "works-title works-title works-title works-title works-title" min-content
-        ". . . . ." 1em
+        ". . . . ." .4fr
         "works works works works works" 1fr
         "works2 works2 works2 works2 works2" 1fr
-        ". . . . ." 1em
+        ". . . . ." .4fr
         "skills-title skills-title skills-title skills-title skills-title" min-content
-        ". . . . ." 1em
+        ". . . . ." .4fr
         "skills skills skills skills skills" 1fr
-        ". . . . ." 2em
+        ". . . . ." 3em
         ". dash-left future dash-right ." 2em / 1fr 2em 1fr 2em 1fr;
         /* yeah i know this is kinda disgusting and i should make a dashed Future component... */
 }
@@ -114,7 +114,7 @@
 .works { grid-area: works; }
 .works2 { grid-area: works2; }
 
-.future { grid-area: future; }
+.future { grid-area: future; stroke: none; fill: black !important }
 
 .skills.works { grid-gap: 0 1em }
 

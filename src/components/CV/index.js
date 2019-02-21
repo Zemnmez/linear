@@ -150,7 +150,7 @@ const Header = ({ email, phone, names, className }) => <div {...{
     <Email {...{email}} />
     <Phone {...{phone}}/>
     <Icon {...{className: style.headerIcon}} />
-    <When />
+    <When {...{format: "MMM YYYY"}} />
     <Name {...{className: style.name, names}}/>
 </div>
 

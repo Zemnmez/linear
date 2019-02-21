@@ -1,5 +1,7 @@
+width = 55
+
 %.ascii.txt: %.txt
-	cat $< | toilet > $@
+	cat $< | toilet -f future -w $(width) > $@
 
 %.xpm: %.ascii.txt %.txt
 	echo '/* XPM */' > $@
@@ -12,10 +14,13 @@
 	cat $< >> $@
 	head $@
 
-%.pbm: %.ascii.txt %.txt
+%.pbm.partial: %.ascii.txt
+	awk '{printf("%-$(width)s\n", $$0) }' $< | sed 's/[^ ]/1/g;s/ /0/g' >> $@
+
+%.pbm: %.pbm.partial %.txt
 	echo "P1" > $@
-	echo "$$(awk 'NR==1{print length($0)}' $<) $$(wc -l $< | awk '{print $$1}')" | xargs >> $@
-	sed 's/[^ ]/1/g;s/ /0/g' $< >> $@
+	echo "$$(awk 'NR==1{print length($$0)}' $<) $$(wc -l $< | awk '{print $$1}')" | xargs >> $@
+	cat $< >> $@
 	head $@
 
 %.png: %.pbm

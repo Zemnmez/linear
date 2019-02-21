@@ -1,6 +1,6 @@
 
 .sadIcon { }
-.future { }
+.future { fill: none }
 .rule {
   display:none;
   grid-area: asterism;
