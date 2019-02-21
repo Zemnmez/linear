@@ -94,15 +94,22 @@ const Event = ({date, tags, url, title, description, longDescription, duration, 
   <Description {...{description}} />
 </div>
 
-export const Description = ({ description, className }) => <span {...{
-    className: ["description"].concat(className).join(" ")
+export const Description = ({ description = "", className }) => {
+  const paras = description.split("\n");
+
+  return <span {...{
+    className: [style.description].concat(className).join(" ")
   }}>
-  {description.split("\n").map((para, i) => <p key={i}>{para}</p>)}
-</span>
+
+    {description.split("\n").map((para, i) => <p key={i}>{para}</p>)}
+  </span>
+}
 
 const aToOne = (str) => str.replace(/\ba\b/g, "1");
 const Duration = ({date, duration, className}) => {
-  if (duration === "ongoing") return <div className="duration">
+  if (duration === "ongoing") return <div {...{
+    className: [style.duration].concat(className).join(" ")
+  }}>
     <Moment fromNow ago filter={aToOne}>{date}</Moment> (present)
   </div>
   return <div {...{

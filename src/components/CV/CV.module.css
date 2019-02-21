@@ -14,10 +14,24 @@
   border: 1px solid black;
 
   display: grid;
-  grid: "header" min-content
-        "experience" 1fr
-        "skills" 1fr;
+  grid: "header header header header header" min-content
+        "experience-title experience-title experience-title experience-title experience-title" min-content
+        ". . . . ." 1em
+        "experience experience experience experience experience" 7fr
+        "works-title works-title works-title works-title works-title" min-content
+        ". . . . ." 1em
+        "works works works works works" 1fr
+        ". . . . ." 1em
+        "skills-title skills-title skills-title skills-title skills-title" min-content
+        ". . . . ." 1em
+        "skills skills skills skills skills" 1fr
+        ". . . . ." 2em
+        ". dash-left future dash-right ." 2em / 1fr 2em 1fr 2em 1fr;
+        /* yeah i know this is kinda disgusting and i should make a dashed Future component... */
 }
+
+.cv::before { content:"–"; grid-area:dash-left; margin:auto; opacity: .5 }
+.cv::after { content:"–"; grid-area: dash-right; margin: auto; opacity: .5 }
 
 .email { grid-area: email }
 .phone { grid-area: phone }
@@ -25,12 +39,13 @@
 .date { grid-area: date }
 
 .header {
+  grid-area: header;
   display: grid;
   justify-items: center;
   align-items: center;
-  grid: "name icon date" min-content
+  grid: "website icon date" min-content
         ". . ." 1em
-        "phone website email" min-content
+        "phone name email" min-content
         ". . ." 2em
         / 1fr 1fr 1fr;
 }
@@ -39,6 +54,7 @@
 .header .headerIcon { grid-area: icon ; height: 2.5em }
 
 .experience {
+  grid-area: experience;
   display: grid
 }
 
@@ -46,12 +62,15 @@
   display: grid;
   grid: "employer employer . start dash end" min-content
         "position position . duration duration duration" min-content
-        ". . . . . ." .5em
-        ". content . . . ."
+        ". . . . . ." .1em
+        ". content content . . ." min-content
         ". . . . . ." 1em
         / 1em 1fr 1em 4.5em 2em 4em;
 
 }
+
+.work p { margin: 0 }
+.work p + p { margin-top: 1em }
 
 .work::before {
   content: " - ";
@@ -61,10 +80,10 @@
 
 .work .start,
 .work .end,
-.work .duration { white-space: nowrap }
-.work .duration { opacity: .7 }
+.work .duration { white-space: nowrap; opacity: .6 }
+.work .duration { opacity: .4 }
 
-.work .employer { grid-area: employer }
+.work .employer { grid-area: employer ; font-weight: bold; font-style: italic }
 .work .position { grid-area: position }
 .work .start { grid-area: start; justify-self: end }
 .work .end { grid-area: end ; justify-self: end }
@@ -76,14 +95,34 @@
 .work .content ul { margin: 0 ; padding: 0 }
 .work .content li + li { margin-top: 1em }
 
-.skills {
+.skills, .works {
   grid-area: skills;
   display: grid;
-  grid: 1fr / 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
   text-transform: lowercase;
   grid-auto-flow: dense;
   align-items: center;
-  justify-items: center;
+  justify-items: stretch;
+  text-align: center;
 }
 
+.worksTitle { grid-area: works-title }
+.experienceTitle { grid-area: experience-title }
+
 .cv a:link { text-decoration: none }
+
+.works { grid-area: works; }
+
+.future { grid-area: future; }
+
+.skills.works { grid-gap: 0 1em }
+
+.skillsTitle { grid-area: skills-title }
+.skills:not(.works) .description { display: none }
+
+.skills .description {
+  box-sizing: border-box;
+  opacity: .7;
+  grid-row: 2;
+  align-self: start;
+}

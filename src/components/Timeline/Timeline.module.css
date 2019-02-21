@@ -14,7 +14,7 @@
   grid-auto-rows: min-content;
 }
 
-.duration { display: none }
+.duration {  opacity: .5 }
 
 .title > * + *::before { content: ", " }
 
@@ -71,7 +71,23 @@
   text-transform: lowercase;
 }
 
+.event:global(.work) {
+  display: grid;
+  grid: "bullet title . duration"
+        ". description description description"
+        / 1rem 2fr 2em 10em;
+}
+
+.event:not(:global(.work)) .description p:first-child {
+  display: inline;
+}
+
 .event::before {
+  grid-area: bullet;
   content: "– ";
   opacity: .5;
 }
+
+.event .title { grid-area: title }
+.event .description { grid-area: description }
+.event .duration { grid-area: duration; justify-self: end }

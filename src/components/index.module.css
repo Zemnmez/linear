@@ -1,14 +1,15 @@
+
 .sadIcon { }
 .future { }
 .rule {
   display:none;
   grid-area: asterism;
   margin: auto;
-  font-size: 150%;
   text-align: center;
+  white-space: nowrap;
   display: grid;
   width: 100%;
-  grid: "line-left . text . line-right" min-content / 1fr 2rem min-content 2rem 1fr;
+  grid: ". line-left . text . line-right ." min-content / 1fr .2em 2rem min-content 2rem .2em 1fr;
 }
 
 .rule > * {
@@ -16,11 +17,11 @@
   margin: auto;
 }
 
-.rule:last-of-type::after,
-  .rule:last-of-type::before{
+.rule::after,
+  .rule::before{
   content: "";
   height: 0;
-  border-top: 1px dotted black;
+  border-top: 1px solid black;
   margin: auto;
   width: 100%;
 }

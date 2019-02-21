@@ -48,10 +48,5 @@ svg {
   stroke: var(--fgc);
 }
 
-.profile footer::before, .CV::before { content:"–"; grid-area:left-spacer; margin:auto; opacity: .5 }
-.profile footer::after, .CV::after { content:"–"; grid-area: right-spacer; margin: auto; opacity: .5 }
-
-.duration { grid-area: duration }
-.description { grid-area: description }
 
 .tagline { grid-area: tagline; text-align: center; opacity: .5; display: none }

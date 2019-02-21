@@ -73,10 +73,19 @@ class App extends React.PureComponent {
             className
           }}/>}/>
 
-          <Route exact path="/cv/" render={() => <Redirect to="/cv/work,security"/>}/>
-          <Route exact path="/cv/:focuses" render={({ match: {params: {focuses}} }) =>
-            <CV {...{data: this.state.data, focuses, className}} />
-          }/>
+          <Route exact path="/cv/" render={({ location: { search } }) => {
+            const params = new Map(
+              search.slice(1).split("&").map(param =>
+                param.split("=").map(decodeURIComponent)));
+            return <CV {...{
+              data: this.state.data,
+              className,
+              phone: params.get("phone"),
+              email: params.get("email")
+            }} />
+          }}/>
+
+          <Route path="/cv/" render={() => <Redirect to="/cv/"/>}/>
 
           <Route render={() => <Redirect to="/"/>}/>
           </Switch>
@@ -86,11 +95,15 @@ class App extends React.PureComponent {
   }
 }
 
-const Home = ({data, className}) => <div className={[style.home].concat(className).join(" ")}>
+const Home = ({data, className}) => {
+  data.who.name=undefined; // just dont want it lol
+
+  return <div className={[style.home].concat(className).join(" ")}>
         <VideoBackground />
         <header> <div className="innerText">{data.who.handle}</div> </header>
         <article> <Profile data={data} /> </article>
-</div>
+  </div>
+}
 
 /*let Links = ({links}) => <div className="links">
   {Object.entries(links).map(([name, link], i) => <a key={i} href={link}>{name}</a>)}

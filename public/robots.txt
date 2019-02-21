@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: /cv/?* # if someone accidentally leaks my phone and email lol

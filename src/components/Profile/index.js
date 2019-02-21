@@ -25,7 +25,7 @@ export const Header = ({who: {name: names, handle}, links, className}) => <heade
   <SadHumans className={style.eye} />
 
   <div className={style.text}>
-    <Name {...{names}} />
+  {names&&<Name {...{names}} />}
 
     <div className={style.links}>
       {Object.entries(links).map(([name, href]) => <a {...{key:name, href}}>{name}</a>)}

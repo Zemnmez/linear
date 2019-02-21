@@ -1674,6 +1674,13 @@ batch@0.6.1:
   resolved "https://registry.yarnpkg.com/batch/-/batch-0.6.1.tgz#dc34314f4e679318093fc760272525f94bf25c16"
   integrity sha1-3DQxT05nkxgJP8dgJyUl+UvyXBY=
 
+bcrypt-cli@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/bcrypt-cli/-/bcrypt-cli-1.1.0.tgz#381d115f0a701cfbc8b01abe2c79b87d7aa43527"
+  integrity sha1-OB0RXwpwHPvIsBq+LHm4fXqkNSc=
+  dependencies:
+    bcryptjs "^2.3.0"
+
 bcrypt-pbkdf@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/bcrypt-pbkdf/-/bcrypt-pbkdf-1.0.2.tgz#a4301d389b6a43f9b67ff3ca11a3f6637e360e9e"
@@ -1681,7 +1688,7 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-bcryptjs@^2.4.3:
+bcryptjs@^2.3.0, bcryptjs@^2.4.3:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/bcryptjs/-/bcryptjs-2.4.3.tgz#9ab5627b93e60621ff7cdac5da9733027df1d0cb"
   integrity sha1-mrVie5PmBiH/fNrF2pczAn3x0Ms=
@@ -6027,9 +6034,9 @@ kleur@^2.0.1:
   integrity sha512-77XF9iTllATmG9lSlIv0qdQ2BQ/h9t0bJllHlbvsQ0zUWfU7Yi0S8L5JXzPZgkefIiajLmBJJ4BsMJmqcf7oxQ==
 
 knowitwhenyouseeit@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/knowitwhenyouseeit/-/knowitwhenyouseeit-1.0.0.tgz#b9626b88359719f8ea738a0f63422c702e326e0d"
-  integrity sha512-iWeiA6pdYmkCoeQ8u6MKHAfZID/ccWsTEdEkVvK8Vv5/N+1pLZokCEDcwomqkgZrBEz6B9AWc9m2NGPguI1WAA==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/knowitwhenyouseeit/-/knowitwhenyouseeit-1.0.1.tgz#4cb57d3cd2c285b79650b0f8eda74b06838b1695"
+  integrity sha512-zue1/rLGiZwWFcz93AsuEO4eacf8qz23CIAPyqae3tdUKVC9XhqGJKxm6sDsyylw9a+c/jNoFTlJGRzEjTVLMg==
   dependencies:
     bcryptjs "^2.4.3"
 

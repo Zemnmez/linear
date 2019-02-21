@@ -14,6 +14,10 @@
 
 .text .links > * { margin: auto }
 
+.name { }
+.profile footer::before { content:"–"; grid-area:left-spacer; margin:auto; opacity: .5 }
+.profile footer::after { content:"–"; grid-area: right-spacer; margin: auto; opacity: .5 }
+
 
 .footer {
   grid-area: footer;
