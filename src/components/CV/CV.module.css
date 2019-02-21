@@ -20,6 +20,7 @@
         "works-title works-title works-title works-title works-title" min-content
         ". . . . ." .4fr
         "works works works works works" 1fr
+        ". . . . ." .4fr
         "works2 works2 works2 works2 works2" 1fr
         ". . . . ." .4fr
         "skills-title skills-title skills-title skills-title skills-title" min-content
@@ -99,12 +100,12 @@
   grid-area: skills;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
-  text-transform: lowercase;
   grid-auto-flow: dense;
   align-items: center;
   justify-items: stretch;
   text-align: center;
 }
+
 
 .worksTitle { grid-area: works-title }
 .experienceTitle { grid-area: experience-title }
@@ -126,4 +127,8 @@
   opacity: .7;
   grid-row: 2;
   align-self: start;
+}
+
+.skills :not(.description) {
+  text-transform: lowercase
 }

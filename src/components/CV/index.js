@@ -49,23 +49,23 @@ export default ({
     <Experience {...{
       events: timeline.filter(({ tags }) => tags.some(tag => tag == "work"))
         .sort(({ date: a }, { date: b }) => b - a).slice(0, 4)
-    }}/>
+    }} />
 
     <Rule className={style.worksTitle}>of note</Rule>
 
     <Skills {...{
       skills: skills.sort((a,b) => a > b? 1 : -1).slice(0, 12).map(skill => ({title: skill}))
-    }}/>
+    }} />
 
     <Rule className={style.skillsTitle}>skills</Rule>
 
     <Skills className={style.works} {...{
       skills: of_note_1
-    }}/>
+    }} />
 
     <Skills className={style.works2} {...{
       skills: of_note_2
-    }}/>
+    }} />
 
 
     <Future className={style.future}/>
@@ -85,22 +85,24 @@ const Skill = ({ title, description, className }) => [
   <div className={style.description}>{description}</div>
 ]
 
+const t = { milliseconds: 1 };
+t.seconds = t.milliseconds * 1000;
+t.minutes = t.seconds * 60;
+t.hours = t.minutes * 60;
+t.days = t.hours * 24;
+t.weeks = t.days * 7;
+t.years = t.days * 365;
 
-let parseDuration;
-{
-  const t = { milliseconds: 1 };
-  t.seconds = t.milliseconds * 1000;
-  t.minutes = t.seconds * 60;
-  t.hours = t.minutes * 60;
-  t.days = t.hours * 24;
-  t.weeks = t.days * 7;
-  t.years = t.days * 365;
-
-  parseDuration = (duration) => {
-    const [n, unit] = duration.split(" ");
-    return (+n) * (t[unit] || hurl(`unknown unit ${unit}`));
-  }
+let parseDuration = (duration) => {
+  const [n, unit] = duration.split(" ");
+  return (+n) * (t[unit] || hurl(`unknown unit ${unit}`));
 }
+
+const roundUpToNearestYear = (date) =>
+  new Date(date.getFullYear(),12);
+
+const roundDownToNearestYear = (date) =>
+  new Date(date.getFullYear()-1,12)
 
 const Experience = ({ events, className }) => <div {...{
     className: [style.experience].concat(className).join(" ")
@@ -121,23 +123,24 @@ const Work = ({ date, description, duration, title, points, className }) => {
       className: [style.work].concat(className).join(" ")
     }}>
 
-    <div className={style.employer}>{employer}</div>
-    <div className={style.position}>{position}</div>
-    <When {...{date: date, className: style.start}} />
-    {duration?
-      <When {...{date: new Date( (+date) + duration), className: style.end}}/>:
-      <div className={style.end}>Present</div>
-    }
-
+  <div className={style.employer}>{employer}</div>
+  <div className={style.position}>{position}</div>
+  <When {...{date: date, className: style.start}} />
   {duration?
-      <div className={style.duration}><Moment filter={aToOne} ago to={new Date( (+date) + duration)}>{date}</Moment></div>:
-      <div className={style.duration}><Moment filter={aToOne} ago toNow>{date}</Moment></div>
+    <When {...{date: new Date( (+date) + duration), className: style.end}}/>:
+    <div className={style.end}>Present</div>
   }
 
-    <Description {...{
-      className: style.content,
-      description
-    }}/>
+  {duration?
+      <div className={style.duration}><Moment filter={aToOne} ago to={roundDownToNearestYear(new Date( (+date) + duration))}>{date}</Moment></div>:
+      <div className={style.duration}><Moment filter={aToOne} ago toNow>{roundDownToNearestYear(date)}</Moment></div>
+  }
+
+  <Description {...{
+    className: style.content,
+    description
+  }} />
+
   </div>
 }
 
