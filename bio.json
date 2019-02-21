@@ -155,7 +155,7 @@
         {
             "date": "Sep 8 2017",
             "description": "news post on manipulation of UK tax data",
-            "priority": 7,
+            "priority": 6,
             "tags": [
                 "security",
                 "disclosure",
@@ -189,7 +189,7 @@
         {
             "date": "May 16 2016",
             "description": "code execution in official Mr Robot site",
-            "priority": 6,
+            "priority": 7,
             "tags": [
                 "security",
                 "disclosure",
@@ -244,6 +244,7 @@
         {
             "date": "Apr 27 2016",
             "description": "padding oracle based decryption of Steam traffic",
+            "priority": 7,
             "tags": [
                 "security",
                 "gaming",
