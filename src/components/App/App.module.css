@@ -16,10 +16,6 @@
   }
 
   .future * { fill: black; stroke: none }
-
-  .home > article {
-    overflow: initial;
-  }
 }
 
 .videoBackground {
@@ -58,5 +54,6 @@ header.profile .name {
 .home > article {
   grid-area: article;
   background: var(--bgc);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
