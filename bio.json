@@ -96,7 +96,7 @@
         },
         {
             "date": "Jan 7 2019",
-            "description": "vulnerability allowing attacker remote access to Steam users' computers",
+            "description": "vulnerability to remotely access Steam users' computers",
             "priority": 8,
             "tags": [
                 "gaming",
@@ -254,7 +254,7 @@
         },
         {
             "date": "Jul 7 2014",
-            "description": "detecting state for almost any website on the internet",
+            "description": "exploit using content security policy 1 to steal data on the web",
             "priority": 9,
             "tags": [
                 "security",
