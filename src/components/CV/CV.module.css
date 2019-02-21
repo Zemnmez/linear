@@ -20,6 +20,7 @@
         "works-title works-title works-title works-title works-title" min-content
         ". . . . ." 1em
         "works works works works works" 1fr
+        "works2 works2 works2 works2 works2" 1fr
         ". . . . ." 1em
         "skills-title skills-title skills-title skills-title skills-title" min-content
         ". . . . ." 1em
@@ -111,6 +112,7 @@
 .cv a:link { text-decoration: none }
 
 .works { grid-area: works; }
+.works2 { grid-area: works2; }
 
 .future { grid-area: future; }
 

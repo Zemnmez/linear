@@ -25,6 +25,14 @@ export default ({
   email = ""
 }) => {
 
+    let of_note = timeline.filter(({ priority }) => priority >=6)
+        .filter(({ tags, description }) =>
+          tags.some(tag => tag == "security") && !tags.some(tag => tag == "work")
+        ).sort(({ priority: a}, {priority: b}) => b - a)
+
+    const [of_note_1, of_note_2] = [of_note.slice(0,4), of_note.slice(4,8)]
+
+
   return <div {...{
     className: [style.cv].concat(className).join(" ")
   }}>
@@ -36,11 +44,11 @@ export default ({
     }} />
 
 
-    <Rule className={style.experienceTitle}>experience</Rule>
+    <Rule className={style.experienceTitle}>selected experience</Rule>
 
     <Experience {...{
       events: timeline.filter(({ tags }) => tags.some(tag => tag == "work"))
-        .sort(({ date: a }, { date: b }) => b - a).slice(0, 5)
+        .sort(({ date: a }, { date: b }) => b - a).slice(0, 4)
     }}/>
 
     <Rule className={style.worksTitle}>of note</Rule>
@@ -52,10 +60,11 @@ export default ({
     <Rule className={style.skillsTitle}>skills</Rule>
 
     <Skills className={style.works} {...{
-      skills: timeline.filter(({ priority }) => priority >=6)
-        .filter(({ tags, description }) =>
-          tags.some(tag => tag == "security") && !tags.some(tag => tag == "work")
-        ).sort(({ priority: a}, {priority: b}) => b - a).slice(0,4)
+      skills: of_note_1
+    }}/>
+
+    <Skills className={style.works2} {...{
+      skills: of_note_2
     }}/>
 
 
