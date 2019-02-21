@@ -125,13 +125,13 @@
                 "security",
                 "accolade"
             ],
-            "title": "forbes 30u30 tech",
+            "title": "forbes 30 under 30, tech",
             "url": "https://www.forbes.com/profile/thomas-shadwell",
-            "description": "for influence in tech i guess"
+            "description": "for my work at Twitch, and on responsible disclosure"
         },
         {
             "date": "Jan 22 2018",
-            "description": "provide expertise to uk cyber advisory / defence group",
+            "description": "advisory position. Provided expertise to UK cyber advisory / defence group on Go and building security analysis systems",
             "duration": "ongoing",
             "priority": 8,
             "tags": [
@@ -178,13 +178,13 @@
         },
         {
             "date": "May 1 2012",
-            "description": "freelance work building MVPs for london startups & wrangling data for hackathons",
+            "description": "full stack freelance work building MVPs for London startups and wrangling data for hackathons",
             "duration": "2 years",
             "priority": 7,
             "tags": [
                 "work"
             ],
-            "title": "Full Stack Web Engineer, Consultant"
+            "title": "Software Engineer, Consultant"
         },
         {
             "date": "May 16 2016",
@@ -366,7 +366,7 @@
                 "accolade"
             ],
             "title": "Geckoboard Prize",
-            "url": "https://web.archive.org/web/20121113024249/http://londonrealtime.co.uk/"
+            "url": "https://web.archive.org/web/20121113024249/http://Londonrealtime.co.uk/"
         },
         {
             "date": "Apr 1 2011",
@@ -412,7 +412,7 @@
         },
         {
             "date": "Sep 1 2014",
-            "description": "first security engineer at the video game streaming website. Designed security architecture for many flagship projects including bits, extensions and the login system passport.\n Created and defined security relationships and processes. Built Go security static analysis system, security frameworks and libraries",
+            "description": "first security engineer at the video game streaming website. Designed security architecture for flagship projects including bits, the Twitch API, extensions and Twitch's OIDC / OAuth AuthN/Z systems. Created and defined security relationships and processes. Built Go security static analysis system, security frameworks and libraries",
             "duration": "ongoing",
             "priority": 9,
             "tags": [
@@ -425,7 +425,7 @@
         },
         {
             "date": "Mar 1 2012",
-            "description": "variously paid & charity work for good causes running and participating in hackathons",
+            "description": "charity focused on teaching code literacy. Ran and participated in hackathons for good causes. Taught software engineering to young people",
             "duration": "3 years",
             "priority": 6,
             "tags": [
