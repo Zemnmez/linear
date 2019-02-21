@@ -1,434 +1,449 @@
 {
-	"who": {
-		"name": ["thomas", ["neil", "james"], "shadwell"],
-		"handle": "zemnmez"
-	},
-	"bio": "security engineer with strong skills in the Go programming language and the design of robust modern application security architectures",
-	"skills": [
-		"Go",
-		"Python",
-		"PHP",
-		"Javascript",
-		"React",
-		"d3",
-		"Bash",
-		"Make",
-		"Ruby",
-		"ECMA5",
-		"application security architecture",
-		"electron",
-		"AWS",
-		"penetration testing",
-		"code review",
-		"cryptography systems"
-	],
-	"birthdate": "May 17 1994",
-	"links": {
-		"twitter": "https://twitter.com/zemnmez",
-		"twitch": "https://twitch.tv/zemnmez",
-		"linkedin": "https://www.linkedin.com/in/thomas-shadwell-4b333b50"
-	},
-	"employment": [{
-			"title": "Information Security Engineer",
-			"where": "Twitch",
-			"since": "Sep 2014"
-		},
-		{
-			"title": "Application Security Engineer",
-			"where": "UKNCSC",
-			"since": "May 2018"
-		}
-	],
-	"timeline": [
-
-		{
-			"date": "Jan 20 2019",
-			"tags": ["accolade", "security", "gaming"],
-			"url": "https://twitter.com/tf2shmoo/status/1086785642514796544",
-			"title": "hack fortress 2019 champions",
-			"description": "hybrid ctf / esports competition winners",
-			"priority": 6
-		},
-
-		{
-			"date": "Jan 14 2019",
-			"tags": ["software", "library", "d3", "react"],
-			"url": "https://github.com/Zemnmez/reactive-d3",
-			"title": "reactive-d3",
-			"description": "react helper bindings for d3",
-			"priority": 6
-		},
-
-		{
-			"date": "Jan 7 2019",
-			"tags": ["software", "react"],
-			"url": "https://github.com/Zemnmez/linear",
-			"title": "linear",
-			"description": "react based personal website for 2019",
-			"priority": 6
-		},
-		{
-			"date": "Jan 8 2019",
-			"tags": [
-				"security",
-				"disclosure",
-				"comment"
-			],
-			"url": "https://www.forbes.com/sites/thomasbrewster/2019/01/08/7500-steam-weakness-let-hackers-take-remote-control-of-gamers-pcs",
-			"title": "$7,500 Steam Weakness Let Hackers Take Remote Control Of Gamers' PCs",
-			"description": "news coverage of steam rce",
-			"priority": 7
-		},
-		{
-			"date": "Aug 12 2018",
-			"tags": [
-				"security",
-				"gaming",
-				"accolade"
-			],
-			"url": "https://twitter.com/tf2shmoo/status/1028462663368507392",
-			"title": "hack fortress DEFCON 2018 winners",
-			"priority": 6
-		},
-		{
-			"date": "Jan 7 2019",
-			"tags": [
-				"gaming",
-				"security",
-				"accolade"
-			],
-			"url": "https://hackerone.com/reports/409850",
-			"title": "Steam Remote Code Execution",
-			"description": "writeup on a vulnerability that allowed an attacker to take remote control over Steam users' computers",
-			"priority": 8
-		},
-		{
-			"date": "Dec 15 2018",
-			"tags": [
-				"security"
-			],
-			"url": "https://medium.com/@Zemnmez/%C3%BCbersicht-remote-code-execution-spotify-takeover-a5f6fd6809d0",
-			"title": "Übersicht Remote Code Execution, Spotify takeover",
-			"description": "Quick article on the security of modern desktop web applications",
-			"priority": 7
-		},
-		{
-			"date": "Jan 22 2018",
-			"tags": [
-				"gaming",
-				"security",
-				"accolade"
-			],
-			"url": "https://www.forbes.com/profile/thomas-shadwell",
-			"title": "forbes 30 under 30, tech, europe",
-			"description": "",
-			"priority": 8
-		},
-		{
-			"date": "Jan 22 2018",
-			"tags": [
-				"security",
-				"work"
-			],
-			"title": "Application Security Engineer, UK National Cyber Security Centre",
-			"description": "part of exchange program to provide private sector expertise to UK cyber advisory / defence group",
-			"longDescription": "following my much publicised hack on the UK tax system, I was asked to join the UK National Cyber Security Center as part of the Industry 100 program in which I provide consulting to the UKNCSC in areas I have expertise in",
-			"duration": "ongoing",
-			"priority": 8
-		},
-		{
-			"date": "Nov 23 2017",
-			"tags": [
-				"security",
-				"talk",
-				"writing"
-			],
-			"url": "https://twitter.com/zemnmez/status/933847040198574080",
-			"title": "how to hack the uk tax system: the talk",
-			"description": "talk at owasp about critical uk tax system flaw in obfuscated system and the 57 day trek to get it fixed",
-			"priority": 6
-		},
-		{
-			"date": "Sep 8 2017",
-			"tags": [
-				"security",
-				"disclosure",
-				"comment"
-			],
-			"url": "http://www.bbc.co.uk/news/technology-41188008",
-			"title": "'Serious' security flaws found on official UK tax site",
-			"description": "news post on manipulation of UK tax data",
-			"priority": 7
-		},
-		{
-			"date": "Jan 25 2016",
-			"tags": [
-				"security",
-				"writing",
-				"disclosure"
-			],
-			"url": "https://packetstormsecurity.com/files/135368",
-			"title": "Buffalo NAS Remote Shutdown",
-			"description": "unauthorized remote shutdown of Buffalo-made network attached storage devices",
-			"priority": 6
-		},
-		{
-			"date": "May 1 2012",
-			"tags": [
-				"work"
-			],
-			"title": "Full Stack Web Engineer, Consultant",
-			"duration": "2 years",
-			"description": "freelance work building MVPs for london startups & wrangling data for hackathons",
-			"priority": 7
-		},
-		{
-			"date": "May 16 2016",
-			"tags": [
-				"security",
-				"disclosure",
-				"comment"
-			],
-			"url": "https://www.forbes.com/sites/thomasbrewster/2016/05/16/mr-robot-imagetragick-usa-network-wide-open-to-hackers/#7d49f6f66d77",
-			"title": "'Mr. Robot' Web Weaknesses Left Fans And USA Network Vulnerable, Warns Non-Fictional Hacker",
-			"description": "code execution in official Mr Robot site",
-			"priority": 6
-		},
-		{
-			"date": "May 11 2016",
-			"tags": [
-				"security",
-				"disclosure",
-				"comment"
-			],
-			"url": "https://www.forbes.com/sites/thomasbrewster/2016/05/11/flaw-in-mr-robot-website-allowed-facebook-attack/#747437ef6bed",
-			"title": "Irony Alert: Hacker Finds Vulnerability In Mr Robot Website",
-			"description": "XSS in Mr Robot official site",
-			"priority": 6
-		},
-		{
-			"date": "Sep 8 2017",
-			"tags": [
-				"security",
-				"writing",
-				"disclosure"
-			],
-			"url": "https://medium.com/@Zemnmez/how-to-hack-the-uk-tax-system-i-guess-3e84b70f8b",
-			"title": "how to hack the uk tax system, i guess",
-			"description": "manipulation of UK tax data",
-			"priority": 8
-		},
-		{
-			"date": "Feb 18 2017",
-			"tags": [
-				"writing"
-			],
-			"url": "https://medium.com/@Zemnmez/design-evolves-by-constraint-f2d87697d25e",
-			"title": "Design Evolves By Constraint",
-			"description": "musings on the evolution of design"
-		},
-		{
-			"date": "Jan 3 2016",
-			"tags": [
-				"software"
-			],
-			"title": "r.no.ms",
-			"url": "http://r.no.ms",
-			"description": "minimal reactive d3.js resistor colour code calculator",
-			"priority": 6
-		},
-		{
-			"date": "Apr 27 2016",
-			"tags": [
-				"security",
-				"gaming",
-				"disclosure"
-			],
-			"url": "https://threatpost.com/steam-patches-broken-crypto-in-wake-of-replay-padding-oracle-attacks/117691/",
-			"title": "STEAM PATCHES BROKEN CRYPTO IN WAKE OF REPLAY, PADDING ORACLE ATTACKS",
-			"description": "padding oracle based decryption of Steam traffic"
-		},
-		{
-			"date": "Jul 7 2014",
-			"tags": [
-				"security",
-				"writing",
-				"disclosure"
-			],
-			"url": "http://archive.is/UXD8j",
-			"title": "when security creates insecurity",
-			"description": "detecting login state for almost any website on the internet",
-			"priority": 9
-		},
-		{
-			"date": "Jul 4 2017",
-			"tags": [
-				"security",
-				"talk"
-			],
-			"url": "https://www.infoq.com/presentations/go-security",
-			"title": "This Will Cut You: Go's Sharper Edges",
-			"description": "musings on go-specific security gotchas",
-			"priority": 5
-		},
-		{
-			"date": "Sep 1 2011",
-			"tags": [
-				"work",
-				"gaming"
-			],
-			"duration": "3 years",
-			"title": "Sr. Admin, TF2Outpost",
-			"description": "Volunteer role at once largest trading website in the Steam community. Worked on administration of high-profile trades & scams",
-			"priority": 5
-		},
-		{
-			"date": "Jan 24 2016",
-			"tags": [
-				"security",
-				"writing",
-				"disclosure"
-			],
-			"url": "https://cve.mitre.org/cgi-bin/cvetitle.cgi?title:CVE-2016-2049",
-			"title": "CVE-2016-2049",
-			"description": "Host based account hijack attack on php-openid",
-			"priority": 6
-		},
-		{
-			"date": "Dec 14 2015",
-			"tags": [
-				"gaming",
-				"security",
-				"accolade"
-			],
-			"url": "http://steamcommunity.com/id/both/inventory/#440_2_4398163918",
-			"title": "Burning Flames Finder’s Fee",
-			"description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issue allowing decryption of all Steam traffic",
-			"priority": 6.5
-		},
-		{
-			"date": "Oct 19 2015",
-			"tags": [
-				"gaming",
-				"security",
-				"accolade"
-			],
-			"url": "http://steamcommunity.com/id/both/inventory/#440_2_4228772424",
-			"title": "Nebula Finder’s Fee",
-			"description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing remote access to computers running the video game",
-			"priority": 7
-		},
-		{
-			"date": "Apr 22 2014",
-			"tags": [
-				"gaming",
-				"security",
-				"accolade"
-			],
-			"url": "http://steamcommunity.com/id/both/inventory/#440_2_4818206214",
-			"title": "Sunbeams Ebenezer",
-			"description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing movement millions of dollars of virtual items between arbitrary accounts via account takeover",
-			"priority": 6.5
-		},
-		{
-			"date": "Feb 1 2011",
-			"tags": [
-				"software",
-				"accolade"
-			],
-			"url": "https://web.archive.org/web/20120306190316/http://youngrewiredstate.org/2011-08/cant-vote-but-can-put-a-wind-in-governments-sails/",
-			"title": "Best example of Coding",
-			"description": "Young Rewired State 2011",
-			"priority": 5
-		},
-		{
-			"date": "Aug 5 2011",
-			"tags": [
-				"software",
-				"accolade"
-			],
-			"url": "https://web.archive.org/web/20121105174535/http://rewiredstate.org:80/blog/2011/11/press-release-for-rewired-state-parliament",
-			"title": "Better understanding of the work of Parliament Prize",
-			"description": "Rewired State: Parliament",
-			"priority": 5
-		},
-		{
-			"date": "Apr 1 2011",
-			"tags": [
-				"software",
-				"accolade"
-			],
-			"url": "https://web.archive.org/web/20121113024249/http://londonrealtime.co.uk/",
-			"title": "Geckoboard Prize",
-			"description": "London Real Time Hackathon",
-			"priority": 5
-		},
-		{
-			"date": "Apr 1 2011",
-			"tags": [
-				"software",
-				"accolade"
-			],
-			"url": "https://www.theguardian.com/info/developer-blog/2011/apr/05/national-hack-the-government-day-2011",
-			"title": "Wallace and Gromit Prize",
-			"description": "National Hack the Government Day 2011",
-			"priority": 5
-		},
-		{
-			"date": "Jan 1 2013",
-			"tags": [
-				"science",
-				"accolade"
-			],
-			"title": "7th place Cambridge Chemistry Challenge (C3L6)",
-			"description": "international chemistry challenge",
-			"priority": 6
-		},
-		{
-			"date": "Jan 1 2014",
-			"tags": [
-				"science",
-				"accolade"
-			],
-			"title": "5th place, Cambridge Chemistry Challenge (C3L6)",
-			"description": "international chemistry challenge",
-			"priority": 5
-		},
-		{
-			"date": "Nov 8 2011",
-			"tags": [
-				"software",
-				"comment"
-			],
-			"url": "http://www.denieuwereporter.nl/2011/11/mozfest-rewired-state-geeft-jonge-programmeurs-een-kans/",
-			"title": "MozFest: Rewired State geeft jonge programmeurs een kans",
-			"description": "Interview on National Hack the Government Day prize (dutch)",
-			"priority": 5
-		},
-		{
-			"date": "Sep 1 2014",
-			"tags": [
-				"software",
-				"security",
-				"work"
-			],
-			"url": "https://twitch.tv",
-			"title": "Security Engineer, Twitch",
-			"duration": "ongoing",
-			"description": "first security engineer at the video game streaming website. designed security architecture for many flagship projects including bits, extensions and the login system passport",
-			"priority": 9
-		},
-		{
-			"date": "Mar 1 2012",
-			"tags": [
-				"software",
-				"security",
-				"work"
-			],
-			"title": "Developer, Rewired State",
-			"duration": "3 years",
-			"description": "variously paid & charity work for good causes running and participating in hackathons",
-			"priority": 6
-		}
-	]
+    "bio": "security engineer with strong skills in the Go programming language and the design of robust modern application security architectures",
+    "birthdate": "May 17 1994",
+    "employment": [
+        {
+            "since": "Sep 2014",
+            "title": "Information Security Engineer",
+            "where": "Twitch"
+        },
+        {
+            "since": "May 2018",
+            "title": "Application Security Engineer",
+            "where": "UKNCSC"
+        }
+    ],
+    "links": {
+        "linkedin": "https://www.linkedin.com/in/thomas-shadwell-4b333b50",
+        "twitch": "https://twitch.tv/zemnmez",
+        "twitter": "https://twitter.com/zemnmez"
+    },
+    "skills": [
+        "Go",
+        "Python",
+        "Javascript",
+        "React",
+        "d3",
+        "Bash",
+        "Ruby",
+        "appsec arch",
+        "electron",
+        "AWS",
+        "pentesting",
+        "code review",
+        "cryptography",
+        "reversing"
+    ],
+    "timeline": [
+        {
+            "date": "Jan 20 2019",
+            "description": "hybrid ctf / esports competition winners",
+            "priority": 6,
+            "tags": [
+                "accolade",
+                "security",
+                "gaming"
+            ],
+            "title": "hack fortress 2019 champions",
+            "url": "https://twitter.com/tf2shmoo/status/1086785642514796544"
+        },
+        {
+            "date": "Jan 14 2019",
+            "description": "react helper bindings for d3",
+            "priority": 6,
+            "tags": [
+                "software",
+                "library",
+                "d3",
+                "react"
+            ],
+            "title": "reactive-d3",
+            "url": "https://github.com/Zemnmez/reactive-d3"
+        },
+        {
+            "date": "Jan 7 2019",
+            "description": "react based personal website for 2019",
+            "priority": 6,
+            "tags": [
+                "software",
+                "react"
+            ],
+            "title": "linear",
+            "url": "https://github.com/Zemnmez/linear"
+        },
+        {
+            "date": "Jan 8 2019",
+            "description": "news coverage of steam rce",
+            "priority": 7,
+            "tags": [
+                "security",
+                "disclosure",
+                "comment"
+            ],
+            "title": "$7,500 Steam Weakness Let Hackers Take Remote Control Of Gamers' PCs",
+            "url": "https://www.forbes.com/sites/thomasbrewster/2019/01/08/7500-steam-weakness-let-hackers-take-remote-control-of-gamers-pcs"
+        },
+        {
+            "date": "Aug 12 2018",
+            "priority": 6,
+            "tags": [
+                "security",
+                "gaming",
+                "accolade"
+            ],
+            "title": "hack fortress DEFCON 2018 winners",
+            "url": "https://twitter.com/tf2shmoo/status/1028462663368507392"
+        },
+        {
+            "date": "Jan 7 2019",
+            "description": "vulnerability allowing attacker remote access to Steam users' computers",
+            "priority": 8,
+            "tags": [
+                "gaming",
+                "security",
+                "accolade"
+            ],
+            "title": "Steam Remote Code Execution",
+            "url": "https://hackerone.com/reports/409850"
+        },
+        {
+            "date": "Dec 15 2018",
+            "description": "Quick article on the security of modern desktop web applications",
+            "priority": 7,
+            "tags": [
+                "security"
+            ],
+            "title": "\u00dcbersicht Remote Code Execution, Spotify takeover",
+            "url": "https://medium.com/@Zemnmez/%C3%BCbersicht-remote-code-execution-spotify-takeover-a5f6fd6809d0"
+        },
+        {
+            "date": "Jan 22 2018",
+            "description": "",
+            "priority": 8,
+            "tags": [
+                "gaming",
+                "security",
+                "accolade"
+            ],
+            "title": "forbes 30u30 tech",
+            "url": "https://www.forbes.com/profile/thomas-shadwell",
+            "description": "for influence in tech i guess"
+        },
+        {
+            "date": "Jan 22 2018",
+            "description": "provide expertise to uk cyber advisory / defence group",
+            "duration": "ongoing",
+            "priority": 8,
+            "tags": [
+                "security",
+                "work"
+            ],
+            "title": "Application Security Engineer, UK National Cyber Security Centre"
+        },
+        {
+            "date": "Nov 23 2017",
+            "description": "talk at owasp about critical uk tax system flaw in obfuscated system and the 57 day trek to get it fixed",
+            "priority": 6,
+            "tags": [
+                "security",
+                "talk",
+                "writing"
+            ],
+            "title": "how to hack the uk tax system: the talk",
+            "url": "https://twitter.com/zemnmez/status/933847040198574080"
+        },
+        {
+            "date": "Sep 8 2017",
+            "description": "news post on manipulation of UK tax data",
+            "priority": 7,
+            "tags": [
+                "security",
+                "disclosure",
+                "comment"
+            ],
+            "title": "'Serious' security flaws found on official UK tax site",
+            "url": "http://www.bbc.co.uk/news/technology-41188008"
+        },
+        {
+            "date": "Jan 25 2016",
+            "description": "unauthorized remote shutdown of Buffalo-made network attached storage devices",
+            "priority": 6,
+            "tags": [
+                "security",
+                "writing",
+                "disclosure"
+            ],
+            "title": "Buffalo NAS Remote Shutdown",
+            "url": "https://packetstormsecurity.com/files/135368"
+        },
+        {
+            "date": "May 1 2012",
+            "description": "freelance work building MVPs for london startups & wrangling data for hackathons",
+            "duration": "2 years",
+            "priority": 7,
+            "tags": [
+                "work"
+            ],
+            "title": "Full Stack Web Engineer, Consultant"
+        },
+        {
+            "date": "May 16 2016",
+            "description": "code execution in official Mr Robot site",
+            "priority": 6,
+            "tags": [
+                "security",
+                "disclosure",
+                "comment"
+            ],
+            "title": "'Mr. Robot' Web Weaknesses Left Fans And USA Network Vulnerable, Warns Non-Fictional Hacker",
+            "url": "https://www.forbes.com/sites/thomasbrewster/2016/05/16/mr-robot-imagetragick-usa-network-wide-open-to-hackers/#7d49f6f66d77"
+        },
+        {
+            "date": "May 11 2016",
+            "description": "XSS in Mr Robot official site",
+            "priority": 6,
+            "tags": [
+                "security",
+                "disclosure",
+                "comment"
+            ],
+            "title": "Irony Alert: Hacker Finds Vulnerability In Mr Robot Website",
+            "url": "https://www.forbes.com/sites/thomasbrewster/2016/05/11/flaw-in-mr-robot-website-allowed-facebook-attack/#747437ef6bed"
+        },
+        {
+            "date": "Sep 8 2017",
+            "description": "vulnerability allowing manipulation of UK tax system",
+            "priority": 8,
+            "tags": [
+                "security",
+                "writing",
+                "disclosure"
+            ],
+            "title": "how to hack the uk tax system, i guess",
+            "url": "https://medium.com/@Zemnmez/how-to-hack-the-uk-tax-system-i-guess-3e84b70f8b"
+        },
+        {
+            "date": "Feb 18 2017",
+            "description": "musings on the evolution of design",
+            "tags": [
+                "writing"
+            ],
+            "title": "Design Evolves By Constraint",
+            "url": "https://medium.com/@Zemnmez/design-evolves-by-constraint-f2d87697d25e"
+        },
+        {
+            "date": "Jan 3 2016",
+            "description": "minimal reactive d3.js resistor colour code calculator",
+            "priority": 6,
+            "tags": [
+                "software"
+            ],
+            "title": "r.no.ms",
+            "url": "http://r.no.ms"
+        },
+        {
+            "date": "Apr 27 2016",
+            "description": "padding oracle based decryption of Steam traffic",
+            "tags": [
+                "security",
+                "gaming",
+                "disclosure"
+            ],
+            "title": "steam patches broken crypto in wake of replay, padding oracle attacks",
+            "url": "https://threatpost.com/steam-patches-broken-crypto-in-wake-of-replay-padding-oracle-attacks/117691/"
+        },
+        {
+            "date": "Jul 7 2014",
+            "description": "detecting state for almost any website on the internet",
+            "priority": 9,
+            "tags": [
+                "security",
+                "writing",
+                "disclosure"
+            ],
+            "title": "when security creates insecurity",
+            "url": "http://archive.is/UXD8j"
+        },
+        {
+            "date": "Jul 4 2017",
+            "description": "musings on go-specific security gotchas",
+            "priority": 5,
+            "tags": [
+                "security",
+                "talk"
+            ],
+            "title": "This Will Cut You: Go's Sharper Edges",
+            "url": "https://www.infoq.com/presentations/go-security"
+        },
+        {
+            "date": "Sep 1 2011",
+            "description": "Volunteer role at once largest trading website in the Steam community. Worked on administration of high-profile trades & scams",
+            "duration": "3 years",
+            "priority": 5,
+            "tags": [
+                "work",
+                "gaming"
+            ],
+            "title": "Sr. Admin, TF2Outpost"
+        },
+        {
+            "date": "Jan 24 2016",
+            "description": "Host based account hijack attack on php-openid",
+            "priority": 6,
+            "tags": [
+                "security",
+                "writing",
+                "disclosure"
+            ],
+            "title": "CVE-2016-2049",
+            "url": "https://cve.mitre.org/cgi-bin/cvetitle.cgi?title:CVE-2016-2049"
+        },
+        {
+            "date": "Dec 14 2015",
+            "description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issue allowing decryption of all Steam traffic",
+            "priority": 6.5,
+            "tags": [
+                "gaming",
+                "security",
+                "accolade"
+            ],
+            "title": "Burning Flames Finder\u2019s Fee",
+            "url": "http://steamcommunity.com/id/both/inventory/#440_2_4398163918"
+        },
+        {
+            "date": "Oct 19 2015",
+            "description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing remote access to computers running the video game",
+            "priority": 7,
+            "tags": [
+                "gaming",
+                "security",
+                "accolade"
+            ],
+            "title": "Nebula Finder\u2019s Fee",
+            "url": "http://steamcommunity.com/id/both/inventory/#440_2_4228772424"
+        },
+        {
+            "date": "Apr 22 2014",
+            "description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing movement millions of dollars of virtual items between arbitrary accounts via account takeover",
+            "priority": 6.5,
+            "tags": [
+                "gaming",
+                "security",
+                "accolade"
+            ],
+            "title": "Sunbeams Ebenezer",
+            "url": "http://steamcommunity.com/id/both/inventory/#440_2_4818206214"
+        },
+        {
+            "date": "Feb 1 2011",
+            "description": "Young Rewired State 2011",
+            "priority": 5,
+            "tags": [
+                "software",
+                "accolade"
+            ],
+            "title": "Best example of Coding",
+            "url": "https://web.archive.org/web/20120306190316/http://youngrewiredstate.org/2011-08/cant-vote-but-can-put-a-wind-in-governments-sails/"
+        },
+        {
+            "date": "Aug 5 2011",
+            "description": "Rewired State: Parliament",
+            "priority": 5,
+            "tags": [
+                "software",
+                "accolade"
+            ],
+            "title": "Better understanding of the work of Parliament Prize",
+            "url": "https://web.archive.org/web/20121105174535/http://rewiredstate.org:80/blog/2011/11/press-release-for-rewired-state-parliament"
+        },
+        {
+            "date": "Apr 1 2011",
+            "description": "London Real Time Hackathon",
+            "priority": 5,
+            "tags": [
+                "software",
+                "accolade"
+            ],
+            "title": "Geckoboard Prize",
+            "url": "https://web.archive.org/web/20121113024249/http://londonrealtime.co.uk/"
+        },
+        {
+            "date": "Apr 1 2011",
+            "description": "National Hack the Government Day 2011",
+            "priority": 5,
+            "tags": [
+                "software",
+                "accolade"
+            ],
+            "title": "Wallace and Gromit Prize",
+            "url": "https://www.theguardian.com/info/developer-blog/2011/apr/05/national-hack-the-government-day-2011"
+        },
+        {
+            "date": "Jan 1 2013",
+            "description": "international chemistry challenge",
+            "priority": 6,
+            "tags": [
+                "science",
+                "accolade"
+            ],
+            "title": "7th place Cambridge Chemistry Challenge (C3L6)"
+        },
+        {
+            "date": "Jan 1 2014",
+            "description": "international chemistry challenge",
+            "priority": 5,
+            "tags": [
+                "science",
+                "accolade"
+            ],
+            "title": "5th place, Cambridge Chemistry Challenge (C3L6)"
+        },
+        {
+            "date": "Nov 8 2011",
+            "description": "Interview on National Hack the Government Day prize (dutch)",
+            "priority": 5,
+            "tags": [
+                "software",
+                "comment"
+            ],
+            "title": "MozFest: Rewired State geeft jonge programmeurs een kans",
+            "url": "http://www.denieuwereporter.nl/2011/11/mozfest-rewired-state-geeft-jonge-programmeurs-een-kans/"
+        },
+        {
+            "date": "Sep 1 2014",
+            "description": "first security engineer at the video game streaming website. Designed security architecture for many flagship projects including bits, extensions and the login system passport.\n Created and defined security relationships and processes. Built Go security static analysis system, security frameworks and libraries",
+            "duration": "ongoing",
+            "priority": 9,
+            "tags": [
+                "software",
+                "security",
+                "work"
+            ],
+            "title": "Security Engineer, Twitch",
+            "url": "https://twitch.tv"
+        },
+        {
+            "date": "Mar 1 2012",
+            "description": "variously paid & charity work for good causes running and participating in hackathons",
+            "duration": "3 years",
+            "priority": 6,
+            "tags": [
+                "software",
+                "security",
+                "work"
+            ],
+            "title": "Developer, Rewired State"
+        }
+    ],
+    "who": {
+        "handle": "zemnmez",
+        "name": [
+            "thomas",
+            [
+                "neil",
+                "james"
+            ],
+            "shadwell"
+        ]
+    }
 }
