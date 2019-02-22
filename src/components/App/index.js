@@ -4,7 +4,7 @@ import bio from 'bio/bio.json';
 import {
   BrowserRouter as Router,
   Route,
-  Link,
+  //Link,
   Switch,
   Redirect
 } from 'react-router-dom';
@@ -12,8 +12,7 @@ import {
 
 import style from './App.module.css';
 
-import CV from '../CV';
-import Timeline from '../Timeline';
+//import Timeline from '../Timeline';
 import Profile from '../Profile';
 
 import ashVideo from "./static/ash.mp4";

@@ -8,7 +8,7 @@ export default ({ className, timeline, minimumPriority, focuses = [], limit = In
   if (focuses.length) timeline = timeline.filter(({ tags }) => tags.some(a => focuses.some(b => a === b )));
 
   // find up to 'limit' events, filling with highest score
-  if (limit != Infinity) timeline =
+  if (limit !== Infinity) timeline =
     [...timeline.sort(( {priority: a}, {priority: b} ) => b-a)
     // group by tag
     .reduce((tags, event) => {
@@ -95,7 +95,6 @@ const Event = ({date, tags, url, title, description, longDescription, duration, 
 </div>
 
 export const Description = ({ description = "", className }) => {
-  const paras = description.split("\n");
 
   return <span {...{
     className: [style.description].concat(className).join(" ")

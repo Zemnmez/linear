@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { Name } from 'components/Profile';
 import Moment from 'react-moment';
 import Icon from 'components/SadHumans';
@@ -27,7 +26,7 @@ export default ({
 
     let of_note = timeline.filter(({ priority }) => priority >=6)
         .filter(({ tags, description }) =>
-          tags.some(tag => tag == "security") && !tags.some(tag => tag == "work")
+          tags.some(tag => tag === "security") && !tags.some(tag => tag === "work")
         ).sort(({ priority: a}, {priority: b}) => b - a)
 
     const [of_note_1, of_note_2] = [of_note.slice(0,4), of_note.slice(4,8)]
@@ -47,7 +46,7 @@ export default ({
     <Rule className={style.experienceTitle}>selected experience</Rule>
 
     <Experience {...{
-      events: timeline.filter(({ tags }) => tags.some(tag => tag == "work"))
+      events: timeline.filter(({ tags }) => tags.some(tag => tag === "work"))
         .sort(({ date: a }, { date: b }) => b - a).slice(0, 4)
     }} />
 
@@ -98,8 +97,8 @@ let parseDuration = (duration) => {
   return (+n) * (t[unit] || hurl(`unknown unit ${unit}`));
 }
 
-const roundUpToNearestYear = (date) =>
-  new Date(date.getFullYear(),12);
+/*const roundUpToNearestYear = (date) =>
+  new Date(date.getFullYear(),12); */
 
 const roundDownToNearestYear = (date) =>
   new Date(date.getFullYear()-1,12)
@@ -117,7 +116,7 @@ const Work = ({ date, description, duration, title, points, className }) => {
   // rough
   const [position, employer] = title.split(",").map(v => v.trim());
 
-  duration = duration == "ongoing"? undefined: parseDuration(duration);
+  duration = duration === "ongoing"? undefined: parseDuration(duration);
 
   return <div {...{
       className: [style.work].concat(className).join(" ")
