@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import style from './App.module.css';
 import bio from 'bio/bio.json';
 import {
   BrowserRouter as Router,
@@ -10,19 +11,25 @@ import {
 } from 'react-router-dom';
 
 
-import style from './App.module.css';
 
 //import Timeline from '../Timeline';
-import Profile from '../Profile';
 
-import ashVideo from "./static/ash.mp4";
-import ashPoster from "./static/ash.jpg";
 
 import Loadable from 'react-loadable';
 import Loading from 'react-loading';
 
 const AsyncCV = Loadable({
   loader: () => import("components/CV"),
+  loading: Loading,
+  render(loaded, {data, className, phone, email}) {
+    let Component = loaded.default;
+    return <Component {...{data, className, phone, email}}/>
+  }
+});
+
+
+const AsyncHome = Loadable({
+  loader: () => import("components/Home"),
   loading: Loading,
   render(loaded, {data, className, phone, email}) {
     let Component = loaded.default;
@@ -76,11 +83,11 @@ class App extends React.PureComponent {
 
   render() {
     if (!this.state.data) return "";
-    const className = "App";
+    const className = style.App;
     return (
         <Router>
           <Switch>
-          <Route exact path="/" render={() => <Home {...{
+          <Route exact path="/" render={() => <AsyncHome {...{
             data: this.state.data,
             className
           }}/>}/>
@@ -89,6 +96,7 @@ class App extends React.PureComponent {
             const params = new Map(
               search.slice(1).split("&").map(param =>
                 param.split("=").map(decodeURIComponent)));
+
             return <AsyncCV {...{
               data: this.state.data,
               className,
@@ -107,29 +115,5 @@ class App extends React.PureComponent {
   }
 }
 
-const Home = ({data, className}) => {
-  data.who.name=undefined; // just dont want it lol
-
-  return <div className={[style.home].concat(className).join(" ")}>
-        <VideoBackground />
-        <header> <div className="innerText">{data.who.handle}</div> </header>
-        <article> <Profile data={data} /> </article>
-  </div>
-}
-
-/*let Links = ({links}) => <div className="links">
-  {Object.entries(links).map(([name, link], i) => <a key={i} href={link}>{name}</a>)}
-</div> */
-
-const VideoBackground = ({ className }) => <video {...{
-    poster: ashPoster,
-    autoPlay: true,
-    muted: true,
-    playsInline: true,
-    loop: true,
-    className: [style.videoBackground].concat(className).join(" ")
-  }}>
-  <source src={ashVideo} type="video/mp4" />
-</video>
 
 export default App;

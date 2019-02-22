@@ -1,0 +1,41 @@
+.videoBackground {
+  grid-area: header;
+  width: 100%;
+  z-index: -1;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+  object-fit: cover;
+}
+
+
+@media (orientation: portrait) {
+  .home {
+    grid: "header" 100vh "article" min-content / 1fr;
+  }
+}
+
+@media (orientation: landscape) {
+  .home { grid: "header article" 100vh/1fr 1fr }
+}
+
+
+.home > article {
+  grid-area: article;
+  background: var(--bgc);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+.home > header {
+  font-size: 3rem;
+  display: grid;
+  grid-area: header;
+}
+
+.home > header > * {
+  margin: auto;
+  background: var(--bgc);
+  padding: 1rem;
+  z-index: 2;
+}

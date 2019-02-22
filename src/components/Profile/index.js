@@ -47,18 +47,6 @@ export const Footer = ({timeline, className}) => <footer {...{
 
   <Graph timeline={timeline} className={style.graph} />
   <Future className={style.future} />
-  <div className="tagline">
-The sky before sunrise is soaked with light.<br/>
-Rosy colour tints buildings, bridges, and the Seine. <br/>
-I was here when she, with whom I walk, wasn&rsquo;t born yet <br />
-And the cities on a distant plain stood intact <br/>
-Before they rose in the air with the dust of sepulchral brick <br/>
-And the people who lived there didn&rsquo;t know. <br/>
-Only this moment at dawn is real to me.  <br/>
-The bygone lives are like my own past life, uncertain. <br/>
-I cast a spell on a city asking it to last. <br/>
-<cite>Czesław Miłosz (translated from the Polish by Czesław Miłosz and Robert Hass)</cite>
-</div>
 </footer>
 
 

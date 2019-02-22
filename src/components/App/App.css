@@ -26,27 +26,3 @@ a:link { color: inherit; text-decoration-skip: spaces ; font-style: italic }
 a:visited { color: inherit }
 
 
-.App, .App.day {
-  --fgc: black;
-  --bgc: white;
-}
-
-.App.night {
-  --fgc: white;
-  --bgc: black;
-}
-
-.App  {
-  transition: color, background-color ease-in-out;
-  display: grid;
-  width: 100%;
-  min-height: 100vh;
-  color: var(--fgc);
-}
-
-svg {
-  stroke: var(--fgc);
-}
-
-
-.tagline { grid-area: tagline; text-align: center; opacity: .5; display: none }
