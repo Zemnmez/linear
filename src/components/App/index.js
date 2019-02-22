@@ -9,6 +9,7 @@ import {
   Redirect
 } from 'react-router-dom';
 
+
 import style from './App.module.css';
 
 import CV from '../CV';
@@ -17,6 +18,18 @@ import Profile from '../Profile';
 
 import ashVideo from "./static/ash.mp4";
 import ashPoster from "./static/ash.jpg";
+
+import Loadable from 'react-loadable';
+import Loading from 'react-loading';
+
+const AsyncCV = Loadable({
+  loader: () => import("components/CV"),
+  loading: Loading,
+  render(loaded, {data, className, phone, email}) {
+    let Component = loaded.default;
+    return <Component {...{data, className, phone, email}}/>
+  }
+});
 
 
 const months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
@@ -77,7 +90,7 @@ class App extends React.PureComponent {
             const params = new Map(
               search.slice(1).split("&").map(param =>
                 param.split("=").map(decodeURIComponent)));
-            return <CV {...{
+            return <AsyncCV {...{
               data: this.state.data,
               className,
               phone: params.get("phone"),

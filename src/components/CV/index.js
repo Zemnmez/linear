@@ -77,7 +77,7 @@ const Skills = ({ skills, className }) => <div {...{
     className: [style.skills].concat(className).join(" ")
   }}>
 
-  {skills.map((skill, i) => <Skill key={i} {...skill} />)}
+  {skills.map((skill, i) => <Skill {...{...skill, key: skill.title}} />)}
 </div>
 
 const Skill = ({ title, description, className }) => [
