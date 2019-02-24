@@ -38,6 +38,13 @@ const AsyncHome = Loadable({
 });
 
 
+const AsyncThrace = Loadable({
+  loader: () => import("components/Thrace"),
+  loading: Loading,
+});
+
+
+
 const months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
 const parseSimpleDate = (date) => {
     let [month, day, year] = date.split(" ");
@@ -90,6 +97,10 @@ class App extends React.PureComponent {
           <Route exact path="/" render={() => <AsyncHome {...{
             data: this.state.data,
             className
+          }}/>}/>
+
+          <Route exact path="/thrace" render={() => <AsyncThrace {...{
+              className
           }}/>}/>
 
           <Route exact path="/cv/" render={({ location: { search } }) => {
