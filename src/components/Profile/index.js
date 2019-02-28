@@ -1,10 +1,10 @@
 import React from 'react';
 import Timeline from '../Timeline';
 import Graph from '../Graph';
-import style from './Profile.module.css';
 import SadHumans from '../SadHumans';
 import Future from '../Future';
 import Rule from '../Rule';
+import style from './Profile.module.css';
 
 export const Profile = ({className, data: {who, timeline, links}}) => <div {...{
   className: [style.profile].concat(className).join(" ")
@@ -14,7 +14,7 @@ export const Profile = ({className, data: {who, timeline, links}}) => <div {...{
 
   <Timeline timeline={timeline} />
 
-  <Rule>⁂</Rule>
+  <Rule className={style.rule}>⁂</Rule>
 
   <Footer timeline={timeline} />
 </div>

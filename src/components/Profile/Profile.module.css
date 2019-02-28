@@ -11,6 +11,8 @@
 
 .text .links { max-width: 20rem; margin: auto; display: flex }
 
+.rule { grid: ". line-left . text . line-right ." min-content / .2em 1fr 2rem min-content 2rem 1fr .2em }
+.rule::before, .rule::after { }
 
 .text .links > * { margin: auto }
 
