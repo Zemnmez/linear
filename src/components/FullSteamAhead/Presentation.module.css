@@ -1,4 +1,4 @@
-
+.caption { display: none }
 .presentation {
   grid: 100vh / 100vw;
   display: grid;
@@ -9,4 +9,7 @@
 .slide {
   padding: 10%;
 }
-.caption { display: none }
+
+.presentation.captions .caption { display: block }
+
+

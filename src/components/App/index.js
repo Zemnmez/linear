@@ -65,11 +65,23 @@ class App extends React.PureComponent {
           className
         }}/>}/>
 
-          <Route path="/presentation/full-steam-ahead" {...{
+         <Route path="/talk/full-steam-ahead/slides" {...{
             render: ({ ...etc }) => <AsyncFullSteamAhead {...{
+              className,
+              mode: "slides",
+              ...etc
+            }}/>
+          }}/>
+          <Route path="/talk/full-steam-ahead/captions" {...{
+            render: ({ ...etc }) => <AsyncFullSteamAhead {...{
+              mode: "captions",
               className,
               ...etc
             }}/>
+          }}/>
+
+          <Route path="/talk/full-steam-ahead" {...{
+            render: ({ match: { path } }) => <Redirect to={path+"/slides"}/>
           }}/>
 
           <Route exact path="/thrace" render={() => <AsyncThrace {...{
