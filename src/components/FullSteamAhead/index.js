@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import preStyle from './Presentation.module.css';
+import Hammer from 'hammerjs';
 
 import {
   BrowserRouter as Router,
@@ -69,6 +70,7 @@ class Presentation extends React.PureComponent {
     super(props);
     this.state={};
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.selfRef = React.createRef();
   }
 
   onKeyDown(e) {
@@ -81,15 +83,19 @@ class Presentation extends React.PureComponent {
   }
 
   componentDidMount() {
-    window.addEventListener("keydown", this.onKeyDown);
+    this.mc = new Hammer(this.selfRef.current);
+    this.mc.on('swipeleft', (ev) => (console.log(ev),this.onKeyDown({ key: "ArrowLeft" })));
+    this.mc.on('swiperight', (ev) => (console.log(ev), this.onKeyDown({ key: "ArrowRight" })));
   }
 
   componentWillUnmount() {
-    window.removeEventListener("keydown", this.onKeyDown);
+    // apparently this doesnt unbind event listeners
+    // but it doesn't provide any way to do that either 🤔
+    this.mc && this.mc.destroy();
   }
 
   render() {
-    const {props: { children, className, match: { path }, mode }, state: { delta } } = this;
+    const {props: { children, className, match: { path }, mode }, state: { delta }, selfRef } = this;
 
     let defaultClassName = [preStyle.presentation];
     if (mode && mode == "captions") defaultClassName = defaultClassName.concat(preStyle.captions);
@@ -97,6 +103,7 @@ class Presentation extends React.PureComponent {
     return <Route {...{
       path: path + "/:index?/:name?",
       render: ({ match: { params, ...matchetc }, ...etc }) => <div {...{
+        ref: selfRef,
         className: defaultClassName.concat(className).join(" "),
         style: { gridTemplateAreas: `"${params.name}"` }
       }}>
