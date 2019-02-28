@@ -1,1 +1,12 @@
-.slide { }
+
+.presentation {
+  grid: 100vh / 100vw;
+  display: grid;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.slide {
+  padding: 10%;
+}
+.caption { display: none }

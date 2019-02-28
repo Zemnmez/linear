@@ -4,20 +4,21 @@ import preStyle from './Presentation.module.css';
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  Redirect
 } from 'react-router-dom';
 
 // praxis: every slide renders, css grid determines how
-export default () => <Presentation>
+export default ({...etc}) => <Presentation {...{...etc}}>
   <Slide {...{ name: "welcome" }}>
-    welcome!
+    <Title>Welcome!</Title>
     <Caption>
 
     </Caption>
   </Slide>
 
   <Slide {...{ name: "about" }}>
-    about
+    <Title>About</Title>
     <Caption>
       The dim air is filled with smoke and laughter. An old, one-eyed man
       speaks to you from behind an aged beverage.
@@ -41,33 +42,58 @@ export default () => <Presentation>
   </Slide>
 </Presentation>
 
-const Caption = ({ children }) => React.Children.only(children);
+const Title = ({ children }) => <h1> {children} </h1>;
 
-const Welcome = ({ className }) => <div {...{
-    className: [preStyle.slide].concat(className).join(" ")
-  }}>
+const Presentation = ({ children, className, match: { path } }) => <Route {...{
+    path: path + "/:index?/:name?",
+    render: ({ match: { params, ...matchetc }, ...etc }) => <div {...{
+      className: [preStyle.presentation].concat(className).join(" "),
+      style: { gridTemplateAreas: `"${params.name}"` },
+      "data-name": params.name
+    }}> {params.index!==undefined?React.Children.map(children,
+      (child, i) => React.cloneElement(
+        child,
+        {...etc, match: {...matchetc, path}, index: i + 1}
+      )
+    ):<Redirect to={path+"/1"}/>}</div>
+  }}/>
 
-</div>
-
-const Presentation = ({ children }) => <Router>
-  <Switch>
-    <Route {..{
-      path: "/:slideId/:slideName?",
-      render: ({ match: { params: { slideId, slideName } } }) => {
-        // easy case
-        if (children[+slideId]) return children[+slideId];
-      }}/>
-  </Switch>
-</Router>
-
-const Slide = ({ name, className, children }) => {
-  const canonicalName = name.replace(/ /g, "-");
-
-  return <div {...{
-    className: [preStyle.slide].concat(className).concat(canonicalName).join(" "),
-    style: { gridArea: canonicalName }
+const Caption = ({ children, className }) => <div {...{
+  className: [preStyle.caption].concat(className).join(" ")
   }}>
 
   {children}
-  </div>
-}
+</div>
+
+const canonicalizeName = (name) => name.replace(/ /g, "-");
+
+const Slide = ({ index, children, className, name, match: { path } }) => <div {...{
+  className: [preStyle.slide].concat(className).join(" "),
+  style: { gridArea: name }
+  }}>
+
+
+
+  <Switch>
+    <Route {...{
+      exact: true,
+      path: path + `/${index}/${name}`,
+    }}/>
+
+    <Route {...{
+      path: path + `/${index}/`,
+      render: () => <Redirect to={path + `/${index}/${name}`}/>
+    }}/>
+  </Switch>
+
+  {children}
+</div>
+
+/*
+  <Route {...{
+      path: path + "/:id/:name?",
+      render: ({ match: { params: { id, name } } }) => <div {...{
+        className: [preStyle.presentation].concat(className).join(" "),
+        style: { gridTemplateAreas: name?`"${name}"`: "inherit" }
+      }}>
+*/

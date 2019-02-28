@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './App.css';
 import style from './App.module.css';
 import bio from 'bio/bio.json';
@@ -15,33 +15,13 @@ import {
 //import Timeline from '../Timeline';
 
 
-import Loadable from 'react-loadable';
 import Loading from 'react-loading';
 
-const AsyncCV = Loadable({
-  loader: () => import("components/CV"),
-  loading: Loading,
-  render(loaded, {data, className, phone, email}) {
-    let Component = loaded.default;
-    return <Component {...{data, className, phone, email}}/>
-  }
-});
+const AsyncCV = React.lazy(() => import("components/CV"));
+const AsyncHome = React.lazy(() => import("components/Home"));
+const AsyncThrace = React.lazy(() => import("components/Thrace"));
+const AsyncFullSteamAhead = React.lazy(() => import("components/FullSteamAhead"));
 
-
-const AsyncHome = Loadable({
-  loader: () => import("components/Home"),
-  loading: Loading,
-  render(loaded, {data, className, phone, email}) {
-    let Component = loaded.default;
-    return <Component {...{data, className, phone, email}}/>
-  }
-});
-
-
-const AsyncThrace = Loadable({
-  loader: () => import("components/Thrace"),
-  loading: Loading,
-});
 
 
 
@@ -72,55 +52,48 @@ class App extends React.PureComponent {
     return data;
   }
 
-  componentDidMount() {
-    /*
-    fetch("https://raw.githubusercontent.com/Zemnmez/bio/master/bio.json?" + Math.random())
-      .then(r => r.json(), (error) => {
-        console.log(error);
-        return bio;
-      })
-      .then(data => App.parseDates(data))
-      .then(data => this.setState({data}))
-    */
-  }
-
-  componentWillUnmount() {
-  }
-
-
   render() {
     if (!this.state.data) return "";
     const className = style.App;
     return (
         <Router>
-          <Switch>
-          <Route exact path="/" render={() => <AsyncHome {...{
-            data: this.state.data,
+      <Suspense fallback={<Loading />}>
+        <Switch>
+
+        <Route exact path="/" render={() => <AsyncHome {...{
+          data: this.state.data,
+          className
+        }}/>}/>
+
+          <Route path="/presentation/full-steam-ahead" {...{
+            render: ({ ...etc }) => <AsyncFullSteamAhead {...{
+              className,
+              ...etc
+            }}/>
+          }}/>
+
+          <Route exact path="/thrace" render={() => <AsyncThrace {...{
             className
           }}/>}/>
 
-          <Route exact path="/thrace" render={() => <AsyncThrace {...{
-              className
-          }}/>}/>
+            <Route exact path="/cv/" render={({ location: { search } }) => {
+              const params = new Map(
+                search.slice(1).split("&").map(param =>
+                  param.split("=").map(decodeURIComponent)));
 
-          <Route exact path="/cv/" render={({ location: { search } }) => {
-            const params = new Map(
-              search.slice(1).split("&").map(param =>
-                param.split("=").map(decodeURIComponent)));
+              return <AsyncCV {...{
+                data: this.state.data,
+                className,
+                phone: params.get("phone"),
+                email: params.get("email")
+              }} />
+            }}/>
 
-            return <AsyncCV {...{
-              data: this.state.data,
-              className,
-              phone: params.get("phone"),
-              email: params.get("email")
-            }} />
-          }}/>
+            <Route path="/cv/" render={() => <Redirect to="/cv/"/>}/>
 
-          <Route path="/cv/" render={() => <Redirect to="/cv/"/>}/>
-
-          <Route render={() => <Redirect to="/"/>}/>
-          </Switch>
-
+            <Route render={() => <Redirect to="/"/>}/>
+            </Switch>
+            </Suspense>
         </Router>
     );
   }
