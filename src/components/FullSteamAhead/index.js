@@ -13,8 +13,18 @@ import ReactMarkdown from 'react-markdown';
 
 const hurl = (error) => { throw new Error(error) }
 
-const Markdown = ReactMarkdown;
+// a simple throttle that *does not* keep
+// an event stack i.e. only the last event
+// is fired.
+const throttle = (fn, milliseconds) => {
+  let timeout;
+  return (...args) => {
+    if (timeout) timeout = window.cancelTimeout(timeout);
+    timeout = window.setTimeout(fn.bind(0, ...args), milliseconds);
+  };
+}
 
+const Markdown = ReactMarkdown;
 
 // praxis: every slide renders, css grid determines how
 export default ({...etc}) => <Presentation {...{
@@ -82,16 +92,34 @@ class Presentation extends React.PureComponent {
     })[e.key]})
   }
 
-  componentDidMount() {
-    this.mc = new Hammer(this.selfRef.current);
-    this.mc.on('swipeleft', (ev) => (console.log(ev),this.onKeyDown({ key: "ArrowLeft" })));
-    this.mc.on('swiperight', (ev) => (console.log(ev), this.onKeyDown({ key: "ArrowRight" })));
+  // onSlideMadeVisible is used to implement two scroll-based snapping features:
+  // updating the URL of the page as slides go in and out of visibility,
+  // and snapping to a particular slide when scrolling ends.
+  //
+  // whenever an IntersectionObserver event is sent for a slide index,
+  // we record it against its index, replacing any existing event.
+  //
+  // We wait for both requestAnimationFrame and requestIdleCallback to find
+  // (1) the next time the page would be redrawn (as a form of throttling)
+  // and (2) the next time there is idle time.
+  //
+  // Once this happens, we find the IntersectionObserver event with the
+  // highest intersection ratio (taking up most of the space), and
+  // ensure that the location is updated, if not already at that index,
+  // to the slide at that index.
+  //
+  // Lastly, we queue an event for when scrolling stops i.e. there hasn't
+  // been a recent scroll event and the user is not touching the scren.
+  // this event tweens the scroll of this, the parent element until the
+  // child is fully in view. The tween is immediately cancelled if another
+  // scroll event begins or the user touches the screen.
+  onSlideMadeVisible(index, event) {
+
   }
 
-  componentWillUnmount() {
-    // apparently this doesnt unbind event listeners
-    // but it doesn't provide any way to do that either 🤔
-    this.mc && this.mc.destroy();
+  // used for snapping. see the comment for onSlideMadeVisible.
+  onScroll(event) {
+
   }
 
   render() {
@@ -104,8 +132,7 @@ class Presentation extends React.PureComponent {
       path: path + "/:index?/:name?",
       render: ({ match: { params, ...matchetc }, ...etc }) => <div {...{
         ref: selfRef,
-        className: defaultClassName.concat(className).join(" "),
-        style: { gridTemplateAreas: `"${params.name}"` }
+        className: defaultClassName.concat(className).join(" ")
       }}>
       {params.index!==undefined && params.index >= 1 && params.index <= children.length?
         React.Children.map(children,
@@ -135,7 +162,7 @@ const canonicalizeName = (name) => name.replace(/ /g, "-");
 
 const Slide = ({ index, children, className, name, match: { path } }) => <div {...{
   className: [preStyle.slide].concat(className).join(" "),
-  style: { gridArea: name }
+  style: { /* gridArea: name */ }
   }}>
 
 
