@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import preStyle from './Presentation.module.css';
-import Hammer from 'hammerjs';
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
+import 'intersection-observer';
 
 import {
   BrowserRouter as Router,
@@ -119,12 +120,14 @@ class ChildAndParentTracker extends React.PureComponent {
 
     // won't be available until we actually mount
     // that's why it's suspended.
-    this.observer = suspendedConstructor(IntersectionObserver);
     this.myRef = React.createRef();
   }
 
   componentDidMount() { this.props.didMount(this.myRef.current); }
   componentWillUnmount() { this.props.willUnmount(this.myRef.current); }
+
+  childDidMount(index, element) { this.props.childDidMount({index, element}); }
+  childWillUnmount(index, element) { this.props.childWillUnmount({index, element}) }
 
   render() {
     const { props: {
@@ -137,8 +140,8 @@ class ChildAndParentTracker extends React.PureComponent {
     }}>
       {React.Children.map(children, (child, i) =>
         child && <TrackableChild {...{
-            didMount: this.props.childDidMount,
-            willUnmount: this.props.childWillUnmount
+            didMount: this.childDidMount.bind(this, i),
+            willUnmount: this.childWillUnmount.bind(this, i)
         }}>{child}</TrackableChild>
       )}
     </div>
@@ -163,32 +166,14 @@ class TrackableChild extends React.PureComponent {
 }
 
 
-class MostVisibleChildSnapper extends React.Component {
-
-// slideDidBecomeVisible is used to implement two scroll-based snapping features:
-// updating the URL of the page as slides go in and out of visibility,
-// and snapping to a particular slide when scrolling ends.
-//
-// whenever an IntersectionObserver event is sent for a slide index,
-// we record it against its index, replacing any existing event.
-//
-// We wait for both requestAnimationFrame and requestIdleCallback to find
-// (1) the next time the page would be redrawn (as a form of throttling)
-// and (2) the next time there is idle time.
-//
-// Once this happens, we find the IntersectionObserver event with the
-// highest intersection ratio (taking up most of the space), and
-// ensure that the location is updated, if not already at that index,
-// to the slide at that index.
-//
-// Lastly, we queue an event for when scrolling stops i.e. there hasn't
-// been a recent scroll event and the user is not touching the scren.
-// this event tweens the scroll of this, the parent element until the
-// child is fully in view. The tween is immediately cancelled if another
-// scroll event begins or the user touches the screen.
+class SlideController extends React.Component {
   constructor(props) {
     super(props);
+
     this.observer = suspendedConstructor(IntersectionObserver);
+
+    this.childVisibilityStats = new Map();
+
 
     // still cant believe this is the best way to do this
     this.childWillUnmount = this.childWillUnmount.bind(this);
@@ -196,20 +181,68 @@ class MostVisibleChildSnapper extends React.Component {
 
     this.parentDidMount = this.parentDidMount.bind(this);
     this.childDidMount = this.childDidMount.bind(this);
+
+    this.childIndexes = new Map();
+
+    this.afterMount = [];
   }
 
-  childWillUnmount(child) { console.log("child unmounted", child); this.observer.unobserve(child) }
-  childDidMount(child) { console.log("child mounted", child);this.observer.observe(child) }
-  parentDidMount(root) { console.log("parent mounted", root); this.observer(this.childVisibilityDidChange.bind(this), { root }) }
-  parentWillUnmount(root) { console.log("Unmounted!", root); this.observer.disconnect() }
+  childWillUnmount({index, element}) {
+    this.observer.unobserve(element)
+    this.childIndexes.delete(index);
+  }
 
-    childVisibilityDidChange(ev) {
-      console.log(ev);
-    }
+  childDidMount({index, element}) {
+    this.observer.observe(element)
+    this.childIndexes.set(index, element);
+  }
+
+  parentScrollTimeout;
+  parentDidScroll(event) {
+    clearTimeout(this.parentScrollTimeout);
+
+    this.parentScrollTimeout = setTimeout(() => this.scrollDidEnd(), 200);
+  }
+
+  scrollTo(element) { scrollIntoView(element); }
+  scrollToIndex(index) {
+    console.log(this.childIndexes, this.childIndexes.get(index));
+    scrollIntoView(this.childIndexes.get(index))
+  }
+
+  componentDidMount() {
+    this.props.index && this.scrollToIndex(this.props.index);
+  }
+
+  scrollDidEnd() {
+    const mostVisible = this.getMostVisible();
+    this.scrollTo(mostVisible.target);
+  }
+
+  parentWillUnmount(root) {
+    this.observer.disconnect()
+  }
+
+  parentDidMount(root) {
+    root.addEventListener("scroll", this.parentDidScroll.bind(this));
+    this.observer(
+        this.childVisibilityDidChange.bind(this),
+        { root, threshold: [ 0, 0.25, 0.5, 0.75, 1] }
+    );
+  }k
+
+  childVisibilityDidChange(ev) {
+    [].forEach.call(ev, (ev) => this.childVisibilityStats.set(ev.target, ev));
+  }
+
+  getMostVisible() {
+    return [...this.childVisibilityStats].map(([a,b])=>b).sort(({ intersectionRatio: a }, { intersectionRatio: b }) => a-b).pop();
+  }
 
   render() {
-    const { props: { children, ...etc } } = this;
-    return <ChildAndParentTracker {...{
+    const { props: { children, path, ...etc } } = this;
+    return <React.Fragment>
+      <ChildAndParentTracker {...{
       childWillUnmount: this.childWillUnmount,
       childDidMount: this.childDidMount,
       willUnmount: this.parentWillUnmount,
@@ -217,6 +250,7 @@ class MostVisibleChildSnapper extends React.Component {
       children,
       ...etc
     }}/>
+    </React.Fragment>
   }
 }
 
@@ -247,10 +281,13 @@ class Presentation extends React.PureComponent {
 
     return <Route {...{
       path: path + "/:index?/:name?",
-      render: ({ match: { params, ...matchetc }, ...etc }) => <MostVisibleChildSnapper {...{
-        className: defaultClassName.concat(className).join(" ")
+      render: ({ match: { params: { index, name }, ...matchetc }, ...etc }) => <SlideController {...{
+        className: defaultClassName.concat(className).join(" "),
+        show: index,
+        path: path,
+        index: index - 1
       }}>
-      {params.index!==undefined && params.index >= 1 && params.index <= children.length?
+      {index!==undefined && index >= 1 && index <= children.length?
         React.Children.map(children,
         (child, i) => React.cloneElement(
           child,
@@ -264,10 +301,10 @@ class Presentation extends React.PureComponent {
 
       {delta && ((Delta) => {
         this.state.delta = 0; // probably a crime, but doesn't cause a state change
-       return <Redirect to={`${path}/${+params.index+Delta}`}/>
+       return <Redirect to={`${path}/${+index+Delta}`}/>
       })(delta)}
 
-      </MostVisibleChildSnapper>
+      </SlideController>
     }}/>
   }
 }

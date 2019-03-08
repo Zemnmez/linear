@@ -3,7 +3,7 @@
   grid-auto-rows: 100vh;
   display: grid;
   height: 100vh;
-  position: relative;
+  overflow-y: auto;
 }
 
 
