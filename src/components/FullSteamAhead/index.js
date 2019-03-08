@@ -174,7 +174,6 @@ class SlideController extends React.Component {
 
     this.childVisibilityStats = new Map();
 
-
     // still cant believe this is the best way to do this
     this.childWillUnmount = this.childWillUnmount.bind(this);
     this.parentWillUnmount = this.parentWillUnmount.bind(this);
@@ -197,13 +196,6 @@ class SlideController extends React.Component {
     this.childIndexes.set(index, element);
   }
 
-  parentScrollTimeout;
-  parentDidScroll(event) {
-    clearTimeout(this.parentScrollTimeout);
-
-    this.parentScrollTimeout = setTimeout(() => this.scrollDidEnd(), 200);
-  }
-
   scrollTo(element) { scrollIntoView(element); }
   scrollToIndex(index) {
     console.log(this.childIndexes, this.childIndexes.get(index));
@@ -224,12 +216,11 @@ class SlideController extends React.Component {
   }
 
   parentDidMount(root) {
-    root.addEventListener("scroll", this.parentDidScroll.bind(this));
     this.observer(
         this.childVisibilityDidChange.bind(this),
         { root, threshold: [ 0, 0.25, 0.5, 0.75, 1] }
     );
-  }k
+  }
 
   childVisibilityDidChange(ev) {
     [].forEach.call(ev, (ev) => this.childVisibilityStats.set(ev.target, ev));

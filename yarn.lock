@@ -2903,6 +2903,13 @@ css-prefers-color-scheme@^3.1.1:
   dependencies:
     postcss "^7.0.5"
 
+css-scroll-snap-polyfill@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/css-scroll-snap-polyfill/-/css-scroll-snap-polyfill-0.1.2.tgz#a2277b82715ed542fa7ac24702b61889107d0853"
+  integrity sha512-IECQUnfBdRixPpraCkHM0DMf6bt56SV3AdfvkWqw2VyaAwDQpHRaJSn+VkD5fLJj1Eivje1qxgdPmjLCeMBhWQ==
+  dependencies:
+    polyfill "^0.1.0"
+
 css-select-base-adapter@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/css-select-base-adapter/-/css-select-base-adapter-0.1.1.tgz#3b2ff4972cc362ab88561507a95408a1432135d7"
@@ -6591,6 +6598,11 @@ json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
+json3@3.2.4:
+  version "3.2.4"
+  resolved "https://registry.yarnpkg.com/json3/-/json3-3.2.4.tgz#689c589e7ca9340c7ee4949e0d105bc5bf159f21"
+  integrity sha1-aJxYnnypNAx+5JSeDRBbxb8VnyE=
+
 json3@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/json3/-/json3-3.3.2.tgz#3c0434743df93e2f5c42aee7b19bcb483575f4e1"
@@ -8157,6 +8169,13 @@ pnp-webpack-plugin@1.2.1:
   integrity sha512-W6GctK7K2qQiVR+gYSv/Gyt6jwwIH4vwdviFqx+Y2jAtVf5eZyYIDf5Ac2NCDMBiX5yWscBLZElPTsyA1UtVVA==
   dependencies:
     ts-pnp "^1.0.0"
+
+polyfill@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/polyfill/-/polyfill-0.1.0.tgz#ded507cb76802804834b3385dfd3ba2e51004c3d"
+  integrity sha1-3tUHy3aAKASDSzOF39O6LlEATD0=
+  dependencies:
+    json3 "3.2.4"
 
 portfinder@^1.0.9:
   version "1.0.20"

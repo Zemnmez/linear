@@ -4,11 +4,13 @@
   display: grid;
   height: 100vh;
   overflow-y: auto;
+  scroll-snap-type: y mandatory;
 }
 
 
 .slide {
   padding: 10%;
+  scroll-snap-align: start;
 }
 
 .presentation.captions .caption { display: block }
