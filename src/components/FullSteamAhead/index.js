@@ -78,9 +78,35 @@ const Title = ({ children }) => <h1> {children} </h1>;
 class Presentation extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state={};
+    this.state = { mostVisibleSlide: undefined };
     this.onKeyDown = this.onKeyDown.bind(this);
     this.selfRef = React.createRef();
+    this.slideVisibilityTracker = new Map();
+    this.updateVisibleSlide = throttle(this.updateVisibleSlide, 200);
+    this.childElements = [];
+    this.slideDidBecomeVisible = this.slideDidBecomeVisible.bind(this);
+  }
+
+  slideElementWasCreated(slideElement) {
+    this.childElements = this.childElements.concat(slideElement);
+  }
+
+  componentDidMount() {
+    this.slideIntersectionObserver = new IntersectionObserver(
+      this.slideDidBecomeVisible,
+      {root: this.selfRef.current}
+    )
+
+    this.childElements.forEach(
+      this.slideIntersectionObserver.observe.bind(
+        this.slideIntersectionObserver
+      )
+    );
+  }
+
+  componentWillUnmount() {
+    this.slideIntersectionObserver &&
+      this.slideIntersectionObserver.disconnect();
   }
 
   onKeyDown(e) {
@@ -92,7 +118,7 @@ class Presentation extends React.PureComponent {
     })[e.key]})
   }
 
-  // onSlideMadeVisible is used to implement two scroll-based snapping features:
+  // slideDidBecomeVisible is used to implement two scroll-based snapping features:
   // updating the URL of the page as slides go in and out of visibility,
   // and snapping to a particular slide when scrolling ends.
   //
@@ -113,11 +139,28 @@ class Presentation extends React.PureComponent {
   // this event tweens the scroll of this, the parent element until the
   // child is fully in view. The tween is immediately cancelled if another
   // scroll event begins or the user touches the screen.
-  onSlideMadeVisible(index, event) {
-
+  slideDidBecomeVisible(IntersectionObserverEntry) {
+    console.log(IntersectionObserverEntry);
+    this.slideVisibilityTracker.set(
+      IntersectionObserverEntry.target,
+      IntersectionObserverEntry
+    )
   }
 
-  // used for snapping. see the comment for onSlideMadeVisible.
+  updateVisibleSlide() {
+    const { slideVisibilityTracker } = this;
+    const [mostVisibleTarget] = [...slideVisibilityTracker].sort( (
+        [element, { intersectionRatio: a }],
+        [element2, { intersectionRatio: b }]
+      ) => a - b
+    );
+
+    const mostVisibleSlide = mostVisibleTarget.getAttribute("index");
+
+    this.setState({mostVisibleSlide});
+  }
+
+  // used for snapping. see the comment for slideDidBecomeVisible.
   onScroll(event) {
 
   }
@@ -138,7 +181,13 @@ class Presentation extends React.PureComponent {
         React.Children.map(children,
         (child, i) => React.cloneElement(
           child,
-          {...etc, match: {...matchetc, path}, index: i + 1}
+          {
+            ...etc,
+            match: {...matchetc, path},
+            index: i + 1,
+            elementWasCreated: (element) =>
+              this.slideElementWasCreated(element)
+          }
         )
       ):<Redirect to={path+"/1"}/>}
 
@@ -146,6 +195,11 @@ class Presentation extends React.PureComponent {
         this.state.delta = 0; // probably a crime, but doesn't cause a state change
        return <Redirect to={`${path}/${+params.index+Delta}`}/>
       })(delta)}
+
+      {this.mostVisibleSlide && (params.index != this.mostVisibleSlide) && <Redirect {...{
+        to: `${path}/${this.mostVisibleSlide}`
+      }}/> }
+
       </div>
     }}/>
   }
@@ -160,9 +214,33 @@ const Caption = ({ children, className }) => <div {...{
 
 const canonicalizeName = (name) => name.replace(/ /g, "-");
 
-const Slide = ({ index, children, className, name, match: { path } }) => <div {...{
+class Slide extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.myRef = React.createRef();
+  }
+
+  componentDidMount() {
+    const { props: { elementWasCreated, index } } = this;
+
+    this.myRef.current.setAttribute("data-index", index);
+
+    elementWasCreated(this.myRef.current);
+  }
+
+
+  render() {
+  const {
+    props: { index, children, className, name, match: { path } },
+    myRef
+  } = this;
+
+  return <div {...{
   className: [preStyle.slide].concat(className).join(" "),
-  style: { /* gridArea: name */ }
+  style: { /* gridArea: name */ },
+  ref: myRef
   }}>
 
 
@@ -182,4 +260,6 @@ const Slide = ({ index, children, className, name, match: { path } }) => <div {.
   {children}
 </div>
 
+  }
+}
 
