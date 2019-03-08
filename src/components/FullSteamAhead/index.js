@@ -22,7 +22,42 @@ const throttle = (fn, milliseconds) => {
     if (timeout) timeout = window.cancelTimeout(timeout);
     timeout = window.setTimeout(fn.bind(0, ...args), milliseconds);
   };
+};
+
+// suspendedConstructor takes a constructor and returns
+// a function which records all method calls
+// and, when the function is constructed
+// invokes all the method calls at once
+// to the newly constructed object.
+//
+// once the object is constructed,
+// all ops are forwarded to the new object
+//
+// this does, of course mean that
+// any function expecting a return value
+// will not be able to get one.
+// this could potentially be fixed with
+// async but I'd rather not deal with potential hangs.
+const suspendedConstructor = (constructor) => {
+  const buffer = []
+  let get = (target, prop, reciever) => (...args) => buffer.push([prop, args]);
+  let constructed;
+  const called = (...args) => {
+    if (constructed) hurl("cannot doubly construct suspendedConstructor");
+    constructed = true;
+    const real = new constructor(...args);
+    // do the stuff
+    [...buffer].forEach(([prop, args]) => real[prop](...args));
+    [...buffer].forEach(([prop, args]) => console.log(`${prop}(${args})`));
+    get = (target, prop, reciever) => {
+      console.log("proxied", `${prop}`);
+      return Reflect.get(real, prop, reciever);
+    }
+  };
+
+  return new Proxy(called, { get });
 }
+
 
 const Markdown = ReactMarkdown;
 
@@ -75,38 +110,123 @@ abstraction to take insecure modes of operation out of the equation
 
 const Title = ({ children }) => <h1> {children} </h1>;
 
+// <ChildAndParentTracker
+// childWillUnmount={}
+// childDidMount={} />
+class ChildAndParentTracker extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    // won't be available until we actually mount
+    // that's why it's suspended.
+    this.observer = suspendedConstructor(IntersectionObserver);
+    this.myRef = React.createRef();
+  }
+
+  componentDidMount() { this.props.didMount(this.myRef.current); }
+  componentWillUnmount() { this.props.willUnmount(this.myRef.current); }
+
+  render() {
+    const { props: {
+      didMount, willUnmount,
+      childDidMount, childWillUnmount,
+      children, ...etc }, myRef: ref } = this;
+    return <div {...{
+      ref,
+      ...etc
+    }}>
+      {React.Children.map(children, (child, i) =>
+        child && <TrackableChild {...{
+            didMount: this.props.childDidMount,
+            willUnmount: this.props.childWillUnmount
+        }}>{child}</TrackableChild>
+      )}
+    </div>
+  }
+}
+
+class TrackableChild extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+  }
+
+  componentDidMount() { this.props.didMount(this.myRef.current); }
+  componentWillUnmount() { this.props.willUnmount(this.myRef.current); }
+
+  render() {
+    return React.cloneElement(
+      React.Children.only(this.props.children),
+      { ref: this.myRef }
+    );
+  }
+}
+
+
+class MostVisibleChildSnapper extends React.Component {
+
+// slideDidBecomeVisible is used to implement two scroll-based snapping features:
+// updating the URL of the page as slides go in and out of visibility,
+// and snapping to a particular slide when scrolling ends.
+//
+// whenever an IntersectionObserver event is sent for a slide index,
+// we record it against its index, replacing any existing event.
+//
+// We wait for both requestAnimationFrame and requestIdleCallback to find
+// (1) the next time the page would be redrawn (as a form of throttling)
+// and (2) the next time there is idle time.
+//
+// Once this happens, we find the IntersectionObserver event with the
+// highest intersection ratio (taking up most of the space), and
+// ensure that the location is updated, if not already at that index,
+// to the slide at that index.
+//
+// Lastly, we queue an event for when scrolling stops i.e. there hasn't
+// been a recent scroll event and the user is not touching the scren.
+// this event tweens the scroll of this, the parent element until the
+// child is fully in view. The tween is immediately cancelled if another
+// scroll event begins or the user touches the screen.
+  constructor(props) {
+    super(props);
+    this.observer = suspendedConstructor(IntersectionObserver);
+
+    // still cant believe this is the best way to do this
+    this.childWillUnmount = this.childWillUnmount.bind(this);
+    this.parentWillUnmount = this.parentWillUnmount.bind(this);
+
+    this.parentDidMount = this.parentDidMount.bind(this);
+    this.childDidMount = this.childDidMount.bind(this);
+  }
+
+  childWillUnmount(child) { console.log("child unmounted", child); this.observer.unobserve(child) }
+  childDidMount(child) { console.log("child mounted", child);this.observer.observe(child) }
+  parentDidMount(root) { console.log("parent mounted", root); this.observer(this.childVisibilityDidChange.bind(this), { root }) }
+  parentWillUnmount(root) { console.log("Unmounted!", root); this.observer.disconnect() }
+
+    childVisibilityDidChange(ev) {
+      console.log(ev);
+    }
+
+  render() {
+    const { props: { children, ...etc } } = this;
+    return <ChildAndParentTracker {...{
+      childWillUnmount: this.childWillUnmount,
+      childDidMount: this.childDidMount,
+      willUnmount: this.parentWillUnmount,
+      didMount: this.parentDidMount,
+      children,
+      ...etc
+    }}/>
+  }
+}
+
 class Presentation extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { mostVisibleSlide: undefined };
     this.onKeyDown = this.onKeyDown.bind(this);
-    this.selfRef = React.createRef();
-    this.slideVisibilityTracker = new Map();
     this.updateVisibleSlide = throttle(this.updateVisibleSlide, 200);
     this.childElements = [];
-    this.slideDidBecomeVisible = this.slideDidBecomeVisible.bind(this);
-  }
-
-  slideElementWasCreated(slideElement) {
-    this.childElements = this.childElements.concat(slideElement);
-  }
-
-  componentDidMount() {
-    this.slideIntersectionObserver = new IntersectionObserver(
-      this.slideDidBecomeVisible,
-      {root: this.selfRef.current}
-    )
-
-    this.childElements.forEach(
-      this.slideIntersectionObserver.observe.bind(
-        this.slideIntersectionObserver
-      )
-    );
-  }
-
-  componentWillUnmount() {
-    this.slideIntersectionObserver &&
-      this.slideIntersectionObserver.disconnect();
+    this.state = { delta: undefined }
   }
 
   onKeyDown(e) {
@@ -118,63 +238,16 @@ class Presentation extends React.PureComponent {
     })[e.key]})
   }
 
-  // slideDidBecomeVisible is used to implement two scroll-based snapping features:
-  // updating the URL of the page as slides go in and out of visibility,
-  // and snapping to a particular slide when scrolling ends.
-  //
-  // whenever an IntersectionObserver event is sent for a slide index,
-  // we record it against its index, replacing any existing event.
-  //
-  // We wait for both requestAnimationFrame and requestIdleCallback to find
-  // (1) the next time the page would be redrawn (as a form of throttling)
-  // and (2) the next time there is idle time.
-  //
-  // Once this happens, we find the IntersectionObserver event with the
-  // highest intersection ratio (taking up most of the space), and
-  // ensure that the location is updated, if not already at that index,
-  // to the slide at that index.
-  //
-  // Lastly, we queue an event for when scrolling stops i.e. there hasn't
-  // been a recent scroll event and the user is not touching the scren.
-  // this event tweens the scroll of this, the parent element until the
-  // child is fully in view. The tween is immediately cancelled if another
-  // scroll event begins or the user touches the screen.
-  slideDidBecomeVisible(IntersectionObserverEntry) {
-    console.log(IntersectionObserverEntry);
-    this.slideVisibilityTracker.set(
-      IntersectionObserverEntry.target,
-      IntersectionObserverEntry
-    )
-  }
-
-  updateVisibleSlide() {
-    const { slideVisibilityTracker } = this;
-    const [mostVisibleTarget] = [...slideVisibilityTracker].sort( (
-        [element, { intersectionRatio: a }],
-        [element2, { intersectionRatio: b }]
-      ) => a - b
-    );
-
-    const mostVisibleSlide = mostVisibleTarget.getAttribute("index");
-
-    this.setState({mostVisibleSlide});
-  }
-
-  // used for snapping. see the comment for slideDidBecomeVisible.
-  onScroll(event) {
-
-  }
 
   render() {
-    const {props: { children, className, match: { path }, mode }, state: { delta }, selfRef } = this;
+    const {props: { children, className, match: { path }, mode }, state: { delta } } = this;
 
     let defaultClassName = [preStyle.presentation];
     if (mode && mode == "captions") defaultClassName = defaultClassName.concat(preStyle.captions);
 
     return <Route {...{
       path: path + "/:index?/:name?",
-      render: ({ match: { params, ...matchetc }, ...etc }) => <div {...{
-        ref: selfRef,
+      render: ({ match: { params, ...matchetc }, ...etc }) => <MostVisibleChildSnapper {...{
         className: defaultClassName.concat(className).join(" ")
       }}>
       {params.index!==undefined && params.index >= 1 && params.index <= children.length?
@@ -184,9 +257,7 @@ class Presentation extends React.PureComponent {
           {
             ...etc,
             match: {...matchetc, path},
-            index: i + 1,
-            elementWasCreated: (element) =>
-              this.slideElementWasCreated(element)
+            index: i + 1
           }
         )
       ):<Redirect to={path+"/1"}/>}
@@ -196,11 +267,7 @@ class Presentation extends React.PureComponent {
        return <Redirect to={`${path}/${+params.index+Delta}`}/>
       })(delta)}
 
-      {this.mostVisibleSlide && (params.index != this.mostVisibleSlide) && <Redirect {...{
-        to: `${path}/${this.mostVisibleSlide}`
-      }}/> }
-
-      </div>
+      </MostVisibleChildSnapper>
     }}/>
   }
 }
@@ -214,33 +281,11 @@ const Caption = ({ children, className }) => <div {...{
 
 const canonicalizeName = (name) => name.replace(/ /g, "-");
 
-class Slide extends React.Component {
-
-  constructor(props) {
-    super(props);
-
-    this.myRef = React.createRef();
-  }
-
-  componentDidMount() {
-    const { props: { elementWasCreated, index } } = this;
-
-    this.myRef.current.setAttribute("data-index", index);
-
-    elementWasCreated(this.myRef.current);
-  }
-
-
-  render() {
-  const {
-    props: { index, children, className, name, match: { path } },
-    myRef
-  } = this;
-
-  return <div {...{
-  className: [preStyle.slide].concat(className).join(" "),
-  style: { /* gridArea: name */ },
-  ref: myRef
+const Slide = React.forwardRef(
+  ({ index, children, className, name, match: { path } }, ref) => <div {...{
+    className: [preStyle.slide].concat(className).join(" "),
+    style: { /* gridArea: name */ },
+    ref: ref
   }}>
 
 
@@ -258,8 +303,6 @@ class Slide extends React.Component {
   </Switch>
 
   {children}
-</div>
-
-  }
-}
+  </div>
+)
 
