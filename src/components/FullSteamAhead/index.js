@@ -166,11 +166,12 @@ class TrackableChild extends React.PureComponent {
 }
 
 
-class SlideController extends React.Component {
+class SlideController extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.observer = suspendedConstructor(IntersectionObserver);
+    this.state = { index: props.index }
 
     this.childVisibilityStats = new Map();
 
@@ -197,6 +198,13 @@ class SlideController extends React.Component {
   }
 
   scrollTo(element) { scrollIntoView(element); }
+  elemByIndex(index) { return this.childIndexes.get(index) }
+  indexByElem(elem) {
+    const reverseMap = new Map([...this.childIndexes].map(([a,b])=>[b,a]))
+    console.log(reverseMap);
+    console.log(elem, reverseMap.get(elem));
+    return reverseMap.get(elem)
+  }
   scrollToIndex(index) {
     console.log(this.childIndexes, this.childIndexes.get(index));
     scrollIntoView(this.childIndexes.get(index))
@@ -218,12 +226,14 @@ class SlideController extends React.Component {
   parentDidMount(root) {
     this.observer(
         this.childVisibilityDidChange.bind(this),
-        { root, threshold: [ 0, 0.25, 0.5, 0.75, 1] }
+        { root, threshold: [ 0, 0.5, 1 ] }
     );
   }
 
   childVisibilityDidChange(ev) {
     [].forEach.call(ev, (ev) => this.childVisibilityStats.set(ev.target, ev));
+    const index = this.indexByElem(this.getMostVisible().target);
+    this.setState({index});
   }
 
   getMostVisible() {
@@ -231,8 +241,10 @@ class SlideController extends React.Component {
   }
 
   render() {
-    const { props: { children, path, ...etc } } = this;
+    const { props: { children, path, ...etc }, state: { } } = this;
     return <React.Fragment>
+      {(this.state.index != undefined) && (this.state.index != this.props.index)?
+        <Redirect {...{to: `${path}/${this.state.index+1}`}} />:""}
       <ChildAndParentTracker {...{
       childWillUnmount: this.childWillUnmount,
       childDidMount: this.childDidMount,
@@ -270,16 +282,20 @@ class Presentation extends React.PureComponent {
     let defaultClassName = [preStyle.presentation];
     if (mode && mode == "captions") defaultClassName = defaultClassName.concat(preStyle.captions);
 
+
     return <Route {...{
       path: path + "/:index?/:name?",
-      render: ({ match: { params: { index, name }, ...matchetc }, ...etc }) => <SlideController {...{
+      render: ({ match: { params: { index, name }, ...matchetc }, ...etc }) => {
+        console.log(index);
+        if (index == undefined || index - children.length > 0)
+          return <Redirect to={path+"/1"}/>
+        return <SlideController {...{
         className: defaultClassName.concat(className).join(" "),
         show: index,
         path: path,
         index: index - 1
       }}>
-      {index!==undefined && index >= 1 && index <= children.length?
-        React.Children.map(children,
+      { React.Children.map(children,
         (child, i) => React.cloneElement(
           child,
           {
@@ -288,7 +304,7 @@ class Presentation extends React.PureComponent {
             index: i + 1
           }
         )
-      ):<Redirect to={path+"/1"}/>}
+      )}
 
       {delta && ((Delta) => {
         this.state.delta = 0; // probably a crime, but doesn't cause a state change
@@ -296,6 +312,7 @@ class Presentation extends React.PureComponent {
       })(delta)}
 
       </SlideController>
+      }
     }}/>
   }
 }
