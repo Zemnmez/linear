@@ -11,16 +11,6 @@ import urlJoin from 'url-join';
 // babel macros
 import log from '../../debug.macro';
 
-class X {
-  constructor() {
-    log("fuck");
-  }
-}
-
-new X();
-
-
-
 const info = (...a) => {
   if (process.env.NODE_ENV == "development") console.log(...a);
 }
