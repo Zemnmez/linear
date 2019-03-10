@@ -49,7 +49,6 @@ const suspendedConstructor = (constructor) => {
     const real = new constructor(...args);
     // do the stuff
     [...buffer].forEach(([prop, args]) => real[prop](...args));
-    [...buffer].forEach(([prop, args]) => console.log(`${prop}(${args})`));
     get = (target, prop, reciever) => {
       console.log("proxied", `${prop}`);
       return Reflect.get(real, prop, reciever);
@@ -166,96 +165,6 @@ class TrackableChild extends React.PureComponent {
 }
 
 
-class SlideController extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.observer = suspendedConstructor(IntersectionObserver);
-    this.state = { index: props.index }
-
-    this.childVisibilityStats = new Map();
-
-    // still cant believe this is the best way to do this
-    this.childWillUnmount = this.childWillUnmount.bind(this);
-    this.parentWillUnmount = this.parentWillUnmount.bind(this);
-
-    this.parentDidMount = this.parentDidMount.bind(this);
-    this.childDidMount = this.childDidMount.bind(this);
-
-    this.childIndexes = new Map();
-
-    this.afterMount = [];
-  }
-
-  childWillUnmount({index, element}) {
-    this.observer.unobserve(element)
-    this.childIndexes.delete(index);
-  }
-
-  childDidMount({index, element}) {
-    this.observer.observe(element)
-    this.childIndexes.set(index, element);
-  }
-
-  scrollTo(element) { scrollIntoView(element); }
-  elemByIndex(index) { return this.childIndexes.get(index) }
-  indexByElem(elem) {
-    const reverseMap = new Map([...this.childIndexes].map(([a,b])=>[b,a]))
-    console.log(reverseMap);
-    console.log(elem, reverseMap.get(elem));
-    return reverseMap.get(elem)
-  }
-  scrollToIndex(index) {
-    console.log(this.childIndexes, this.childIndexes.get(index));
-    scrollIntoView(this.childIndexes.get(index))
-  }
-
-  componentDidMount() {
-    this.props.index && this.scrollToIndex(this.props.index);
-  }
-
-  scrollDidEnd() {
-    const mostVisible = this.getMostVisible();
-    this.scrollTo(mostVisible.target);
-  }
-
-  parentWillUnmount(root) {
-    this.observer.disconnect()
-  }
-
-  parentDidMount(root) {
-    this.observer(
-        this.childVisibilityDidChange.bind(this),
-        { root, threshold: [ 0, 0.5, 1 ] }
-    );
-  }
-
-  childVisibilityDidChange(ev) {
-    [].forEach.call(ev, (ev) => this.childVisibilityStats.set(ev.target, ev));
-    const index = this.indexByElem(this.getMostVisible().target);
-    this.setState({index});
-  }
-
-  getMostVisible() {
-    return [...this.childVisibilityStats].map(([a,b])=>b).sort(({ intersectionRatio: a }, { intersectionRatio: b }) => a-b).pop();
-  }
-
-  render() {
-    const { props: { children, path, ...etc }, state: { } } = this;
-    return <React.Fragment>
-      {(this.state.index != undefined) && (this.state.index != this.props.index)?
-        <Redirect {...{to: `${path}/${this.state.index+1}`}} />:""}
-      <ChildAndParentTracker {...{
-      childWillUnmount: this.childWillUnmount,
-      childDidMount: this.childDidMount,
-      willUnmount: this.parentWillUnmount,
-      didMount: this.parentDidMount,
-      children,
-      ...etc
-    }}/>
-    </React.Fragment>
-  }
-}
 
 class Presentation extends React.PureComponent {
   constructor(props) {
