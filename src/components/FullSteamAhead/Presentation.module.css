@@ -7,10 +7,13 @@
   scroll-snap-type: y mandatory;
 }
 
+.presentation > * {
+  scroll-snap-align: start;
+}
+
 
 .slide {
   padding: 10%;
-  scroll-snap-align: start;
 }
 
 .presentation.captions .caption { display: block }

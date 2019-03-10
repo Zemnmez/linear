@@ -9,6 +9,7 @@
     "d3": "^5.9.1",
     "draft-js": "^0.10.5",
     "hammerjs": "^2.0.8",
+    "immutable": "^4.0.0-rc.12",
     "knowitwhenyouseeit": "^1.0.0",
     "moment": "^2.24.0",
     "nearley": "^2.16.0",

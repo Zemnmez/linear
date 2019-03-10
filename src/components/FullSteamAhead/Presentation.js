@@ -6,13 +6,12 @@ import {
 import style from './Presentation.module.css';
 import 'intersection-observer';
 import urlJoin from 'url-join';
+import { List } from 'immutable';
 
 // looks like non-relative import paths dont work with
 // babel macros
 import log from '../../macros/log.macro';
 import assert from '../../macros/assert.macro';
-
-assert(1 == 2);
 
 const hurl = (error) => { throw new Error(error) }
 
@@ -57,10 +56,12 @@ class SlideController extends React.PureComponent {
     super(props);
 
     this.state = { scrollTo: this.props.match.index, updateUrlFor: undefined };
+    this.slidePath = this.slidePath.bind(this);
   }
 
   showSlide(index) { return this.scrollToIndex(index) }
-  scrollToSlide({ index }) { scrollIntoView(this.slideBy({ index })) }
+  scrollToSlide({ index }) { return scrollIntoView(this.slideBy({ index })) }
+  slidePath({ index }) { return generatePath(this.props.pathFormat, {index}) }
 
   slideBy({ index }) {
     const target = this.props.children[index];
@@ -68,41 +69,48 @@ class SlideController extends React.PureComponent {
     return target;
   }
 
-  componentDidUpdate(oldProps, oldState) {
-    let newState = {};
-    // url changed, scroll to thing
-    if (this.props.match)
-    if (!this.oldProps || (this.props.match.index != this.oldProps.match.index))
-      newState = { ...newState, scrollTo: this.props.match.index };
-
-    // most visible element changed, change url
-    if (this.props.mostVisible)
-    if (!this.oldProps || (this.props.mostVisible.index != this.oldProps.mostVisible.index))
-      newState = { ...newState, updateUrlFor: this.props.mostVisible.index };
-
-    this.setState({...newState});
-  }
-
   render() {
-    if (this.state.scrollTo) this.scrollToSlide({ index: this.state.scrollTo });
-    if (this.state.updateUrlFor) return <Redirect {...{ to: this.slidePath(this.state.updateUrlFor) }}/>
-    return "";
+    return <React.Fragment>
+      {this.props.mostVisible !== undefined && <IndexChangeRedirector {...{
+        index: this.props.mostVisible.index + 1,
+        slidePath: this.slidePath
+      }}/>}
+    </React.Fragment>
+    //if (this.state.scrollTo) this.scrollToSlide({ index: this.state.scrollTo });
   }
 }
 
-class VisibilityObserver extends React.PureComponent {
+class IndexChangeRedirector extends React.PureComponent {
   constructor(props) {
     super(props);
+    this.state = {};
+  }
+
+  componentDidUpdate(oldProps, oldState) {
+    this.setState({ old: oldProps.index, New: this.props.index });
   }
 
   render() {
-    const visibilityRanking =
-      this.props.entries.map((entry, index) =>
+    const { props: { slidePath }, state: { old, New }} = this;
+    log({ state: this.state });
+    return New !== undefined ?<Redirect {...{
+      to: slidePath({ index: New }),
+      from: old !== undefined ?slidePath({ index: old }): undefined
+    }}/>:""
+  }
+}
+
+
+class VisibilityObserver extends React.PureComponent {
+  render() {
+    const visibilityRanking = this.props.entries.map((entry, index) =>
         ({entry, index})).sort(({entry: {
           intersectionRatio: a
         }}, {entry: {
           intersectionRatio: b
-        }}) => a - b);
+        }}) => b - a);
+
+    log({visibilityRanking})
 
     return this.props.render({visibilityRanking});
   }
@@ -116,38 +124,57 @@ class ReactIntersectionObserver extends React.PureComponent {
     this.state = { entries: [] };
   }
 
+  /*shouldComponentUpdate(oldProps, oldState) {
+    debugger;
+    return !(oldProps.parent === this.props.parent &&
+      oldProps.children.length === this.props.children.length &&
+
+      oldState.entries.length === this.state.entries.length &&
+      this.state.entries.every((v, i) => v === oldState.entries[i])
+    )
+  }*/
+
   intersectionChanged(IntersectionEntries) {
-    const entries = this.state.entries;
-    log("intersection changed", entries);
+    log();
+    let entries = [...this.state.entries];
     IntersectionEntries.forEach(entry =>
-      this.state.entries[
+      entries[
         this.props.children.indexOf(entry.target)
       ] = entry);
+
+    entries = List(entries);
+    log({ entries });
 
     this.setState({ entries });
   }
 
   replaceObserver() {
-    log("(re)creating observer");
+    log();
     this.observer && this.observer.disconnect();
     this.observer = new IntersectionObserver (
       this.intersectionChanged.bind(this),
       {
         root: this.props.parent,
-        threshold: this.props.threshold,
+        threshold: this.props.threshold || [ 0, .5, 1],
       }
     );
 
-    this.props.children.forEach((child) => this.observer.observe(child));
+    this.props.children.forEach((child) => {
+      log("observe", child);
+      this.observer.observe(child)
+    });
 
   }
 
   componentDidUpdate(oldProps, oldState) {
-    log("visibility change detected", {old: oldProps, New: this.props});
+    log({old: oldProps, New: this.props});
     // need to rebuild the observer
     if (oldProps.parent != this.props.parent
       || oldProps.threshold != this.props.threshold) {
-      log("need to rebuild IntersectionObserver due to change in parent or threshold");
+      log("rebuilding observer", {
+        parents: { old: oldProps.parent, New: this.props.parent},
+        thresholds: { old: oldProps.threshold, new: this.props.threshold}
+      });
       return this.replaceObserver()
     }
 
@@ -173,17 +200,24 @@ class ReactIntersectionObserver extends React.PureComponent {
 
   }
 
-  render() {
+  componentDidMount() {
     this.props.parent && this.replaceObserver();
+  }
+
+  componentWillUnmount() {
+    this.observer = this.observer.disconnect();
+  }
+
+  render() {
     const { entries } = this.state;
-    return this.props.render({entries});
+    return this.props.render({entries: List(entries)});
   }
 }
 
 //ChildAndParentTracker exposes a <div> element that pushes
 //up state when it, or its children are mounted or unmounted.
 //Most props are forwarded to the <div> itself.
-class ChildAndParentTracker extends React.PureComponent {
+class ChildAndParentTracker extends React.Component {
   constructor(props) {
     super(props);
 
