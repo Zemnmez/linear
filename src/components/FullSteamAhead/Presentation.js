@@ -3,20 +3,43 @@ import React from 'react';
 import {
   Route, Redirect, generatePath
 } from 'react-router-dom';
+import style from './Presentation.module.css';
+import 'intersection-observer';
+import urlJoin from 'url-join';
+
+// looks like non-relative import paths dont work with
+// babel macros
+import log from '../../debug.macro';
+
+class X {
+  constructor() {
+    log("fuck");
+  }
+}
+
+new X();
 
 
-class Presentation extends React.PureComponent {
+
+const info = (...a) => {
+  if (process.env.NODE_ENV == "development") console.log(...a);
+}
+
+const hurl = (error) => { throw new Error(error) }
+
+export class Presentation extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.pathFormat = `${this.props.location.path}/:index`;
+    this.pathFormat = urlJoin(this.props.match.path, ":index");
   }
 
   render() {
-    const { ...etc } = this.props;
-    render <Route {...{
+    const { children, className, ...etc } = this.props;
+    return <Route {...{
       path: this.pathFormat,
       render: ({ match, location, history }) =>
         <ChildAndParentTracker {...{
+        className: [style.presentation].concat(className).join(" "),
         ...etc,
         render: ({parent, children}) =>
           <ReactIntersectionObserver {...{
@@ -24,9 +47,9 @@ class Presentation extends React.PureComponent {
           render: ({ entries }) =>
             <VisibilityObserver {...{
             entries,
-            render: ([mostVisible]) =>
+            render: ({visibilityRanking: [mostVisible]}) =>
               <SlideController {...{
-                match, location, history
+                match, location, history,
                 parent, children,
                 entries, mostVisible,
                 pathFormat: this.pathFormat
@@ -44,7 +67,7 @@ class SlideController extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = { scrollTo, updateUrlFor };
+    this.state = { scrollTo: this.props.match.index, updateUrlFor: undefined };
   }
 
   showSlide(index) { return this.scrollToIndex(index) }
@@ -59,11 +82,13 @@ class SlideController extends React.PureComponent {
   componentDidUpdate(oldProps, oldState) {
     let newState = {};
     // url changed, scroll to thing
-    if (this.props.match.index != this.oldProps.match.index)
+    if (this.props.match)
+    if (!this.oldProps || (this.props.match.index != this.oldProps.match.index))
       newState = { ...newState, scrollTo: this.props.match.index };
 
     // most visible element changed, change url
-    if (this.props.mostVisible.index != this.oldProps.mostVisible.index)
+    if (this.props.mostVisible)
+    if (!this.oldProps || (this.props.mostVisible.index != this.oldProps.mostVisible.index))
       newState = { ...newState, updateUrlFor: this.props.mostVisible.index };
 
     this.setState({...newState});
@@ -90,7 +115,7 @@ class VisibilityObserver extends React.PureComponent {
           intersectionRatio: b
         }}) => a - b);
 
-    return render({visibilityRanking});
+    return this.props.render({visibilityRanking});
   }
 }
 
@@ -99,10 +124,12 @@ class ReactIntersectionObserver extends React.PureComponent {
     super(props);
 
     this.observer = undefined;
+    this.state = { entries: [] };
   }
 
   intersectionChanged(IntersectionEntries) {
     const entries = this.state.entries;
+    info("intersection changed", entries);
     IntersectionEntries.forEach(entry =>
       this.state.entries[
         this.props.children.indexOf(entry.target)
@@ -112,6 +139,7 @@ class ReactIntersectionObserver extends React.PureComponent {
   }
 
   replaceObserver() {
+    info("(re)creating observer");
     this.observer && this.observer.disconnect();
     this.observer = new IntersectionObserver (
       this.intersectionChanged.bind(this),
@@ -121,22 +149,38 @@ class ReactIntersectionObserver extends React.PureComponent {
       }
     );
 
+    this.props.children.forEach((child) => this.observer.observe(child));
+
   }
 
   componentDidUpdate(oldProps, oldState) {
+    info("visibility change detected", {old: oldProps, New: this.props});
     // need to rebuild the observer
-    if (oldProps.parent != props.parent
-      || oldProps.threshold != props.threshold)
-      return replaceObserver()
+    if (oldProps.parent != this.props.parent
+      || oldProps.threshold != this.props.threshold) {
+      info("need to rebuild IntersectionObserver due to change in parent or threshold");
+      return this.replaceObserver()
+    }
 
     const old = new Set(oldProps.children);
     const New = new Set(this.props.children);
 
-    New.forEach(v =>
-      (!old.has(v))&&this.observer.observe(v));
+    info("intersecting element tracking sets", {old, New});
 
-    old.forEach(v =>
-      (!New.has(v))&&this.observer.unobserve(v));
+
+    New.forEach(v => {
+      if (!old.has(v)) {
+        info("observing new", v);
+        this.observer.observe(v);
+      }
+    });
+
+    old.forEach(v => {
+      if (!New.has(v)) {
+        info("unobserving old", v);
+        this.observer.unobserve(v);
+      }
+    });
 
   }
 
@@ -154,8 +198,6 @@ class ChildAndParentTracker extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    // won't be available until we actually mount
-    // that's why it's suspended.
     this.myRef = React.createRef();
     this.state = {
         parent: undefined,
@@ -191,7 +233,7 @@ class ChildAndParentTracker extends React.PureComponent {
       ref,
       ...etc
     }}>
-      {(({parent,children)=>
+      {(({parent,children})=>
         render({parent,children}))(this.state)}
 
       {React.Children.map(children, (child, i) =>
