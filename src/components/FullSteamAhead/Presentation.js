@@ -9,11 +9,10 @@ import urlJoin from 'url-join';
 
 // looks like non-relative import paths dont work with
 // babel macros
-import log from '../../debug.macro';
+import log from '../../macros/log.macro';
+import assert from '../../macros/assert.macro';
 
-const info = (...a) => {
-  if (process.env.NODE_ENV == "development") console.log(...a);
-}
+assert(1 == 2);
 
 const hurl = (error) => { throw new Error(error) }
 
@@ -119,7 +118,7 @@ class ReactIntersectionObserver extends React.PureComponent {
 
   intersectionChanged(IntersectionEntries) {
     const entries = this.state.entries;
-    info("intersection changed", entries);
+    log("intersection changed", entries);
     IntersectionEntries.forEach(entry =>
       this.state.entries[
         this.props.children.indexOf(entry.target)
@@ -129,7 +128,7 @@ class ReactIntersectionObserver extends React.PureComponent {
   }
 
   replaceObserver() {
-    info("(re)creating observer");
+    log("(re)creating observer");
     this.observer && this.observer.disconnect();
     this.observer = new IntersectionObserver (
       this.intersectionChanged.bind(this),
@@ -144,30 +143,30 @@ class ReactIntersectionObserver extends React.PureComponent {
   }
 
   componentDidUpdate(oldProps, oldState) {
-    info("visibility change detected", {old: oldProps, New: this.props});
+    log("visibility change detected", {old: oldProps, New: this.props});
     // need to rebuild the observer
     if (oldProps.parent != this.props.parent
       || oldProps.threshold != this.props.threshold) {
-      info("need to rebuild IntersectionObserver due to change in parent or threshold");
+      log("need to rebuild IntersectionObserver due to change in parent or threshold");
       return this.replaceObserver()
     }
 
     const old = new Set(oldProps.children);
     const New = new Set(this.props.children);
 
-    info("intersecting element tracking sets", {old, New});
+    log("intersecting element tracking sets", {old, New});
 
 
     New.forEach(v => {
       if (!old.has(v)) {
-        info("observing new", v);
+        log("observing new", v);
         this.observer.observe(v);
       }
     });
 
     old.forEach(v => {
       if (!New.has(v)) {
-        info("unobserving old", v);
+        log("unobserving old", v);
         this.observer.unobserve(v);
       }
     });
