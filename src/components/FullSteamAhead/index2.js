@@ -1,4 +1,5 @@
 class Presentation extends React.Component {
+}
 
 
 
@@ -102,43 +103,63 @@ class SlideController extends React.PureComponent {
 }}/>
 */
 
-class SlideController extends React.Component {
+class SwapSlideURL extends React.PureComponent {
+  static contextType = SlideControllerContext;
   render() {
-    return <ChildAndParentTracker {...{
-      render: ({parent, children}) =>
-        <ReactIntersectionObserver {...{
-          parent, children,
-          render: ({ entries }) =>
-            <VisibilityObserver {...{
-              entries,
-              render: ([mostVisible]) => <Route {...{
-                path: this.props.path + "/:index",
-                render: ({match, location, history}) =>
-                  <SlideVisibilityController {...{
-                    path: this.props.path,
-                    mostVisible,
-                    match,
-                  }}/>
-              }}/>
-            }}/>
+    return this.context.redirectToSlide({ index: this.props.index, stateChange: false });
+  }
+}
+
+class RedirectToSlide extends React.PureCompoenent {
+  static contextType = SlideControllerContext;
+  render() {
+    return this.context.redirectToSlide({ index: this.props.index, stateChange: true });
+  }
+}
+
+class SlideLocationController extends React.PureComponent {
+  render() {
+    render <Route {...{
+      path: this.props.path + "/:index",
+      render: ({ match, location, history }) =>
+        <SlideControllerImpl {...{
+          match, location, history, ...this.props
         }}/>
+    }}/>
+  }
+}
+
+const SlideControllerContext = React.createContext(null);
+class SlideControllerImpl extends React.PureComponent {
+
+  render() {
+    return <SlideControllerContext.Provider {this.context}>
+    <ChildAndParentTracker {...{
+    render: ({parent, children}) =>
+      <ReactIntersectionObserver {...{
+      parent, children,
+      render: ({ entries }) =>
+        <VisibilityObserver {...{
+        entries,
+        render: ([mostVisible]) =>
+          match.params.index != mostVisible.index?
+          <SwapSlideURL {...{index: mostVisible.index }}/>:""
+        }}/>
+      }}/>
     }}>
     {children}
     </ChildAndParentTracker>
+    </SlideControllerContext.Provider>
 }
 
 class SlideVisibilityController extends React.Component {
   render() {
-    const { path, mostVisible , match } =
-      this.props;
+    const { path, mostVisible , match } = this.props;
 
     return match.params.index != mostVisible.index?
-      <Redirect {...{
-        to: {
-          pathname: path + "/" + mostVisible.index,
-          state: { synthetic: true } // to indicated an inhuman change
-        }
-      }}/>: "";
+      <RedirectToSlide {...{
+        index: mostVisible.index,
+      }}: "";
   }
 }
 
