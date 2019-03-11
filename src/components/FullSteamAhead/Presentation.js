@@ -57,10 +57,10 @@ class SlideController extends React.PureComponent {
 
     this.state = { scrollTo: this.props.match.index, updateUrlFor: undefined };
     this.slidePath = this.slidePath.bind(this);
+    this.slideBy = this.slideBy.bind(this);
   }
 
   showSlide(index) { return this.scrollToIndex(index) }
-  scrollToSlide({ index }) { return scrollIntoView(this.slideBy({ index })) }
   slidePath({ index }) { return generatePath(this.props.pathFormat, {index}) }
 
   slideBy({ index }) {
@@ -70,31 +70,62 @@ class SlideController extends React.PureComponent {
   }
 
   render() {
+    const { props: { mostVisible, location, match }, slidePath, slideBy } = this;
     return <React.Fragment>
-      {this.props.mostVisible !== undefined && <IndexChangeRedirector {...{
-        index: this.props.mostVisible.index + 1,
-        slidePath: this.slidePath
-      }}/>}
+      {this.props.mostVisible !== undefined? <IndexChangeRedirector {...{
+        index: mostVisible.index + 1,
+        slidePath: slidePath
+      }}/>:""}
+    {/* this just ensures that the children are loaded in before we try to jump to one */}
+    {this.props.children.length > 0? <IndexChangeScroller {...{
+        state: location.state,
+        index: match.params.index,
+        slideBy
+      }}/>:""}
     </React.Fragment>
-    //if (this.state.scrollTo) this.scrollToSlide({ index: this.state.scrollTo });
   }
 }
 
-class IndexChangeRedirector extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentDidUpdate(oldProps, oldState) {
-    this.setState({ old: oldProps.index, New: this.props.index });
+class IndexChangeScroller extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    const { index } = this.props;
+    if (!nextProps.state) return true;
+    return (!nextProps.state.fromIndexChange) && nextProps.index != index
   }
 
   render() {
-    const { props: { slidePath }, state: { old, New }} = this;
+    log({ target: this.props.index -1 });
+    return <ScrollTo {...{
+      target: this.props.slideBy({index: this.props.index - 1 })
+    }}/>
+  }
+}
+
+const ScrollTo = ({ target, ...etc }) => {
+  console.log({target, etc});
+  setTimeout(()=>new Promise((ok) => window.requestAnimationFrame(ok)).then(()=>
+    scrollIntoView(target, etc)),100);
+  return "";
+}
+
+class IndexChangeRedirector extends React.PureComponent {
+  componentDidUpdate(oldProps, oldState) {
+    log({old: oldProps.index, New: this.props.index});
+    this.old = oldProps.index;
+    this.New = this.props.index;
+    // calling setState caused this to be called twice each time ...
+    // which broke the old / new diffing
+    //this.setState({ old: oldProps.index, New: this.props.index });
+  }
+
+  render() {
+    const { props: { slidePath }, old, New} = this;
     log({ state: this.state });
     return New !== undefined ?<Redirect {...{
-      to: slidePath({ index: New }),
+      to: {
+        pathname: slidePath({ index: New }),
+        state: { fromIndexChange: true }
+      },
       from: old !== undefined ?slidePath({ index: old }): undefined
     }}/>:""
   }
