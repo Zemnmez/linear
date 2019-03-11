@@ -102,9 +102,6 @@ class IndexChangeScroller extends React.Component {
 }
 
 const ScrollTo = ({ target, ...etc }) => {
-  console.log({target, etc});
-  setTimeout(()=>new Promise((ok) => window.requestAnimationFrame(ok)).then(()=>
-    scrollIntoView(target, etc)),100);
   return "";
 }
 
