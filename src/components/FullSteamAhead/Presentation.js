@@ -95,6 +95,7 @@ class SlideController extends React.PureComponent {
 
   render() {
     const { props: { mostVisible, location, match }, slidePath, slideBy } = this;
+    log({...this});
     if (match.params.index == undefined) return <Redirect {...{
         to: slidePath({ index: 1 })
       }}/>
@@ -147,18 +148,32 @@ class ScrollTo extends React.PureComponent {
 }
 
 class IndexChangeRedirector extends React.PureComponent {
+  /*
   componentDidUpdate(oldProps, oldState) {
-    log({old: oldProps.index, New: this.props.index});
     this.old = oldProps.index;
     this.New = this.props.index;
     // calling setState caused this to be called twice each time ...
     // which broke the old / new diffing
     //this.setState({ old: oldProps.index, New: this.props.index });
+  }*/
+
+  constructor(props) {
+    super(props);
+    this.state = { old: undefined, New: this.props.index }
+  }
+
+
+  static getDerivedStateFromProps(props, state) {
+    if ( props.index == state.New ) return;
+    const [ old, New ] = [ state.New, props.index];
+    assert( old != New, { old, New });
+    return { old, New };
   }
 
   render() {
-    const { props: { slidePath }, old, New} = this;
-    log({ state: this.state });
+    const { props: { index, slidePath }, state: {old, New} } = this;
+    log({ index });
+    log({ old, New });
     return New !== undefined ?<Redirect {...{
       to: {
         pathname: slidePath({ index: New }),
@@ -177,7 +192,7 @@ class VisibilityObserver extends React.PureComponent {
           intersectionRatio: a
         }}, {entry: {
           intersectionRatio: b
-        }}) => a - b);
+        }}) => b - a);
 
     log({visibilityRanking})
     log("most visible slide", [...visibilityRanking][0]);
