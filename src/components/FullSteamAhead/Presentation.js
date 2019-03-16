@@ -107,9 +107,18 @@ class IndexChangeScroller extends React.Component {
   }
 }
 
-const ScrollTo = ({ target, ...etc }) => {
-  scrollIntoView(target);
-  return "";
+class ScrollTo extends React.PureComponent {
+
+  throttle;
+  render() {
+    const { target, ...etc } = this.props;
+    this.throttle&&clearTimeout(this.throttle);
+    // hack to wait until css is rendered (probably)
+    // i would use fragment but fucking react-router doesnt support it
+    // and also it would mean injecting ids into child elements which i dont like
+    this.throttle = setTimeout(() => scrollIntoView(target), 100);
+    return "";
+  }
 }
 
 class IndexChangeRedirector extends React.PureComponent {
@@ -159,16 +168,6 @@ class ReactIntersectionObserver extends React.PureComponent {
     this.observer = undefined;
     this.state = { entries: [] };
   }
-
-  /*shouldComponentUpdate(oldProps, oldState) {
-    debugger;
-    return !(oldProps.parent === this.props.parent &&
-      oldProps.children.length === this.props.children.length &&
-
-      oldState.entries.length === this.state.entries.length &&
-      this.state.entries.every((v, i) => v === oldState.entries[i])
-    )
-  }*/
 
   intersectionChanged(IntersectionEntries) {
     log();
