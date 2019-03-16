@@ -36,18 +36,11 @@ export class Presentation extends React.PureComponent {
             <VisibilityObserver {...{
             entries,
             render: ({visibilityRanking: [mostVisible]}) =>
-              <PropsThrottler {...{
-                throttle: 200,
-                mostVisible,
-                match,
-                render: ({mostVisible, match}) => <SlideController {...{
-                  match: match || {
-                    params: {index: undefined} },
-                  location, history,
-                  parent, children,
-                  entries, mostVisible,
-                  pathFormat: this.pathFormat
-                }}/>
+              <SlideController {...{
+                match, location, history,
+                parent, children,
+                entries, mostVisible,
+                pathFormat: this.pathFormat
               }}/>
             }}/>
           }}/>
@@ -62,6 +55,7 @@ class SlideController extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    this.state = { scrollTo: this.props.match.index, updateUrlFor: undefined };
     this.slidePath = this.slidePath.bind(this);
     this.slideBy = this.slideBy.bind(this);
   }
@@ -160,8 +154,6 @@ class PropsThrottler extends React.PureComponent {
   render() {
     const { render } = this.props;
     const { ...etc } = this.state;
-    log("pushing throttled props", { ...etc });
-
     return this.props.render({ ...etc });
   }
 }
