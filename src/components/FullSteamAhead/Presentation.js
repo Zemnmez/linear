@@ -15,6 +15,15 @@ import assert from '../../macros/assert.macro';
 
 const hurl = (error) => { throw new Error(error) }
 
+const SlideIndexContext = React.createContext(undefined);
+const IndexContext = React.forwardRef(({children, value, ...etc}, ref) =>
+  <SlideIndexContext.Provider {...{
+    value,
+    children: React.cloneElement(
+      React.Children.only(children),
+      { ref }
+    )
+  }}/>);
 export class Presentation extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -45,9 +54,25 @@ export class Presentation extends React.PureComponent {
             }}/>
           }}/>
         }}>
-        {children}
+        {React.Children.map(children, (child, i) => <IndexContext
+          value={i+1}>{child}</IndexContext>)}
         </ChildAndParentTracker>
     }}/>
+  }
+}
+
+export const SlideIndex = ({ className, ...etc }) => <span {...{
+  className: [style.slideIndex].concat(className).join(" "),
+  ...etc
+}}/>
+
+export class CustomSlideIndex extends React.PureComponent {
+  static contextType = SlideIndexContext;
+  render() {
+    let { render } = this.props;
+    assert(render !== undefined);
+
+    return render(this.context);
   }
 }
 
