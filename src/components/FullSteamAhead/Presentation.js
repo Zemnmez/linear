@@ -55,12 +55,10 @@ class SlideController extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = { scrollTo: this.props.match.index, updateUrlFor: undefined };
     this.slidePath = this.slidePath.bind(this);
     this.slideBy = this.slideBy.bind(this);
   }
 
-  showSlide(index) { return this.scrollToIndex(index) }
   slidePath({ index }) { return generatePath(this.props.pathFormat, {index}) }
 
   slideBy({ index }) {
@@ -110,6 +108,7 @@ class IndexChangeScroller extends React.Component {
 }
 
 const ScrollTo = ({ target, ...etc }) => {
+  scrollIntoView(target);
   return "";
 }
 
@@ -136,27 +135,6 @@ class IndexChangeRedirector extends React.PureComponent {
   }
 }
 
-
-// waits for props to settle before rendering
-// in the context of this app, we use it to wait for
-// visibility events to settle before attempting a forced scroll
-class PropsThrottler extends React.PureComponent {
-  throttleTimer;
-  componentDidUpdate(pastProps, pastState) {
-    const { render, throttle, ...etc } = this.props;
-    assert(throttle != undefined);
-    if (this.throttleTimer) clearTimeout(this.throttleTimer);
-    this.throttleTimer = setTimeout(() =>
-      this.setState({...etc})
-    , throttle)
-  }
-
-  render() {
-    const { render } = this.props;
-    const { ...etc } = this.state;
-    return this.props.render({ ...etc });
-  }
-}
 
 class VisibilityObserver extends React.PureComponent {
   render() {
