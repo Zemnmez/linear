@@ -320,3 +320,13 @@ class TrackableChild extends React.PureComponent {
     );
   }
 }
+
+export const TitleGroup = ({ children, className, ...etc }) => <div {...{
+  className: [style.titleGroup].concat(className).join(" "),
+  ...etc
+}}> {children} </div>
+
+export const Notes = ({ children, className, ...etc }) => <div {...{
+  className: [style.notes].concat(className).join(" "),
+  ...etc
+}}> {children} </div>

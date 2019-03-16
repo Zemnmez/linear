@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import {
-  Presentation, Slide, Title
+  Presentation, TitleGroup,
+  Notes
 } from './Presentation';
 
 import ReactMarkdown from 'react-markdown';
 
 export default ({ ...etc }) => <Presentation {...{ ...etc }}>
   <div>
-    this is slide 1!
+    <TitleGroup>
+      <h1>Full Steam Ahead: RCE in Modern Desktop Applications</h1>
+      <h2>Thomas "zemnmez" Shadwell</h2>
+    </TitleGroup>
   </div>
 
   <div>

@@ -13,8 +13,18 @@
   scroll-snap-align: start;
   -webkit-scroll-snap-align: start;
   -ms-scroll-snap-align: start;
+  display: grid;
 }
 
+.presentation .notes {
+  display: none;
+}
+
+.titleGroup {
+  text-align: center;
+  margin: auto;
+  max-width: 30rem;
+}
 
 .slide {
   padding: 10%;
