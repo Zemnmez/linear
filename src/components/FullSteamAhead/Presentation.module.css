@@ -5,10 +5,14 @@
   height: 100vh;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
+  -webkit-scroll-snap-type: y mandatory;
+  -ms-scroll-snap-type: y mandatory;
 }
 
 .presentation > * {
   scroll-snap-align: start;
+  -webkit-scroll-snap-align: start;
+  -ms-scroll-snap-align: start;
 }
 
 

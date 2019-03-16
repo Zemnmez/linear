@@ -18,7 +18,7 @@ const hurl = (error) => { throw new Error(error) }
 export class Presentation extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.pathFormat = urlJoin(this.props.match.path, ":index");
+    this.pathFormat = urlJoin(this.props.match.path, "/:index?");
   }
 
   render() {
@@ -65,13 +65,21 @@ class SlideController extends React.PureComponent {
 
   slideBy({ index }) {
     const target = this.props.children[index];
-    if (!target) hurl(`cant find slide ${index} :(`);
+    if (!target) hurl(`cant find slide ${index} :(
+    nb: slideBy slides are zero-indexed`);
     return target;
   }
 
   render() {
     const { props: { mostVisible, location, match }, slidePath, slideBy } = this;
+    if (match.params.index == undefined) return <Redirect {...{
+        to: slidePath({ index: 1 })
+      }}/>
     return <React.Fragment>
+      {/*<SlideHotkeyController {...{
+        slidePath,
+        slideBy
+      }}/>*/}
       {this.props.mostVisible !== undefined? <IndexChangeRedirector {...{
         index: mostVisible.index + 1,
         slidePath: slidePath
@@ -94,7 +102,7 @@ class IndexChangeScroller extends React.Component {
   }
 
   render() {
-    log({ target: this.props.index -1 });
+    log("scroll to", { target: this.props.index });
     return <ScrollTo {...{
       target: this.props.slideBy({index: this.props.index - 1 })
     }}/>
@@ -129,6 +137,27 @@ class IndexChangeRedirector extends React.PureComponent {
 }
 
 
+// waits for props to settle before rendering
+// in the context of this app, we use it to wait for
+// visibility events to settle before attempting a forced scroll
+class PropsThrottler extends React.PureComponent {
+  throttleTimer;
+  componentDidUpdate(pastProps, pastState) {
+    const { render, throttle, ...etc } = this.props;
+    assert(throttle != undefined);
+    if (this.throttleTimer) clearTimeout(this.throttleTimer);
+    this.throttleTimer = setTimeout(() =>
+      this.setState({...etc})
+    , throttle)
+  }
+
+  render() {
+    const { render } = this.props;
+    const { ...etc } = this.state;
+    return this.props.render({ ...etc });
+  }
+}
+
 class VisibilityObserver extends React.PureComponent {
   render() {
     const visibilityRanking = this.props.entries.map((entry, index) =>
@@ -136,9 +165,10 @@ class VisibilityObserver extends React.PureComponent {
           intersectionRatio: a
         }}, {entry: {
           intersectionRatio: b
-        }}) => b - a);
+        }}) => a - b);
 
     log({visibilityRanking})
+    log("most visible slide", [...visibilityRanking][0]);
 
     return this.props.render({visibilityRanking});
   }
