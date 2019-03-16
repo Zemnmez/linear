@@ -66,7 +66,7 @@ export const SlideIndex = ({ className, ...etc }) => <span {...{
   ...etc
 }}/>
 
-export class CustomSlideIndex extends React.PureComponent {
+class CustomSlideIndex extends React.PureComponent {
   static contextType = SlideIndexContext;
   render() {
     let { render } = this.props;
@@ -355,3 +355,19 @@ export const Notes = ({ children, className, ...etc }) => <div {...{
   className: [style.notes].concat(className).join(" "),
   ...etc
 }}> {children} </div>
+
+export const BackgroundYoutube = ({ video, className, options, ...etc }) => <iframe {...{
+  src: `//youtube.com/embed/${encodeURIComponent(video)}?${
+      Object.entries({
+        loop: 1,
+        playlist: video,
+        autoplay: 1,
+        controls: 0,
+        mute: 1,
+        ...options
+      }).map(([key, value]) => [key, value].map(encodeURIComponent).join("=")).join("&")
+    }`,
+  frameborder: 0,
+  allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
+  className: [].concat(className).join(" ")
+}}/>

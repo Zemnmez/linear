@@ -1,5 +1,7 @@
 .caption { display: none }
+.presentation * { box-sizing: border-box }
 .presentation {
+  font-size: x-large;
   grid-auto-rows: 100vh;
   display: grid;
   height: 100vh;
@@ -13,6 +15,7 @@
 }
 
 .presentation > * {
+  overflow: hidden;
   counter-increment: slide;
   scroll-snap-align: start;
   -webkit-scroll-snap-align: start;
@@ -20,11 +23,12 @@
   display: grid;
   /* enforce a minimum margin for mobile */
   box-sizing: border-box;
-  padding: 1rem;
+  padding: 1em;
 }
 
 .slideIndex::before {
   content: counter(slide);
+  user-select: auto;
 }
 
 .presentation .notes {
@@ -34,7 +38,7 @@
 .titleGroup {
   text-align: center;
   margin: auto;
-  max-width: 30rem;
+  max-width: 30em;
 }
 
 .slide {
