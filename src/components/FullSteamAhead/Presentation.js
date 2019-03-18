@@ -10,8 +10,9 @@ import { List } from 'immutable';
 
 // looks like non-relative import paths dont work with
 // babel macros
-import log from '../../macros/log.macro';
-import assert from '../../macros/assert.macro';
+import log from '@zemnmez/macros/log.macro';
+import assert from '@zemnmez/macros/assert.macro';
+
 
 const hurl = (error) => { throw new Error(error) }
 
@@ -28,6 +29,7 @@ export class Presentation extends React.PureComponent {
   constructor(props) {
     super(props);
     this.pathFormat = urlJoin(this.props.match.path, "/:index?");
+    assert(false == true, "some message");
   }
 
   render() {
