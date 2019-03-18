@@ -1165,6 +1165,11 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.1.tgz#5c85d662f76fa1d34575766c5dcd6615abcd30d8"
   integrity sha512-FZdkNBDqBRHKQ2MEbSC17xnPFOhZxeJ2YGSfr2BKf3sujG49Qe3bB+rGCwQfIaA7WHnGeGkSijX4FuBCdrzW/g==
 
+"@zemnmez/bio@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@zemnmez/bio/-/bio-1.0.1.tgz#68358a8eb100e16182415e1f8f9e76ebdccd4cec"
+  integrity sha512-986s8Bsr0q6r6GKP7fmM+BFTNZ006b3ZkrKl4Ii3ry2YZfCc3dmClHIzZ7j9FkSAyQdlrt5E0oOtbRi5R5AdGQ==
+
 "@zemnmez/macros@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@zemnmez/macros/-/macros-1.0.0.tgz#0eadaba955942c5c6658309a531988422bd3b1d7"

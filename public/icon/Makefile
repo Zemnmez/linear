@@ -2,6 +2,11 @@ sizes = 48x48 72x72 96x96 128x128 144x144 152x152 192x192 384x384 256x256 512x51
 
 png_icons = $(addsuffix .png, $(sizes))
 ico_icons = $(addsuffix .ico, 16x16 32x32 48x48 64x64)
+files := $(png_icons) $(ico_icons)
+json_files := $(addsuffix .json,$(files))
+.PRECIOUS: $(files)
+.INTERMEDIATE: json_files
+
 
 get_dimension = $(word $2,$(subst x, ,$1))
 get_width = $(call get_dimension, $1, 1)
@@ -28,9 +33,7 @@ get_height = $(call get_dimension, $1, 2)
 		'{src: $$src, sizes: $$sizes}' > $@
 
 
-manifest.json: logo.svg.json \
-		$(addsuffix .json, $(png_icons)) \
-		$(addsuffix .json, $(ico_icons))
+manifest.json: logo.svg.json $(json_files)
 	jq -s '.' $^ > $@
 
 logo.svg:

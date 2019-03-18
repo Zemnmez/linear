@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import './App.css';
 import style from './App.module.css';
-import bio from 'bio/bio.json';
+import bio from '@zemnmez/bio';
 import {
   BrowserRouter as Router,
   Route,

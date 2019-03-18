@@ -1,5 +1,3 @@
-.PHONY: bio/bio.json
-bio/bio.json:
-	git submodule update bio
+.PHONY:
 
-all: bio.json
+all:

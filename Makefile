@@ -3,7 +3,6 @@ public/% src/%: .FORCE
 
 .PHONY: all
 all: .FORCE public/manifest.json \
-	src/bio/bio.json \
 	src/components/Home/static/ash.jpg \
 
 .PHONY: invalidate cache

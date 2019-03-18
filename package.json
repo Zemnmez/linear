@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@zemnmez/bio": "^1.0.1",
     "@zemnmez/macros": "^1.0.0",
     "@zemnmez/moo": "^0.5.0",
     "babel-plugin-trace": "^1.1.0",
