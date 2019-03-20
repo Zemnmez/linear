@@ -10,7 +10,7 @@ const parseUrl = (url) => {
 }
 
 
-const Redirect = ({ to, children, ...etc }) => {
+const Redirect = ({ to, children, push, ...etc }) => {
   const { pathname, search, hash, origin, protocol, href } = parseUrl(to);
   if (!/^https?:$/.test(protocol))
     hurl(`non-whitelisted protocol ${protocol}`)
@@ -22,12 +22,14 @@ const Redirect = ({ to, children, ...etc }) => {
         search,
         hash,
         origin,
+        push,
         children,
         ...etc
       }
     }}/>
 
-  return window.location.href = href, "";
+  if (push) return window.location.assign(href), "";
+  return window.location.replace(href), "";
 }
 
 
