@@ -1,37 +1,70 @@
 import React from 'react';
 import Redirect from 'components/Redirect';
-import { Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import urlJoin from 'url-join';
 import log from '@zemnmez/macros/log.macro';
 
 
-const Go = ({ }) => <Route {...{
-  render: ({ location: {search} }) => {
-      log({search});
-
-      if (!search.length) return <Redirect {...{
-        to: ".."
-      }}/>
-      const params = new Map(search
-        .slice(1)
-        .split("&")
-        .map(param => param.split("=")));
-
-      const [dir, file, line] = "dir file line"
-        .split(" ")
-        .map( s => params.get(s) || "");
-
-
+const Src = ({ match: { path } }) => <Route {...{
+  path: path + "/:path*",
+  render: ({ location: { hash }, match: { params: { path } } }) => {
       return <Redirect {...{
         to: urlJoin(
           'https://github.com/zemnmez/go/blob/master/',
-          dir,
-          file,
-          `#L${line}`
+          path,
+          hash
         )
       }}/>
     }
 }}/>
+
+
+const Doc = ({ match: { path } }) => <Route {...{
+  path: path + "/:path*",
+  render: ({ location: { hash }, match: { params: { path } } }) => {
+      return <Redirect {...{
+        to: urlJoin(
+          'https://godoc.org',
+          path,
+          hash
+        )
+      }}/>
+    }
+}}/>
+
+
+
+const Go = ({ match: { path: rootPath }, ...etc }) => <Switch>
+  <Route {...{
+    path: rootPath + "/src",
+    render: ({ ...etc2 }) => <Src {...{
+      ...etc,
+      ...etc2
+    }}/>
+  }}/>
+
+  <Route {...{
+    path: rootPath + "/doc",
+    render: ({ ...etc2 }) => <Doc {...{
+      ...etc,
+      ...etc2
+    }}/>
+  }}/>
+
+  <Route {...{
+    path: rootPath + "/:path*",
+    render: ({ location: { hash }, match: { params: { path } } }) =>
+      <Redirect {...{
+        to: urlJoin(
+          rootPath,
+          "doc",
+          document.location.hostname,
+          path
+        )
+      } } />
+  }}/>
+</Switch>
+
 
 
 export default Go;

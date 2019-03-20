@@ -75,7 +75,6 @@ class App extends React.PureComponent {
           }}/>
 
           <Route {...{
-            exact: true,
             path: "/go",
             render: ({ ...etc }) => <AsyncGo {...{ className, ...etc }}/>
           }}/>
