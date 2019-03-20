@@ -21,6 +21,7 @@ const AsyncCV = React.lazy(() => import("components/CV"));
 const AsyncHome = React.lazy(() => import("components/Home"));
 const AsyncThrace = React.lazy(() => import("components/Thrace"));
 const AsyncFullSteamAhead = React.lazy(() => import("components/FullSteamAhead"));
+const AsyncGo = React.lazy(() => import("components/Go"));
 
 
 
@@ -71,6 +72,12 @@ class App extends React.PureComponent {
               mode: "slides",
               ...etc
             }}/>
+          }}/>
+
+          <Route {...{
+            exact: true,
+            path: "/go",
+            render: ({ ...etc }) => <AsyncGo {...{ className, ...etc }}/>
           }}/>
 
           <Route exact path="/thrace" render={() => <AsyncThrace {...{

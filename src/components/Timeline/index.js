@@ -1,6 +1,7 @@
 import style from './Timeline.module.css';
 import Moment from 'react-moment';
 import React from 'react';
+import Link from 'components/Link';
 
 
 export default ({ className, timeline, minimumPriority, focuses = [], limit = Infinity}) => {
@@ -87,9 +88,9 @@ const Month =({ month, events, className }) => <div {...{
 const Event = ({date, tags, url, title, description, longDescription, duration, className }) => <div {...{
     className: [style.event].concat(className, tags).join(" ")
   }}>
-  <a className={style.title} href={url}>
+  <Link className={style.title} to={url}>
     {title.split(",").map((segment, i) => <span key={i}>{segment.trim()}</span>)}
-  </a>{" "}
+  </Link>{" "}
   {duration?<Duration {...{date, duration}}/>:""}
   <Description {...{description}} />
 </div>
