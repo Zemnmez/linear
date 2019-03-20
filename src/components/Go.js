@@ -59,7 +59,7 @@ const Go = ({ match: { path: rootPath }, ...etc }) => <Switch>
           rootPath,
           "doc",
           document.location.hostname,
-          path
+          path || ""
         )
       } } />
   }}/>
