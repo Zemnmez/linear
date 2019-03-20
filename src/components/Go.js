@@ -25,6 +25,7 @@ const Doc = ({ match: { path } }) => <Route {...{
       return <Redirect {...{
         to: urlJoin(
           'https://godoc.org',
+          document.location.hostname,
           path,
           hash
         )
@@ -58,7 +59,6 @@ const Go = ({ match: { path: rootPath }, ...etc }) => <Switch>
         to: urlJoin(
           rootPath,
           "doc",
-          document.location.hostname,
           path || ""
         )
       } } />
