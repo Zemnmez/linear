@@ -14,7 +14,7 @@
   grid-auto-rows: min-content;
 }
 
-.duration {  opacity: .5 }
+.duration { }
 
 .title > * + *::before { content: ", " }
 
