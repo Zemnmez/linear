@@ -11,7 +11,11 @@ const parseUrl = (url) => {
 
 
 const Link = ({ to, children, ...etc }) => {
-  const { pathname, search, hash, origin, protocol, href } = parseUrl(to);
+  let { pathname, search, hash, origin, protocol, href } = parseUrl(to);
+  if ( to == undefined ) {
+    origin = to;
+    to = "";
+  };
   if (!/^https?:$/.test(protocol))
     hurl(`non-whitelisted protocol ${protocol}`)
 

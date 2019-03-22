@@ -17,5 +17,6 @@
   ],
   "start_url": ".?utm_source=pwa",
   "display": "fullscreen",
+  "theme_color": "white",
   "background_color": "#ffffff"
 }
