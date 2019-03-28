@@ -65,7 +65,7 @@
 .month[data-month="11"]::before { content: "Dec" }
 
 .event {
-  grid-column: 2 ;
+  grid-column: 2;
   max-width: 30rem;
   padding: 1em 0 1em 3em;
   text-transform: lowercase;
@@ -75,7 +75,7 @@
   display: grid;
   grid: "bullet title . duration"
         ". description description description"
-        / 1rem 2fr 2em 10em;
+        / 1rem 2fr 2em 3em;
 }
 
 .event:not(:global(.work)) .description p:first-child {
