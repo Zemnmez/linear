@@ -1,26 +1,23 @@
 import React from 'react';
+import log from '@zemnmez/macros/log.macro';
 import D3 from 'reactive-d3';
 import style from './Graph.module.css';
 import * as d3 from 'd3';
 
-export default class Graph extends React.PureComponent {
+class GraphRenderer extends React.PureComponent {
   join({main, width, height}) {
-    const data = this.props.timeline;
+
+    log({...this.props});
+    const { data, tags } = this.props;
 
     const svg = d3.select(main);
     svg.attr("viewBox", `0 0 ${width} ${height}`);
+    svg.attr("width", width);
+    svg.attr("height", height);
     const margin = ({top: 20, right: 30, bottom: 30, left: 60});
 
-    const tags = [...data.reduce((a, c) => {
-          c.tags.forEach(tag => a.set(
-            tag,
-            (a.get(tag) || 0) + 1
-          ));
-          return a;
-        }, new Map())].sort(
-          ([, count], [, count2]) => d3.ascending(count, count2)
-        ).map(([tag, count]) => tag);
     const axes = {}
+    const self = this;
     axes.tags = new class {
       constructor(){ this.scaleData = this.scaleData.bind(this); }
 
@@ -72,7 +69,7 @@ export default class Graph extends React.PureComponent {
       .call(d3.axisBottom(axes.x.scale));
 
     let events = svg.select(`.${style.boxes}`).selectAll("g")
-      .data(data.map(({tags,date})=>tags.map(tag=>({tag,date}))));
+      .data(this.props.events);
 
     events.exit().remove();
 
@@ -94,9 +91,6 @@ export default class Graph extends React.PureComponent {
 
   }
 
-
-
-
   render() {
     const { props: { className } } = this;
 
@@ -113,4 +107,26 @@ export default class Graph extends React.PureComponent {
     </D3>
   }
 
+}
+
+export default class Graph extends React.PureComponent {
+  render() {
+    const { timeline: data, ...etc } = this.props;
+    log({...this.props});
+    return <GraphRenderer {...{
+      tags: [...data.reduce((a, c) => {
+          c.tags.forEach(tag => a.set(
+            tag,
+            (a.get(tag) || 0) + 1
+          ));
+          return a;
+        }, new Map())].sort(
+          ([, count], [, count2]) => d3.ascending(count, count2)
+        ).map(([tag, count]) => tag),
+    events: data.map(({tags,date})=>tags.map(tag=>({tag,date}))),
+    data,
+    ...etc
+    }}/>
+
+  }
 }
