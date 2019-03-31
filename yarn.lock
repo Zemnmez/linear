@@ -1166,9 +1166,9 @@
   integrity sha512-FZdkNBDqBRHKQ2MEbSC17xnPFOhZxeJ2YGSfr2BKf3sujG49Qe3bB+rGCwQfIaA7WHnGeGkSijX4FuBCdrzW/g==
 
 "@zemnmez/bio@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@zemnmez/bio/-/bio-1.0.1.tgz#68358a8eb100e16182415e1f8f9e76ebdccd4cec"
-  integrity sha512-986s8Bsr0q6r6GKP7fmM+BFTNZ006b3ZkrKl4Ii3ry2YZfCc3dmClHIzZ7j9FkSAyQdlrt5E0oOtbRi5R5AdGQ==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@zemnmez/bio/-/bio-1.0.2.tgz#47ac6109b263198caacd21b82a752fcdb59be89b"
+  integrity sha512-gyWAbr5aHBo+Dk1HHbudlVmads27yySbo23qf4g0L288+lER0ZX3PrxjgN5wnsVS9kDO1/rj+KuH6WBFx7sCew==
 
 "@zemnmez/macros@^1.0.0":
   version "1.0.0"
