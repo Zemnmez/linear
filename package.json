@@ -1,6 +1,6 @@
 {
   "name": "@zemnmez/bio",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "structured information about my life",
   "main": "bio.json",
   "repository": "https://github.com/Zemnmez/bio",
