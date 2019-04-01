@@ -1,7 +1,6 @@
 handlers = $(patsubst handler/%,dist/%,$(wildcard handler/*))
 
 dist.zip: $(handlers)
-	echo "making handlers: $(handlers)"
 	zip -FSj $@ $^
 
 #getDeps = $(shell go list -f '{{.Deps}}' $(1) | xargs go list -f '{{$$this:=.}}{{range .GoFiles}}{{$$this.Dir}}/{{.}} {{end}}')
