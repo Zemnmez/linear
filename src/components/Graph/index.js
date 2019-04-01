@@ -2,7 +2,13 @@ import React from 'react';
 import log from '@zemnmez/macros/log.macro';
 import D3 from 'reactive-d3';
 import style from './Graph.module.css';
-import * as d3 from 'd3';
+
+import * as selection from 'd3-selection';
+import * as scale from 'd3-scale';
+import * as axis from 'd3-axis';
+import * as array from 'd3-array';
+
+const d3 = {...selection, ...scale, ...axis, ...array};
 
 class GraphRenderer extends React.PureComponent {
   join({main, width, height}) {
