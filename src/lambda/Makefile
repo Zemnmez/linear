@@ -1,17 +1,17 @@
 handlers = $(patsubst handler/%,dist/%,$(wildcard handler/*))
 
 dist.zip: $(handlers)
+	echo "making handlers: $(handlers)"
 	zip -FSj $@ $^
 
 #getDeps = $(shell go list -f '{{.Deps}}' $(1) | xargs go list -f '{{$$this:=.}}{{range .GoFiles}}{{$$this.Dir}}/{{.}} {{end}}')
 # maybe one day i will generate the deps dynamically lol
 # must be forced because cant determine whether update is
 # needed purely based on go files
-dist/%: handler/%/bin
-	mv $< $@
+dist/%: handler/%.go.Makefile
+	$(MAKE) -$(MAKEFLAGS) -f $< dist/$*
 
-handler/%/bin: handler/%/Makefile
-	$(MAKE) -C handler/$* bin
+handler/%/bin:
 
 .PHONY: run lambda
 run: $(handlers)
@@ -34,18 +34,19 @@ testfast: $(handlers)
 	kill -9 $$SVR
 
 
-%.package-deps.txt: .FORCE %
+%.package-deps.txt: % .FORCE
 	go list -f '{{range .Deps}}{{.}} {{end}}' ./$* > $@
 
-%.file-deps.txt: .FORCE %.package-deps.txt
+%.package-name.txt: %
+	echo "$(notdir $<)" > $@
+
+%.file-deps.txt: %.package-deps.txt .FORCE
 	cat $< | xargs go list -f '{{$$t:=.}}{{range .GoFiles}}{{$$t.Dir}}/{{.}} {{end}}' | \
-		tr '\n' ' ' > $@
+		tr '\n' ' ' | sed -E 's/[ ]+/ /g' > $@
 
-%.go.Makefile: %.file-deps.txt
-	echo "bin: $$(cat $<)\\n\\tGO111MODULE=on GOOS=linux go build -v -o \$$@ .\\n" > $@
+%.go.Makefile: %.file-deps.txt %.package-name.txt
+	echo "dist/$$(cat $*.package-name.txt): $$(cat $<)\\n\\tGO111MODULE=auto GOOS=linux go build -v -o \$$@ ./$*\\n" > $@
 
-handler/%/Makefile: handler/%.go.Makefile
-	mv $< $@
 
 
 
