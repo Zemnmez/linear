@@ -10659,9 +10659,9 @@ text-table@0.2.0, text-table@^0.2.0:
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
 thrace@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/thrace/-/thrace-1.0.2.tgz#7bc4354fffffe666948b7d7ba08947db00f4c964"
-  integrity sha512-635H+30KX7UqO2I7McKNLCB6Y8QFubO0jnyuL9tdR/+ZYJOjhnMU+eU7/GqlNh0/myPFI5b96ZC+rX3c2mXaXQ==
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/thrace/-/thrace-1.0.4.tgz#0fd31f79b0075e40ed4062781587d3767941e326"
+  integrity sha512-Rrz+hV9YxX3TXonTNbN7NexehyFG8L5mSUDouE7KD+nqTDcC5leFaOOeXNeJie0SYApBeKCwKv+dgw4HhncJoQ==
 
 throat@^4.0.0:
   version "4.1.0"
