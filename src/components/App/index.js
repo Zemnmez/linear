@@ -22,6 +22,7 @@ const AsyncHome = React.lazy(() => import("components/Home"));
 const AsyncThrace = React.lazy(() => import("components/Thrace"));
 const AsyncFullSteamAhead = React.lazy(() => import("components/FullSteamAhead"));
 const AsyncGo = React.lazy(() => import("components/Go"));
+const AsyncPetals = React.lazy(() => import("components/Art/Apr2nd2019"));
 
 
 
@@ -65,6 +66,12 @@ class App extends React.PureComponent {
           data: this.state.data,
           className
         }}/>}/>
+
+        <Route exact path="/generative/petals" {...{
+          render: () => <AsyncPetals {...{
+            className
+          }}/>
+        }}/>
 
          <Route path="/talk/full-steam-ahead/" {...{
             render: ({ ...etc }) => <AsyncFullSteamAhead {...{
