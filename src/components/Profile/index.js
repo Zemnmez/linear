@@ -17,7 +17,10 @@ export const Profile = ({className, data: {who, timeline, links}}) => <div {...{
   <Rule className={style.rule}>⁂</Rule>
 
   <Footer timeline={timeline} />
+
 </div>
+
+
 
 export const Header = ({who: {name: names, handle}, links, className}) => <header {...{
   className: [style.header].concat(className).join(" ")
@@ -47,10 +50,21 @@ export const Footer = ({timeline, className}) => <footer {...{
 
   <Graph timeline={timeline} className={style.graph} />
   <Future className={style.future} />
+
+  <Tagline />
 </footer>
 
 
+const Tagline = ({ className, ...etc }) => <div {...{
+  className: [style.tagline].concat(className).join(" ")
+}}>
+
+  <div {...{
+    className: style.copyright,
+  }}>© thomas nj shadwell {new Date().getFullYear()}</div>
+</div>
 
 
 
 export default Profile;
+

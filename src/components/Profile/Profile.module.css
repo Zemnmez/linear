@@ -27,8 +27,11 @@
   grid: "graph graph graph graph graph" 20rem
         ". left-spacer future right-spacer ." 10rem
         "tagline tagline tagline tagline tagline" min-content
-        ". . . . ." 4rem / 1fr 2rem 4rem 2rem 1fr
+        ". . . . ." 4rem / 1fr 2rem 3rem 2rem 1fr
 }
+
+.copyright { grid-area: copyright }
+.tagline { grid-area: tagline; text-align: center ; display: none }
 
 .future{ grid-area:future }
 .graph { grid-area:graph }

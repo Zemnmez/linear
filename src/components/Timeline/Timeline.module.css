@@ -72,11 +72,15 @@
 }
 
 .event:global(.work) {
-  display: grid;
-  grid: "bullet title . duration"
+  grid: "bullet title title title"
+        ". . . ." .2em
+        ". duration duration duration"
         ". description description description"
         / 1rem 2fr 2em 3em;
 }
+
+.event:global(.work) * { display: inline }
+.event:global(.work) * + *::before{ content: " " }
 
 .event:not(:global(.work)) .description p:first-child {
   display: inline;
@@ -90,4 +94,4 @@
 
 .event .title { grid-area: title }
 .event .description { grid-area: description }
-.event .duration { grid-area: duration; justify-self: end }
+.event .duration { grid-area: duration }
