@@ -15,16 +15,14 @@ import {
 //import Timeline from '../Timeline';
 
 
-import Loading from 'react-loading';
 
+import Load from 'components/Load';
 const AsyncCV = React.lazy(() => import("components/CV"));
 const AsyncHome = React.lazy(() => import("components/Home"));
 const AsyncThrace = React.lazy(() => import("components/Thrace"));
 const AsyncFullSteamAhead = React.lazy(() => import("components/FullSteamAhead"));
 const AsyncGo = React.lazy(() => import("components/Go"));
 const AsyncPetals = React.lazy(() => import("components/Art/Apr2nd2019"));
-
-
 
 
 const months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
@@ -59,7 +57,9 @@ class App extends React.PureComponent {
     const className = style.App;
     return (
         <Router>
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<Load {...{
+        className
+      }}/>}>
         <Switch>
 
         <Route exact path="/" render={() => <AsyncHome {...{
@@ -69,6 +69,12 @@ class App extends React.PureComponent {
 
         <Route exact path="/generative/petals" {...{
           render: () => <AsyncPetals {...{
+            className
+          }}/>
+        }}/>
+
+        <Route exact path="/generative/load" {...{
+          render: () => <Load {...{
             className
           }}/>
         }}/>
