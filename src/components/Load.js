@@ -3,9 +3,39 @@ import D3 from 'reactive-d3';
 import { lineRadial } from 'd3-shape';
 import  style from './Load.module.css';
 import { scaleLinear } from 'd3-scale';
+import { Array } from 'immutable';
 
+/* here i want to make an animation akin to
+ * going up out of a tunnel made of triangles
+ * (though here the method is genericised by pattern id)
+ *
+ * rather than having a z-index SVG elements are simply z-indexed
+ * by DOM order
+ *
+ * thus, to maintain the illusion of continuous flow,
+ * I need to use a kind of 'linked list' of elements
+ * and once an element is no longer visible (i.e. its
+ * scale factor becomes 0), it is returned to the other side of the stack.
+ *
+ * complicating this, I intend to have transformations handled by css
+ * animations to reduce CPU pressure
+*/
 
-const Hole = ({ progress, width, height, bgc, fgc, className }) => {
+const Zoomer = ({
+  steps: 4,
+  cycleTime: 1000,
+  patternIds: new Array()
+}) => {
+
+  const [stack, getStack] = React.useState();
+  return [...Array(steps)].map((_, i) =>
+    <use {...{
+      "xlink:href":
+    }}/>
+  )
+}
+
+const Hole = ({ progress, width, height, bgc, fgc, className, transitionTime }) => {
   return <div {...{
     className: style.fill,
   }}><svg {...{
@@ -14,12 +44,13 @@ const Hole = ({ progress, width, height, bgc, fgc, className }) => {
   }}>
 
     <rect {...{
-      width, height, fill: bgc, stroke: "none"
+      width, height, fill: bgc, stroke: "none",
     }}/>
 
     <circle {...{
     cx: width/2,
     cy: height/2,
+    transition: `r ${transitionTime}ms}`
     r:
     Math.sqrt(
        (width/2) ** 2 + (height/2)**2
