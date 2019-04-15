@@ -1,0 +1,729 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  RootDomain:
+    Type: String
+  StaticSubdomain:
+    Type: String
+Metadata:
+  'AWS::CloudFormation::Designer':
+    76552330-042f-4327-ae64-8517921a4e5b:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 20
+        'y': 290
+      z: 1
+      embeds: []
+    a2d85e92-a89b-4cfe-8065-a1e1326b8515:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 530
+        'y': 90
+      z: 1
+      embeds: []
+      isassociatedwith:
+        - bcf601f7-be99-47b7-bfde-92de36f507fa
+    f906182b-0851-43ea-8b43-953c7fd2e52e:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 840
+        'y': 30
+      z: 1
+      embeds: []
+    0a7d8d5e-1cac-4be2-b584-71682c8be99c:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -370
+        'y': 190
+      z: 1
+      embeds: []
+    6d7952ab-4c89-4652-a849-ebea1d4fafaf:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -490
+        'y': 190
+      z: 0
+      embeds: []
+    3eddfc3c-556f-4d9a-8a6e-3cf23caec183:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 720
+        'y': 120
+      z: 1
+      embeds: []
+    e46a74f8-986c-4e65-9c23-824d9033e832:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 840
+        'y': 120
+      z: 1
+      embeds: []
+      isassociatedwith:
+        - f906182b-0851-43ea-8b43-953c7fd2e52e
+        - 3eddfc3c-556f-4d9a-8a6e-3cf23caec183
+        - c866c494-ef43-4c3d-a7e0-3deb05fe8fb1
+    c866c494-ef43-4c3d-a7e0-3deb05fe8fb1:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 1000
+        'y': 120
+      z: 1
+      embeds: []
+    2bf36fd3-51d0-4fef-9b1d-8f14d717fe4b:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 490
+        'y': 200
+      z: 1
+      embeds: []
+    a0dedf70-e28b-49f0-afe0-f22ccf331809:
+      size:
+        width: 270
+        height: 330
+      position:
+        x: -250
+        'y': -10
+      z: 1
+      embeds:
+        - 5cbc4bcf-74ad-47fc-b902-4be1ceedee42
+        - 9d83b152-da5c-4d7e-a5f2-6278f741129a
+    5cbc4bcf-74ad-47fc-b902-4be1ceedee42:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -210
+        'y': 90
+      z: 2
+      parent: a0dedf70-e28b-49f0-afe0-f22ccf331809
+      embeds: []
+      iscontainedinside:
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+    9d83b152-da5c-4d7e-a5f2-6278f741129a:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -220
+        'y': -10
+      z: 2
+      parent: a0dedf70-e28b-49f0-afe0-f22ccf331809
+      embeds: []
+      iscontainedinside:
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+    3438a070-d736-4c8c-90fa-694eec5d98f1:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -370
+        'y': 390
+      z: 1
+      embeds: []
+    bcf601f7-be99-47b7-bfde-92de36f507fa:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 530
+        'y': -50
+      z: 1
+      embeds: []
+    4723be5a-9532-483b-8882-77071461998e:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 180
+        'y': -50
+      z: 1
+      embeds: []
+    cec81bb5-2b1b-4138-8282-d17cb102b7f2:
+      size:
+        width: 330
+        height: 270
+      position:
+        x: 110
+        'y': 310
+      z: 1
+      embeds:
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - 1a141f1f-22c7-434a-aee1-fb68453ec47c
+        - 31e100a6-14ef-48c2-9f13-0287e8f559b9
+    39b56971-a731-42d2-a8b4-2737e6169ebb:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 160
+        'y': 410
+      z: 3
+      parent: f4f97498-865b-489d-9743-c045196bdfe4
+      embeds: []
+      iscontainedinside:
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+    f4f97498-865b-489d-9743-c045196bdfe4:
+      size:
+        width: 150
+        height: 150
+      position:
+        x: 150
+        'y': 370
+      z: 2
+      parent: cec81bb5-2b1b-4138-8282-d17cb102b7f2
+      embeds:
+        - 39b56971-a731-42d2-a8b4-2737e6169ebb
+      iscontainedinside:
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+    31e100a6-14ef-48c2-9f13-0287e8f559b9:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 340
+        'y': 420
+      z: 2
+      parent: cec81bb5-2b1b-4138-8282-d17cb102b7f2
+      embeds: []
+      isassociatedwith:
+        - 1a141f1f-22c7-434a-aee1-fb68453ec47c
+      iscontainedinside:
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+    1a141f1f-22c7-434a-aee1-fb68453ec47c:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 340
+        'y': 330
+      z: 2
+      parent: cec81bb5-2b1b-4138-8282-d17cb102b7f2
+      embeds: []
+      iscontainedinside:
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+    fe2e4360-d2a2-46a2-a32a-afc4ec180efd:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 360
+        'y': 60
+      z: 0
+      embeds: []
+    e605bd01-3c1e-40dd-af0f-f0a39f834e24:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 230
+        'y': 200
+      z: 0
+      embeds: []
+      isassociatedwith:
+        - 1a141f1f-22c7-434a-aee1-fb68453ec47c
+        - fe2e4360-d2a2-46a2-a32a-afc4ec180efd
+      iscontainedinside:
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+    0b094543-830b-4328-9a3f-b77c984a48b0:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 670
+        'y': -50
+      z: 0
+      embeds: []
+      isassociatedwith:
+        - bcf601f7-be99-47b7-bfde-92de36f507fa
+    b3dfe992-c43e-4c4a-8adf-80cd6d8bcd59:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 20
+        'y': 390
+      z: 0
+      embeds: []
+      isassociatedwith:
+        - 3438a070-d736-4c8c-90fa-694eec5d98f1
+    ed707970-d05f-4c00-af00-178ba77e7533:
+      source:
+        id: b3dfe992-c43e-4c4a-8adf-80cd6d8bcd59
+      target:
+        id: 3438a070-d736-4c8c-90fa-694eec5d98f1
+      z: 11
+Resources:
+  HTTPEdge:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Environment:
+        STATIC_HOST: !Ref zemnMeStaticDomain
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 76552330-042f-4327-ae64-8517921a4e5b
+  HTTPListener:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      Certificates:
+        - CertificateARN: !Ref zemnMeCert
+      Port: 443
+      Protocol: HTTPS
+      LoadBalancerArn: !Ref EdgeELB
+      DefaultActions:
+        Type: forward
+        TargetGroupArn: !Ref HTTPSEdgeTarget
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: a2d85e92-a89b-4cfe-8065-a1e1326b8515
+  MinecraftServer:
+    Type: 'AWS::ECS::Cluster'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 3eddfc3c-556f-4d9a-8a6e-3cf23caec183
+  MinecraftServerSingletonService:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      ContainerDefinitions: nguyer/bedrock-server
+      Cpu: 1024
+      Family: MinecraftBedrock
+      Memory: 3GB
+      Volumes:
+        - Host:
+            SourcePath: /minecraft
+            Name: Minecraft
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: c866c494-ef43-4c3d-a7e0-3deb05fe8fb1
+  MinecraftServerSingletonServiceImpl:
+    Type: 'AWS::ECS::Service'
+    Properties:
+      DesiredCount: 1
+      LaunchType: FARGATE
+      LoadBalancers:
+        - TargetGroupArn: !Ref MinecraftServerELBTarget
+      TaskDefinition: !Ref MinecraftServerSingletonService
+      Cluster: !Ref MinecraftServer
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e46a74f8-986c-4e65-9c23-824d9033e832
+  MinecraftServerELBTarget:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      Port: 5233
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: f906182b-0851-43ea-8b43-953c7fd2e52e
+  zemnMeZone:
+    Type: 'AWS::Route53::HostedZone'
+    Properties:
+      Name: !Ref RootDomain
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: a0dedf70-e28b-49f0-afe0-f22ccf331809
+  zemnMeStaticDomain:
+    Type: 'AWS::Route53::RecordSet'
+    Properties:
+      Comment: DNS record to point at CloudFront static CDN
+      Name: !Join
+        - .
+        - - !Ref StaticSubdomain
+          - !Ref RootDomain
+      HostedZoneId: !Ref zemnMeZone
+      Type: CNAME
+      ResourceRecords:
+        - !GetAtt
+          - zemnMeStaticFrontendCDN
+          - DomainName
+      name: !Join
+        - .
+        - - !Ref StaticSubdomain
+          - !Ref RootDomain
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 9d83b152-da5c-4d7e-a5f2-6278f741129a
+  zemnMeEdgeDomain:
+    Type: 'AWS::Route53::RecordSet'
+    Properties:
+      Comment: DNS record to point at ELB
+      Name: !Ref RootDomain
+      HostedZoneId: !Ref zemnMeZone
+      Type: CNAME
+      ResourceRecords:
+        - !GetAtt
+          - zemnMeStaticFrontendCDN
+          - DomainName
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 5cbc4bcf-74ad-47fc-b902-4be1ceedee42
+  Logs:
+    Type: 'AWS::S3::Bucket'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 3438a070-d736-4c8c-90fa-694eec5d98f1
+  EdgeELB:
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Properties:
+      Scheme: internet-facing
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: bcf601f7-be99-47b7-bfde-92de36f507fa
+  zemnMeCert:
+    Type: 'AWS::CertificateManager::Certificate'
+    Properties:
+      DomainName: !Ref RootDomain
+      SubjectAlternativeNames:
+        - !Join
+          - .
+          - - !Ref StaticSubdomain
+            - !Ref RootDomain
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 4723be5a-9532-483b-8882-77071461998e
+  zemnMeStaticFrontend:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      Name: !Ref RootDomain
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 6d7952ab-4c89-4652-a849-ebea1d4fafaf
+  HTTPSEdgeTarget:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      Port: 443
+      Protocol: HTTPS
+      Targets:
+        - Id: !Ref lambdaDomain
+          Port: '80'
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 2bf36fd3-51d0-4fef-9b1d-8f14d717fe4b
+  AGD3NPD9:
+    Type: 'AWS::ApiGateway::Deployment'
+    Properties:
+      RestApiId: !Ref EdgeApi
+      StageName: !Ref AGS47KP
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 31e100a6-14ef-48c2-9f13-0287e8f559b9
+  AGS47KP:
+    Type: 'AWS::ApiGateway::Stage'
+    Properties:
+      RestApiId: !Ref EdgeApi
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 1a141f1f-22c7-434a-aee1-fb68453ec47c
+  zemnMeStaticFrontendCDN:
+    Type: 'AWS::CloudFront::Distribution'
+    Properties:
+      DistributionConfig:
+        Aliases:
+          Quantity: 1
+          Items:
+            - !Ref RootDomain
+            - !Join
+              - .
+              - - !Ref StaticSubdomain
+                - !Ref RootDomain
+        DefaultRootObject: index.html
+        Origins:
+          Quantity: 1
+          Items:
+            - Id: !Ref zemnMeStaticFrontend
+              DomainName:
+                - !GetAtt
+                  - zemnMeStaticFrontend
+                  - DomainName
+        DefaultCacheBehavior:
+          TargetOriginId: !Ref zemnMeStaticFrontend
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+            Headers:
+              Quantity: 0
+            QueryStringCacheKeys:
+              Quantity: 0
+          TrustedSigners:
+            Enabled: false
+            Quantity: 0
+          ViewerProtocolPolicy: redirect-to-https
+          MinTTL: 0
+          AllowedMethods:
+            Quantity: 2
+            Items:
+              - HEAD
+              - GET
+            CachedMethods:
+              Quantity: 2
+              Items:
+                - HEAD
+                - GET
+          SmoothStreaming: false
+          DefaultTTL: 86400
+          MaxTTL: 31536000
+          Compress: true
+        CustomErrorResponses:
+          Quantity: 2
+          Items:
+            - ErrorCode: 403
+              ResponsePagePath: /
+              ResponseCode: '200'
+              ErrorCachingMinTTL: 300
+            - ErrorCode: 404
+              ResponsePagePath: /
+              ResponseCode: '200'
+              ErrorCachingMinTTL: 300
+        Comment: the cdn holding static frontend assets
+        Logging:
+          Enabled: true
+          IncludeCookies: false
+          Bucket:
+            - !GetAtt
+              - Logs
+              - DomainName
+          Prefix: !Join
+            - '-'
+            - - !Ref RootDomain
+              - cdn
+        PriceClass: PriceClass_All
+        Enabled: true
+        ViewerCertificate:
+          SSLSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.1_2016
+          CertificateSource: acm
+          AcmCertificateArn: !Ref zemnMeCert
+        Restrictions:
+          GeoRestriction:
+            RestrictionType: none
+            Quantity: 0
+        WebACLId: ''
+        HttpVersion: http2
+        IsIPV6Enabled: true
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 0a7d8d5e-1cac-4be2-b584-71682c8be99c
+  EdgeApi:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: cec81bb5-2b1b-4138-8282-d17cb102b7f2
+  lambdaDomain:
+    Type: 'AWS::ApiGateway::DomainName'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: fe2e4360-d2a2-46a2-a32a-afc4ec180efd
+  AGBPMJK0U:
+    Type: 'AWS::ApiGateway::BasePathMapping'
+    Properties:
+      RestApiId: !Ref EdgeApi
+      Stage: !Ref AGS47KP
+      DomainName: !Ref lambdaDomain
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e605bd01-3c1e-40dd-af0f-f0a39f834e24
+  ELBV2L3SIJC:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      Port: 5233
+      LoadBalancerArn: !Ref EdgeELB
+      DefaultActions:
+        Type: forward
+        TargetGroupArn: !Ref MinecraftServerELBTarget
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 0b094543-830b-4328-9a3f-b77c984a48b0
+  Wildcard:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      PathPart: /PROXY+
+      RestApiId: !Ref EdgeApi
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: f4f97498-865b-489d-9743-c045196bdfe4
+  MethodProxy:
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      Method: PROXY
+      Uri: !GetAtt
+        - HTTPEdge
+        - Arn
+      ResourceId: !Ref Wildcard
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 39b56971-a731-42d2-a8b4-2737e6169ebb
+  CTT30582:
+    Type: 'AWS::CloudTrail::Trail'
+    Properties:
+      EventSelectors:
+        - DataResources:
+            Type: 'AWS::S3::Object'
+            Values:
+              - !Ref HTTPEdge
+      S3BucketName: !Ref Logs
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: b3dfe992-c43e-4c4a-8adf-80cd6d8bcd59
