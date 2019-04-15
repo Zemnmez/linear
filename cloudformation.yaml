@@ -1,8 +1,13 @@
 AWSTemplateFormatVersion: 2010-09-09
 Parameters:
+  MinecraftBedrockServerPort:
+    Type: String
+    Default: 5233
   RootDomain:
+    Default: "zemn.me"
     Type: String
   StaticSubdomain:
+    Default: "s"
     Type: String
 Metadata:
   'AWS::CloudFormation::Designer':
@@ -98,8 +103,8 @@ Metadata:
         width: 270
         height: 330
       position:
-        x: -250
-        'y': -10
+        x: 100
+        'y': -200
       z: 1
       embeds:
         - 5cbc4bcf-74ad-47fc-b902-4be1ceedee42
@@ -109,12 +114,32 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -210
-        'y': 90
+        x: 280
+        'y': -170
       z: 2
       parent: a0dedf70-e28b-49f0-afe0-f22ccf331809
       embeds: []
       iscontainedinside:
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
@@ -157,12 +182,32 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: -220
-        'y': -10
+        x: 120
+        'y': -160
       z: 2
       parent: a0dedf70-e28b-49f0-afe0-f22ccf331809
       embeds: []
       iscontainedinside:
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
@@ -222,8 +267,8 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 180
-        'y': -50
+        x: -60
+        'y': 120
       z: 1
       embeds: []
     cec81bb5-2b1b-4138-8282-d17cb102b7f2:
@@ -235,9 +280,9 @@ Metadata:
         'y': 310
       z: 1
       embeds:
-        - f4f97498-865b-489d-9743-c045196bdfe4
         - 1a141f1f-22c7-434a-aee1-fb68453ec47c
         - 31e100a6-14ef-48c2-9f13-0287e8f559b9
+        - f4f97498-865b-489d-9743-c045196bdfe4
     39b56971-a731-42d2-a8b4-2737e6169ebb:
       size:
         width: 60
@@ -249,6 +294,26 @@ Metadata:
       parent: f4f97498-865b-489d-9743-c045196bdfe4
       embeds: []
       iscontainedinside:
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
         - f4f97498-865b-489d-9743-c045196bdfe4
         - f4f97498-865b-489d-9743-c045196bdfe4
         - f4f97498-865b-489d-9743-c045196bdfe4
@@ -280,6 +345,26 @@ Metadata:
       embeds:
         - 39b56971-a731-42d2-a8b4-2737e6169ebb
       iscontainedinside:
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
@@ -331,6 +416,26 @@ Metadata:
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
     1a141f1f-22c7-434a-aee1-fb68453ec47c:
       size:
         width: 60
@@ -361,13 +466,33 @@ Metadata:
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
     fe2e4360-d2a2-46a2-a32a-afc4ec180efd:
       size:
         width: 60
         height: 60
       position:
         x: 360
-        'y': 60
+        'y': 200
       z: 0
       embeds: []
     e605bd01-3c1e-40dd-af0f-f0a39f834e24:
@@ -375,7 +500,7 @@ Metadata:
         width: 60
         height: 60
       position:
-        x: 230
+        x: 250
         'y': 200
       z: 0
       embeds: []
@@ -406,11 +531,71 @@ Metadata:
       embeds: []
       isassociatedwith:
         - 3438a070-d736-4c8c-90fa-694eec5d98f1
-    ed707970-d05f-4c00-af00-178ba77e7533:
+    f17a6b5a-8d3f-45ba-b9a5-06e43625852d:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 20
+        'y': 490
+      z: 0
+      embeds: []
+    f4802a96-b07e-4259-8845-1d2b0f0320d3:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -370
+        'y': 490
+      z: 0
+      embeds: []
+      isassociatedwith:
+        - f17a6b5a-8d3f-45ba-b9a5-06e43625852d
+    0237a34b-6b92-4900-b3bd-275f3df926c4:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 1000
+        'y': 220
+      z: 0
+      embeds: []
+    67b6548f-aa7e-4fd5-afae-2c810c6b7421:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -490
+        'y': 80
+      z: 0
+      embeds: []
+    64ac0ac0-9a6f-4caa-99a6-eb150b9e365b:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -660
+        'y': 80
+      z: 0
+      embeds: []
+      isassociatedwith:
+        - 98909d23-f90b-43f2-8c19-4deaed38733d
+    98909d23-f90b-43f2-8c19-4deaed38733d:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: -660
+        'y': 190
+      z: 0
+      embeds: []
+      isassociatedwith:
+        - f17a6b5a-8d3f-45ba-b9a5-06e43625852d
+    d5a801d0-bd85-41b5-9926-8b88839831b4:
       source:
-        id: b3dfe992-c43e-4c4a-8adf-80cd6d8bcd59
+        id: 64ac0ac0-9a6f-4caa-99a6-eb150b9e365b
       target:
-        id: 3438a070-d736-4c8c-90fa-694eec5d98f1
+        id: 98909d23-f90b-43f2-8c19-4deaed38733d
       z: 11
 Resources:
   HTTPEdge:
@@ -444,7 +629,15 @@ Resources:
   MinecraftServerSingletonService:
     Type: 'AWS::ECS::TaskDefinition'
     Properties:
-      ContainerDefinitions: nguyer/bedrock-server
+      ContainerDefinitions:
+        - Image: nguyer/bedrock-server
+          PortMappings:
+            - ContainerPort: !Ref MinecraftBedrockServerPort
+              HostPort: !Ref MinecraftBedrockServerPort
+              Protocol: tcp
+      MountPoints:
+        - ContainerPath: /minecraft
+          SourceVolume: !Ref minecraftServerData
       Cpu: 1024
       Family: MinecraftBedrock
       Memory: 3GB
@@ -470,7 +663,7 @@ Resources:
   MinecraftServerELBTarget:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
-      Port: 5233
+      Port: !Ref MinecraftBedrockServerPort
     Metadata:
       'AWS::CloudFormation::Designer':
         id: f906182b-0851-43ea-8b43-953c7fd2e52e
@@ -511,8 +704,8 @@ Resources:
       Type: CNAME
       ResourceRecords:
         - !GetAtt
-          - zemnMeStaticFrontendCDN
-          - DomainName
+          - EdgeELB
+          - DNSName
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 5cbc4bcf-74ad-47fc-b902-4be1ceedee42
@@ -525,6 +718,7 @@ Resources:
   EdgeELB:
     Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
     Properties:
+      Type: network
       Scheme: internet-facing
     Metadata:
       'AWS::CloudFormation::Designer':
@@ -544,7 +738,10 @@ Resources:
   zemnMeStaticFrontend:
     Type: 'AWS::S3::Bucket'
     Properties:
-      Name: !Ref RootDomain
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: TODO
+            Function: !Ref cacheInvalidator
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 6d7952ab-4c89-4652-a849-ebea1d4fafaf
@@ -559,21 +756,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 2bf36fd3-51d0-4fef-9b1d-8f14d717fe4b
-  AGD3NPD9:
-    Type: 'AWS::ApiGateway::Deployment'
-    Properties:
-      RestApiId: !Ref EdgeApi
-      StageName: !Ref AGS47KP
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 31e100a6-14ef-48c2-9f13-0287e8f559b9
-  AGS47KP:
-    Type: 'AWS::ApiGateway::Stage'
-    Properties:
-      RestApiId: !Ref EdgeApi
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: 1a141f1f-22c7-434a-aee1-fb68453ec47c
   zemnMeStaticFrontendCDN:
     Type: 'AWS::CloudFront::Distribution'
     Properties:
@@ -676,15 +858,6 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: fe2e4360-d2a2-46a2-a32a-afc4ec180efd
-  AGBPMJK0U:
-    Type: 'AWS::ApiGateway::BasePathMapping'
-    Properties:
-      RestApiId: !Ref EdgeApi
-      Stage: !Ref AGS47KP
-      DomainName: !Ref lambdaDomain
-    Metadata:
-      'AWS::CloudFormation::Designer':
-        id: e605bd01-3c1e-40dd-af0f-f0a39f834e24
   ELBV2L3SIJC:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
     Properties:
@@ -715,9 +888,10 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 39b56971-a731-42d2-a8b4-2737e6169ebb
-  CTT30582:
+  logging:
     Type: 'AWS::CloudTrail::Trail'
     Properties:
+      CloudWatchLogsRoleArn: !Ref addingLogsRole
       EventSelectors:
         - DataResources:
             Type: 'AWS::S3::Object'
@@ -727,3 +901,82 @@ Resources:
     Metadata:
       'AWS::CloudFormation::Designer':
         id: b3dfe992-c43e-4c4a-8adf-80cd6d8bcd59
+  addingLogsRole:
+    Type: 'AWS::IAM::Role'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: f17a6b5a-8d3f-45ba-b9a5-06e43625852d
+  edgeAPIPathMapping:
+    Type: 'AWS::ApiGateway::BasePathMapping'
+    Properties:
+      RestApiId: !Ref EdgeApi
+      Stage: !Ref Production
+      DomainName: !Ref lambdaDomain
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: e605bd01-3c1e-40dd-af0f-f0a39f834e24
+  Production:
+    Type: 'AWS::ApiGateway::Stage'
+    Properties:
+      RestApiId: !Ref EdgeApi
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 1a141f1f-22c7-434a-aee1-fb68453ec47c
+  deploymentToProduction:
+    Type: 'AWS::ApiGateway::Deployment'
+    Properties:
+      RestApiId: !Ref EdgeApi
+      StageName: !Ref Production
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 31e100a6-14ef-48c2-9f13-0287e8f559b9
+  minecraftServerData:
+    Type: 'AWS::EC2::Volume'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 0237a34b-6b92-4900-b3bd-275f3df926c4
+  cacheInvalidator:
+    Type: 'AWS::Lambda::Function'
+    Properties:
+      Role: !Ref canInvalidateCacheRole
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 67b6548f-aa7e-4fd5-afae-2c810c6b7421
+  canInvalidateCache:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyDocument:
+        Version: 2019-04-15
+        Statement:
+          - Sid: AWSCloudTrailAclCheck
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: 's3:GetBucketAcl'
+            Resource: !GetAtt
+              - Logs
+              - Arn
+          - Sid: AWSCloudTrailWrite
+            Effect: Allow
+            Principal:
+              Service: cloudtrail.amazonaws.com
+            Action: 's3:PutObject'
+            Resource: !Join 'arn:aws:s3:::myBucketName/[optional prefix]/AWSLogs/myAccountID/*'
+            Condition:
+              StringEquals:
+                's3:x-amz-acl': bucket-owner-full-control
+      Roles:
+        - !Ref addingLogsRole
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 98909d23-f90b-43f2-8c19-4deaed38733d
+  canInvalidateCacheRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      Policies:
+        - PolicyName: !Ref canInvalidateCache
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 64ac0ac0-9a6f-4caa-99a6-eb150b9e365b
