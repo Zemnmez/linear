@@ -3,29 +3,21 @@
   <head>
     <title>zemnmez</title>
     <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'" >
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon-16x16.ico" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
-    <meta name="go-import" content="zemn.me git https://github.com/Zemnmez/go.git">
+    <meta name="go-import" content="%PUBLIC_DOMAIN% git https://github.com/Zemnmez/go.git">
 
 
     <meta name="go-source"
-          content="zemn.me _ %PUBLIC_URL%/go/src{/dir} %PUBLIC_URL%/go/src{/dir}/{file}">
+          content="%PUBLIC_DOMAIN% _ %PUBLIC_DOMAIN%/go/src{/dir} %PUBLIC_DOMAIN%/go/src{/dir}/{file}">
 
     <meta name="twitter:site" content="@zemnmez" />
     <meta name="twitter:creator" content="@zemnnmez" />
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134479219-1"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments)};
-      gtag('js', new Date());
-
-      gtag('config', 'UA-134479219-1');
-    </script>
 
     <meta name="author" content="zemnmez" />
     <meta name="theme-color" content="#000000" />

@@ -10,6 +10,10 @@ import {
   Redirect
 } from 'react-router-dom';
 
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-134479219-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 
 //import Timeline from '../Timeline';

@@ -148,7 +148,7 @@ const Header = ({ email, phone, names, className }) => <div {...{
     className: [style.header].concat(className).join(" ")
   }}>
 
-    <a className={style.website} href="//zemn.me">zemn.me</a>
+    <a className={style.website} href={process.env.PUBLIC_URL}>zemn.me</a>
     <Email {...{email}} />
     <Phone {...{phone}}/>
     <Icon {...{className: style.headerIcon}} />
