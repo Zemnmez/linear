@@ -1,13 +1,22 @@
 AWSTemplateFormatVersion: 2010-09-09
 Parameters:
+  AvailablilityZone:
+    Type: String
+    Default: us-east-1
   MinecraftBedrockServerPort:
     Type: String
     Default: 5233
+  MinecraftBedrockProtocol:
+    Type: String
+    Default: udp
   RootDomain:
-    Default: "zemn.me"
+    Default: zemn.me
     Type: String
   StaticSubdomain:
-    Default: "s"
+    Default: s
+    Type: String
+  ApiSubdomain:
+    Default: api
     Type: String
 Metadata:
   'AWS::CloudFormation::Designer':
@@ -177,6 +186,10 @@ Metadata:
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
     9d83b152-da5c-4d7e-a5f2-6278f741129a:
       size:
         width: 60
@@ -188,6 +201,10 @@ Metadata:
       parent: a0dedf70-e28b-49f0-afe0-f22ccf331809
       embeds: []
       iscontainedinside:
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
+        - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
         - a0dedf70-e28b-49f0-afe0-f22ccf331809
@@ -333,6 +350,10 @@ Metadata:
         - f4f97498-865b-489d-9743-c045196bdfe4
         - f4f97498-865b-489d-9743-c045196bdfe4
         - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
+        - f4f97498-865b-489d-9743-c045196bdfe4
     f4f97498-865b-489d-9743-c045196bdfe4:
       size:
         width: 150
@@ -345,6 +366,10 @@ Metadata:
       embeds:
         - 39b56971-a731-42d2-a8b4-2737e6169ebb
       iscontainedinside:
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
@@ -436,6 +461,10 @@ Metadata:
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
     1a141f1f-22c7-434a-aee1-fb68453ec47c:
       size:
         width: 60
@@ -447,6 +476,10 @@ Metadata:
       parent: cec81bb5-2b1b-4138-8282-d17cb102b7f2
       embeds: []
       iscontainedinside:
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
+        - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
         - cec81bb5-2b1b-4138-8282-d17cb102b7f2
@@ -540,17 +573,6 @@ Metadata:
         'y': 490
       z: 0
       embeds: []
-    f4802a96-b07e-4259-8845-1d2b0f0320d3:
-      size:
-        width: 60
-        height: 60
-      position:
-        x: -370
-        'y': 490
-      z: 0
-      embeds: []
-      isassociatedwith:
-        - f17a6b5a-8d3f-45ba-b9a5-06e43625852d
     0237a34b-6b92-4900-b3bd-275f3df926c4:
       size:
         width: 60
@@ -591,12 +613,6 @@ Metadata:
       embeds: []
       isassociatedwith:
         - f17a6b5a-8d3f-45ba-b9a5-06e43625852d
-    d5a801d0-bd85-41b5-9926-8b88839831b4:
-      source:
-        id: 64ac0ac0-9a6f-4caa-99a6-eb150b9e365b
-      target:
-        id: 98909d23-f90b-43f2-8c19-4deaed38733d
-      z: 11
 Resources:
   HTTPEdge:
     Type: 'AWS::Lambda::Function'
@@ -634,7 +650,7 @@ Resources:
           PortMappings:
             - ContainerPort: !Ref MinecraftBedrockServerPort
               HostPort: !Ref MinecraftBedrockServerPort
-              Protocol: tcp
+              Protocol: !Ref MinecraftBedrockProtocol
       MountPoints:
         - ContainerPath: /minecraft
           SourceVolume: !Ref minecraftServerData
@@ -677,24 +693,20 @@ Resources:
   zemnMeStaticDomain:
     Type: 'AWS::Route53::RecordSet'
     Properties:
-      Comment: DNS record to point at CloudFront static CDN
+      Comment: DNS record to point at the API Gateway
       Name: !Join
         - .
-        - - !Ref StaticSubdomain
+        - - !Ref ApiSubdomain
           - !Ref RootDomain
       HostedZoneId: !Ref zemnMeZone
       Type: CNAME
       ResourceRecords:
         - !GetAtt
           - zemnMeStaticFrontendCDN
-          - DomainName
-      name: !Join
-        - .
-        - - !Ref StaticSubdomain
-          - !Ref RootDomain
+          - DomainNam
     Metadata:
       'AWS::CloudFormation::Designer':
-        id: 9d83b152-da5c-4d7e-a5f2-6278f741129a
+        id: 55970210-d238-43e2-877d-fbe64101862a
   zemnMeEdgeDomain:
     Type: 'AWS::Route53::RecordSet'
     Properties:
@@ -854,7 +866,8 @@ Resources:
         id: cec81bb5-2b1b-4138-8282-d17cb102b7f2
   lambdaDomain:
     Type: 'AWS::ApiGateway::DomainName'
-    Properties: {}
+    Properties:
+      Domain: !Ref RootDomain
     Metadata:
       'AWS::CloudFormation::Designer':
         id: fe2e4360-d2a2-46a2-a32a-afc4ec180efd
@@ -933,7 +946,9 @@ Resources:
         id: 31e100a6-14ef-48c2-9f13-0287e8f559b9
   minecraftServerData:
     Type: 'AWS::EC2::Volume'
-    Properties: {}
+    Properties:
+      AvailabilityZone: !Ref AvailablilityZone
+      Size: 10
     Metadata:
       'AWS::CloudFormation::Designer':
         id: 0237a34b-6b92-4900-b3bd-275f3df926c4
@@ -963,7 +978,7 @@ Resources:
             Principal:
               Service: cloudtrail.amazonaws.com
             Action: 's3:PutObject'
-            Resource: !Join 'arn:aws:s3:::myBucketName/[optional prefix]/AWSLogs/myAccountID/*'
+            Resource: {}
             Condition:
               StringEquals:
                 's3:x-amz-acl': bucket-owner-full-control
