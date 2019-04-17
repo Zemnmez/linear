@@ -9,8 +9,16 @@ import bcrypt_whitelist from 'knowitwhenyouseeit';
 import style from './CV.module.css';
 
 const hurl = (message) => { throw new Error(message) }
+export default ({ ...etc }) => {
+  React.useEffect(() => {
+    const last = document.title;
+    document.title = "zemnmez :: CV";
+    return () => document.title = last;
+  });
+  return <CV {...{...etc}}/>
+}
 
-export default ({
+export const CV = ({
   data: {
     who: {name: names, handle},
     bio,

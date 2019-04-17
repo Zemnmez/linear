@@ -12,9 +12,6 @@ import {
 
 import ReactGA from 'react-ga';
 
-ReactGA.initialize('UA-134479219-1');
-ReactGA.pageview(window.location.pathname + window.location.search);
-
 
 //import Timeline from '../Timeline';
 
@@ -28,6 +25,9 @@ const AsyncFullSteamAhead = React.lazy(() => import("components/FullSteamAhead")
 const AsyncGo = React.lazy(() => import("components/Go"));
 const AsyncPetals = React.lazy(() => import("components/Art/Apr2nd2019"));
 
+ReactGA.initialize('UA-134479219-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
+
 
 const months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
 const parseSimpleDate = (date) => {
@@ -37,6 +37,19 @@ const parseSimpleDate = (date) => {
     if (month === -1) throw Error(`invalid date ${date}`);
 
     return new Date(year, month, day);
+}
+
+const Delay = ({ time, children }) => {
+  const [display, setDisplay] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setDisplay(true), time);
+    return () => clearTimeout(timer);
+  })
+
+  if (!display) return <React.Fragment/>
+
+  return children;
 }
 
 class App extends React.PureComponent {
@@ -61,9 +74,9 @@ class App extends React.PureComponent {
     const className = style.App;
     return (
         <Router>
-      <Suspense fallback={<Load {...{
+      <Suspense fallback={<Delay time={1000}><Load {...{
         className
-      }}/>}>
+      }}/></Delay>}>
         <Switch>
 
         <Route exact path="/" render={() => <AsyncHome {...{
