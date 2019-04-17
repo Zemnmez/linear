@@ -2,15 +2,14 @@ let SessionLoad = 1
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ./
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +14 term://.//22180:npx\ react-scripts\ start
-badd +0 ./src/index.js
-badd +0 ./src/components/App/index.js
-badd +0 term://.//22313:yarn\ run\ test
+badd +14 term:///22180:npx\ react-scripts\ start
+badd +0 src/index.js
+badd +0 src/components/App/index.js
+badd +0 term:///22313:yarn\ run\ test
 argglobal
 silent! argdel *
 set stal=2
@@ -29,7 +28,7 @@ set winwidth=1
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 178)
 exe 'vert 2resize ' . ((&columns * 88 + 89) / 178)
 argglobal
-if bufexists('term://.//22313:yarn\ run\ test') | buffer term://.//22313:yarn\ run\ test | else | edit term://.//22313:yarn\ run\ test | endif
+if bufexists('term:///22313:yarn\ run\ test') | buffer term:///22313:yarn\ run\ test | else | edit term:///22313:yarn\ run\ test | endif
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -46,7 +45,7 @@ normal! zt
 normal! 0
 wincmd w
 argglobal
-if bufexists('term://.//22180:npx\ react-scripts\ start') | buffer term://.//22180:npx\ react-scripts\ start | else | edit term://.//22180:npx\ react-scripts\ start | endif
+if bufexists('term:///22180:npx\ react-scripts\ start') | buffer term:///22180:npx\ react-scripts\ start | else | edit term:///22180:npx\ react-scripts\ start | endif
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -64,7 +63,7 @@ normal! 058|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 178)
 exe 'vert 2resize ' . ((&columns * 88 + 89) / 178)
-tabedit ./src/components/App/index.js
+tabedit src/components/App/index.js
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -95,10 +94,9 @@ exe s:l
 normal! zt
 19
 normal! 0
-lcd ./
 wincmd w
 argglobal
-if bufexists('./src/index.js') | buffer ./src/index.js | else | edit ./src/index.js | endif
+if bufexists('src/index.js') | buffer src/index.js | else | edit src/index.js | endif
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
