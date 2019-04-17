@@ -44,12 +44,26 @@ class GraphRenderer extends React.PureComponent {
       yScale.range([height - margin.bottom, margin.top]),
     ];
 
-    /*
     const xLogScale = d3.scalePow().exponent(4)
       .domain(xScale.range())
       .range(xScale.range());
-    */
-    const xLogScale = (x) => x;
+
+    const oldTickFormat = xLogScale.tickFormat;
+    xLogScale.tickFormat = (count, specifier) => {
+      const f = oldTickFormat(count, specifier);
+
+      return (...args) => {
+        const r = f(...args);
+        const date = xScale.invert(r);
+        return date.getFullYear();
+      }
+      /*
+      log((oldTickFormat(count, specifier)));
+
+      xScale.invert(oldTickFormat(count, specifier));
+      */
+    }
+
 
 
     return <D3 {...{
@@ -67,14 +81,14 @@ class GraphRenderer extends React.PureComponent {
             y: yScale(tag),
             date, tag,
             height: yScale.bandwidth(),
-            width: 1,
+            width: Math.abs(xLogScale(xScale(new Date(+date+1*1000*60*60*24))) - xLogScale(xScale(date))),
             key: i
           }}/>))}
         </g>
 
         <Axis {...{
           transform: `translate(0,${height-margin.bottom})`,
-          generator: d3.axisBottom(xScale)
+          generator: d3.axisBottom(xLogScale)
         }}/>
 
         <Axis {...{
