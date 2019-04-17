@@ -2,14 +2,14 @@ let SessionLoad = 1
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
-cd ~/Documents/devel/linear
+cd ./
 if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
 badd +14 term://.//22180:npx\ react-scripts\ start
-badd +0 src/index.js
-badd +0 src/components/App/index.js
+badd +0 ./src/index.js
+badd +0 ./src/components/App/index.js
 badd +0 term://.//22313:yarn\ run\ test
 argglobal
 silent! argdel *
@@ -64,7 +64,7 @@ normal! 058|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 89 + 89) / 178)
 exe 'vert 2resize ' . ((&columns * 88 + 89) / 178)
-tabedit src/components/App/index.js
+tabedit ./src/components/App/index.js
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -95,7 +95,7 @@ exe s:l
 normal! zt
 19
 normal! 0
-lcd ~/Documents/devel/linear
+lcd ./
 wincmd w
 argglobal
 if bufexists('./src/index.js') | buffer ./src/index.js | else | edit ./src/index.js | endif
