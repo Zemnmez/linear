@@ -1,5 +1,45 @@
 import React from 'react';
+import style, { LeftBar } from "./style.module.css";
+import KitchenSink from './KitchenSink.js';
+import Editor from 'draft-js-plugins-editor';
+import { EditorState } from 'draft-js';
+import Prism from 'prismjs';
+import createPrismPlugin from 'draft-js-prism-plugin';
+import "prismjs/themes/prism.css"; // add prism.css to add highlights
 
+const Arcanartist = ({ className, ...etc }) => <KitchenSink {...{
+  className
+}}>
+  <UI {...{...etc}}/>
+</KitchenSink>
+
+const UI = ({ className }) => <CodeEditor/>
+
+const CodeInput = ({ }) => <CodeEditor/>
+
+
+const prismPlugin = createPrismPlugin({
+    prism: Prism
+});
+
+const CodeEditor = ({ }) => {
+  const [editorState, setEditorState] = React.useState(
+    EditorState.createEmpty()
+  );
+
+  return <Editor {...{
+    editorState:editorState,
+    onChange: (s) => setEditorState(s),
+    plugins: [
+      prismPlugin
+    ]
+  }}/>
+}
+
+
+export default Arcanartist;
+
+/*
 export default class Arcanartist extends React.Component {
   static splitNo(no) {
     const indicies = [9,8,7,6,5,4,3,2];
@@ -100,3 +140,4 @@ ${out}))`;
     );
   }
 }
+*/

@@ -1,0 +1,45 @@
+.KitchenSink {
+  --logo-area-size: 3.5em;
+  --margin-around-sink: .5em;
+  --subtle-off-bgc: whitesmoke;
+  --logo-padding-vertical: .2em;
+  --logo-padding-horizontal: 0;
+  composes: GridArea from "../Grid.module.css";
+  grid: ". ............... ............." var(--margin-around-sink)
+        ". logo            top-sink-area" var(--logo-area-size)
+        " .left-sink-area  content-area" 1fr /
+          var(--margin-around-sink) var(--logo-area-size) 1fr;
+ background-color: var(--subtle-off-bgc)
+}
+
+.ContentArea {
+  grid-area: content-area;
+  background-color: white;
+  composes: GridArea from "../Grid.module.css";
+  grid: 1fr/1fr;
+}
+
+.LeftSinkArea {
+  grid-area: left-sink-area
+}
+
+.TopSinkArea {
+  grid-area: top-sink-area
+}
+
+.Logo {
+  composes: GridArea from "../Grid.module.css";
+  grid-area: logo;
+  grid: ". ...... ." var(--logo-padding-vertical)
+        ". future ." 1fr
+        ". ...... ." var(--logo-padding-vertical) /
+        var(--logo-padding-horizontal) 1fr var(--logo-padding-horizontal);
+}
+
+.Future {
+  grid-area: future;
+}
+
+.Future path {
+  fill: black;
+}

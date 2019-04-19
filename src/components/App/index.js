@@ -24,6 +24,7 @@ const AsyncThrace = React.lazy(() => import("components/Thrace"));
 const AsyncFullSteamAhead = React.lazy(() => import("components/FullSteamAhead"));
 const AsyncGo = React.lazy(() => import("components/Go"));
 const AsyncPetals = React.lazy(() => import("components/Art/Apr2nd2019"));
+const AsyncArcanartist = React.lazy(() => import("components/Arcanartist"));
 
 ReactGA.initialize('UA-134479219-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -83,6 +84,13 @@ class App extends React.PureComponent {
           data: this.state.data,
           className
         }}/>}/>
+
+        <Route {...{
+          exact: true,
+          render: () => <AsyncArcanartist {...{
+            className
+          }}/>
+        }}/>
 
         <Route exact path="/generative/petals" {...{
           render: () => <AsyncPetals {...{
