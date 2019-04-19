@@ -1,8 +1,9 @@
 import React from 'react';
+import { Map } from 'immutable';
 import style, { LeftBar } from "./style.module.css";
 import KitchenSink from './KitchenSink.js';
 import Editor from 'draft-js-plugins-editor';
-import { EditorState } from 'draft-js';
+import { EditorState, genKey, ContentBlock, ContentState, Modifier } from 'draft-js';
 import Prism from 'prismjs';
 import createPrismPlugin from 'draft-js-prism-plugin';
 import "prismjs/themes/prism.css"; // add prism.css to add highlights
@@ -23,9 +24,24 @@ const prismPlugin = createPrismPlugin({
 });
 
 const CodeEditor = ({ }) => {
+
+
+
   const [editorState, setEditorState] = React.useState(
-    EditorState.createEmpty()
+    EditorState.createWithContent(
+      ContentState.createFromBlockArray([
+        new ContentBlock({
+          key: genKey(),
+          type: 'code-block',
+          text: "",
+          data: new Map([ ["language", "javascript"] ])
+        })
+      ])
+    )
   );
+
+
+
 
   return <Editor {...{
     editorState:editorState,
