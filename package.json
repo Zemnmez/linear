@@ -37,7 +37,7 @@
   },
   "scripts": {
     "start": "nvim -S session.vim",
-    "build": "make -j all && INLINE_RUNTIME_CHUNK=false react-scripts build",
+    "build": "make -j all && react-scripts build",
     "test": "make -j all && react-scripts test",
     "deploy": "yarn run build && aws s3 sync build s3://zemn.me --acl public-read && yarn run deploy.invalidateCache",
     "deploy.invalidateCache": "make -j invalidate_cache",
