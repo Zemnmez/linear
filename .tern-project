@@ -1,9 +1,5 @@
 {
-	"libs": [
-		"browser"
-	],
 	"plugins": {
-		"node": {},
-		"es_modules": {}
+		"node": {}
 	}
 }

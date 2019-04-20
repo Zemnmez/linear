@@ -28,8 +28,8 @@ const IndexContext = React.forwardRef(({children, value, ...etc}, ref) =>
 export class Presentation extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.pathFormat = urlJoin(this.props.match.path, "/:index?");
-    assert(false == true, "some message");
+    const { match: { path = "/" } = {} } = this.props;
+    this.pathFormat = urlJoin(path, "/:index?");
   }
 
   render() {

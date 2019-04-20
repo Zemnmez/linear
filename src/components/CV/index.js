@@ -84,7 +84,7 @@ const Skills = ({ skills, className }) => <div {...{
     className: [style.skills].concat(className).join(" ")
   }}>
 
-  {skills.map((skill, i) => <Skill {...{...skill, key: skill.title}} />)}
+  {skills.map((skill, i) => <Skill key={skill.i} {...{...skill, key: skill.title}} />)}
 </div>
 
 const Skill = ({ title, description, className }) => [
@@ -181,7 +181,11 @@ const Phone = ({ className, phone }) => <div {...{
   {phone}
 </div>
 
-const When = ({ className, format = "YYYY", date = new Date() }) => <div {...{
+let now = new Date();
+if (process.env.NODE_ENV='test') now = new Date("1970-01-01T00:00:00.008Z");
+
+
+const When = ({ className, format = "YYYY", date = now }) => <div {...{
     className: [style.date].concat(className).join(" ")
   }}>
 

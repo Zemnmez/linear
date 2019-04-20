@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import './App.css';
 import style from './App.module.css';
-import bio from '@zemnmez/bio';
+import bio from 'bio.js';
 import {
   BrowserRouter as Router,
   Route,
@@ -26,19 +26,12 @@ const AsyncGo = React.lazy(() => import("components/Go"));
 const AsyncPetals = React.lazy(() => import("components/Art/Apr2nd2019"));
 const AsyncArcanartist = React.lazy(() => import("components/Arcanartist"));
 
-ReactGA.initialize('UA-134479219-1');
-ReactGA.pageview(window.location.pathname + window.location.search);
-
-
-const months = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
-const parseSimpleDate = (date) => {
-    let [month, day, year] = date.split(" ");
-    month = months.indexOf(month);
-
-    if (month === -1) throw Error(`invalid date ${date}`);
-
-    return new Date(year, month, day);
+if (process.env.NODE_ENV == "production")  {
+  ReactGA.initialize('UA-134479219-1');
+  ReactGA.pageview(window.location.pathname + window.location.search);
 }
+
+
 
 const Delay = ({ time, children }) => {
   const [display, setDisplay] = React.useState(false);
@@ -57,17 +50,7 @@ class App extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {data: App.parseDates(bio)};
-  }
-
-  static parseDates(data) {
-    data.timeline = data.timeline.map(({date, ...etc}) => {
-      date = parseSimpleDate(date);
-
-      return ({date, ...etc});
-    });
-
-    return data;
+    this.state = {data: bio};
   }
 
   render() {
