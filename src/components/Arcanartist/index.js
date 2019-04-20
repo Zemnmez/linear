@@ -1,17 +1,26 @@
 import React from 'react';
 import { Map } from 'immutable';
-import style, { LeftBar } from "./style.module.css";
-import KitchenSink from './KitchenSink.js';
+import style from "./style.module.css";
+import KitchenSink, { TopBar, LeftBar, ContentArea } from './KitchenSink.js';
 import Editor from 'draft-js-plugins-editor';
 import { EditorState, genKey, ContentBlock, ContentState, Modifier } from 'draft-js';
 import Prism from 'prismjs';
 import createPrismPlugin from 'draft-js-prism-plugin';
 import "prismjs/themes/prism.css"; // add prism.css to add highlights
+import { classes } from "classes";
 
 const Arcanartist = ({ className, ...etc }) => <KitchenSink {...{
   className
 }}>
-  <UI {...{...etc}}/>
+  <TopBar {...{
+    title: "arcanartist"
+  }}/>
+  <LeftBar/>
+  <ContentArea {...{
+    className: style.UI
+  }}>
+    <UI {...{...etc}}/>
+  </ContentArea>
 </KitchenSink>
 
 const UI = ({ className }) => <CodeEditor/>
@@ -24,9 +33,6 @@ const prismPlugin = createPrismPlugin({
 });
 
 const CodeEditor = ({ }) => {
-
-
-
   const [editorState, setEditorState] = React.useState(
     EditorState.createWithContent(
       ContentState.createFromBlockArray([
@@ -39,10 +45,6 @@ const CodeEditor = ({ }) => {
       ])
     )
   );
-
-
-
-
   return <Editor {...{
     editorState:editorState,
     onChange: (s) => setEditorState(s),
@@ -50,6 +52,23 @@ const CodeEditor = ({ }) => {
       prismPlugin
     ]
   }}/>
+}
+
+const vaporiseNumber = (n) => {
+  let mul = [];
+
+  outer:
+  while(n>1) {
+    for(const div = 2; div != 9; div++) {
+      if (n%div==0) {
+        n/=div;
+        mul.push(div);
+        continue outer;
+      }
+    }
+  }
+
+  return mul;
 }
 
 

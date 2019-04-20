@@ -1,15 +1,21 @@
 .KitchenSink {
-  --logo-area-size: 3.5em;
-  --margin-around-sink: .5em;
-  --subtle-off-bgc: whitesmoke;
-  --logo-padding-vertical: .2em;
-  --logo-padding-horizontal: 0;
+  --logo-area-size: 4em;
+  --subtle-off-bgc: inherit;
+  --logo-padding-vertical: .7em;
+  --logo-padding-horizontal: .3em;
   composes: GridArea from "../Grid.module.css";
-  grid: ". ............... ............." var(--margin-around-sink)
-        ". logo            top-sink-area" var(--logo-area-size)
-        " .left-sink-area  content-area" 1fr /
-          var(--margin-around-sink) var(--logo-area-size) 1fr;
+  grid: "logo            top-sink-area" var(--logo-area-size)
+        "left-sink-area  content-area" 1fr /
+          var(--logo-area-size) 1fr;
  background-color: var(--subtle-off-bgc)
+}
+
+.Title {
+  margin: auto;
+  font-size: x-large;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: .1em;
 }
 
 .ContentArea {
@@ -20,11 +26,12 @@
 }
 
 .LeftSinkArea {
-  grid-area: left-sink-area
+  grid-area: left-sink-area;
 }
 
 .TopSinkArea {
-  grid-area: top-sink-area
+  grid-area: top-sink-area;
+  composes: GridArea from "../Grid.module.css";
 }
 
 .Logo {

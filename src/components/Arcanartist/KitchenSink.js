@@ -1,18 +1,16 @@
 import React from 'react';
 import style from "./KitchenSink.module.css";
 import Future from "components/Future";
+import { classes } from "classes";
 
 const KitchenSink = ({ children, className }) => <div {...{
-  className: [style.KitchenSink].concat(className).join(" ")
+  className: classes(style.KitchenSink, className)
 }}>
-  <TopBar/>
-  <LeftBar/>
-  <ContentArea> {children} </ContentArea>
+   {children}
 </div>
 
-
 export const LeftBar = ({ children, className }) => <div {...{
-    className: [style.LeftSinkArea].concat(className).join(" ")
+    className: classes(style.LeftSinkArea, className)
   }}>
 
   {children}
@@ -21,7 +19,7 @@ export const LeftBar = ({ children, className }) => <div {...{
 
 
 const Logo = ({ className }) => <div {...{
-    className: [style.Logo].concat(className).join(" ")
+    className: classes(style.Logo, className)
   }}>
 
   <Future {...{
@@ -30,17 +28,27 @@ const Logo = ({ className }) => <div {...{
 
 </div>
 
-const TopBar = ({ className }) => <React.Fragment>
-  <TopSinkArea/>
+export const TopBar = ({ title, className }) => <React.Fragment>
+  <TopSinkArea {...{
+    title
+  }}/>
   <Logo/>
 </React.Fragment>
 
-const TopSinkArea = ({ className }) => <div {...{
-    className: [style.TopSinkArea].concat(className).join(" ")
-  }}/>
+const TopSinkArea = ({ title, className }) => <div {...{
+    className: classes(style.TopSinkArea, className)
+  }}>
+  <Title>{title}</Title>
+</div>
 
-const ContentArea = ({ className, children }) => <div {...{
-  className: [style.ContentArea].concat(className).join(" ")
+const Title = ({ children, className }) => <div {...{
+  className: classes(style.Title, className)
+}}>
+  {children}
+</div>
+
+export const ContentArea = ({ className, children }) => <div {...{
+  className: classes(style.ContentArea,className)
 }}> {children} </div>
 
 export default KitchenSink;
