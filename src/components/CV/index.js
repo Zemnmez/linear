@@ -182,7 +182,9 @@ const Phone = ({ className, phone }) => <div {...{
 </div>
 
 let now = new Date();
-if (process.env.NODE_ENV='test') now = new Date("1970-01-01T00:00:00.008Z");
+if (process.env.NODE_ENV=='test') {
+  now = new Date("1970-01-01T00:00:00.008Z");
+}
 
 
 const When = ({ className, format = "YYYY", date = now }) => <div {...{

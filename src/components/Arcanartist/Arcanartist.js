@@ -22,23 +22,47 @@ const Arcanartist = ({ className, ...etc }) => <KitchenSink {...{
     title: "arcanartist"
   }}/>
   <LeftBar/>
-  <ContentArea {...{
-    className: style.UI
-  }}>
-    <UI {...{...etc}}/>
-  </ContentArea>
+  <UI {...{...etc}}/>
 </KitchenSink>
 
-const UI = ({ className }) => <CodeEditor/>
+class UI extends React.PureComponent {
+  constructor(props) {
+    super(props);
 
-const CodeInput = ({ }) => <CodeEditor/>
+    this.state = {
+      code: ""
+    }
+
+    this.setCode = this.setCode.bind(this);
+  }
+
+  setCode(code) { this.setState({code}) }
+
+  render() {
+    const { setCode } = this;
+    const { code } = this.state;
+    return <ContentArea {...{
+      className: style.UI
+    }}>
+      <CodeEditor {...{
+        codeCallback: setCode
+      }}/>
+
+      <div {...{
+        className: style.CodeView
+      }}>
+        {vaporiseCode(code).toString()}
+      </div>
+    </ContentArea>
+  }
+}
 
 
 const prismPlugin = createPrismPlugin({
     prism: Prism
 });
 
-const CodeEditor = ({ }) => {
+const CodeEditor = ({ codeCallback }) => {
   const [editorState, setEditorState] = React.useState(
     EditorState.createWithContent(
       ContentState.createFromBlockArray([
@@ -52,13 +76,23 @@ const CodeEditor = ({ }) => {
     )
   );
 
-  return <Editor {...{
-    editorState:editorState,
-    onChange: (s) => setEditorState(s),
-    plugins: [
-      prismPlugin
-    ]
-  }}/>
+
+  return <div {...{
+    className: style.CodeEditor
+  }}>
+    <Editor {...{
+      editorState: editorState,
+      onChange: (s) => {
+        setEditorState(s)
+        const contentState = s.getCurrentContent();
+        codeCallback(contentState.getPlainText());
+      },
+
+      plugins: [
+        prismPlugin
+      ]
+    }}/>
+  </div>
 }
 
 /*
@@ -209,15 +243,6 @@ export const vaporiseCode = ([...chrs]) => {
 
   return new VaporisedString({ pre, values, post })
 }
-
-console.log(vaporiseCode(`
-A recurrent neural network (RNN) is a class of artificial neural network where connections between nodes form a directed graph along a temporal sequence. This allows it to exhibit temporal dynamic behavior. Unlike feedforward neural networks, RNNs can use their internal state (memory) to process sequences of inputs. This makes them applicable to tasks such as unsegmented, connected handwriting recognition[1] or speech recognition.[2][3]
-
-The term "recurrent neural network" is used indiscriminately to refer to two broad classes of networks with a similar general structure, where one is finite impulse and the other is infinite impulse. Both classes of networks exhibit temporal dynamic behavior.[4] A finite impulse recurrent network is a directed acyclic graph that can be unrolled and replaced with a strictly feedforward neural network, while an infinite impulse recurrent network is a directed cyclic graph that can not be unrolled.
-
-Both finite impulse and infinite impulse recurrent networks can have additional stored state, and the storage can be under direct control by the neural network. The storage can also be replaced by another network or graph, if that incorporates time delays or has feedback loops. Such controlled states are referred to as gated state or gated memory, and are part of long short-term memory networks (LSTMs) and gated recurrent units.
-`))
-
 //*/
 
 

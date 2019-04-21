@@ -7,7 +7,8 @@
   grid: "logo            top-sink-area" var(--logo-area-size)
         "left-sink-area  content-area" 1fr /
           var(--logo-area-size) 1fr;
- background-color: var(--subtle-off-bgc)
+ background-color: var(--subtle-off-bgc);
+ overflow-x: hidden;
 }
 
 .Title {

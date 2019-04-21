@@ -1,5 +1,14 @@
 {
 	"plugins": {
 		"node": {}
-	}
+	},
+
+	"loadEagerly": {
+		"src/**/*.js"
+	},
+
+	"dontLoad": [
+		"**/node_modules**",
+		"**/build**"
+	]
 }

@@ -48,7 +48,7 @@ const Title = ({ children, className }) => <div {...{
 </div>
 
 export const ContentArea = ({ className, children }) => <div {...{
-  className: classes(style.ContentArea,className)
+  className: classes(className,style.ContentArea)
 }}> {children} </div>
 
 export default KitchenSink;

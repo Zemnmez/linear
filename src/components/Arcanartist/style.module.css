@@ -2,3 +2,39 @@
   width: 100%; height: 100%;
 }
 
+.UI {
+  display: flex !important;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.UIItem {
+  min-height: 10rem;
+  max-width: 30em;
+  width: 100%;
+  height: 50%;
+  max-height: 30rem;
+  background-color: whitesmoke;
+  margin: 0 auto 0 auto;
+  box-sizing: border-box;
+  padding: 2em;
+}
+
+.Code {
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.Code pre {
+  white-space: pre-wrap;
+}
+
+.CodeView {
+  composes: UIItem;
+  composes: Code;
+}
+
+.CodeEditor {
+  composes: UIItem;
+  composes: Code;
+}
