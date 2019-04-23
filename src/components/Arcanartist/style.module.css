@@ -15,7 +15,7 @@
   height: 50%;
   max-height: 30rem;
   background-color: whitesmoke;
-  margin: 0 auto 0 auto;
+  margin: 2em auto 2em auto;
   box-sizing: border-box;
   padding: 2em;
 }
@@ -38,3 +38,17 @@
   composes: UIItem;
   composes: Code;
 }
+
+.ImagePanel {
+  composes: UIItem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.ImagePanel input[type=file] {
+  display: none;
+}
+
+.ImagePanel .Message {}
+.ImagePanel canvas { display: none }

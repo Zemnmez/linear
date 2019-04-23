@@ -53,7 +53,180 @@ class UI extends React.PureComponent {
       }}>
         {vaporiseCode(code).toString()}
       </div>
+
+      <ImagePanel/>
     </ContentArea>
+  }
+}
+
+const RandIdent = () => Math.floor(Math.random() * 1E16)
+
+class ImagePanel extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      imageFile: undefined,
+      imageData: undefined
+    }
+
+    this.ident = RandIdent();
+    this.canvas = React.createRef();
+    this.fileInput = React.createRef();
+    this.fileWasInput = this.fileWasInput.bind(this);
+    this.renderImageProcessor = this.renderImageProcessor.bind(this);
+  }
+
+  fileWasInput(event) {
+    const { fileInput: { current: fileInput } } = this;
+    const file = fileInput.files[0];
+    this.setState({ imageFile: URL.createObjectURL(file) });
+  }
+
+  /* this might seem like a super weird construction
+   * but the ImageHandle has to know if the props change
+   * in order to prevent a loop.
+   * because we are using a render function, previously
+   * every time the component rendered it would create a new function
+   * instance, causing PureComponent to assume the component had changed.
+   */
+  renderImageProcessor({ image }) {
+    return <ImageProcessor {...{
+          image,
+          onChange: ({ url }) => this.setState({
+            imageData: url
+          })
+        }}/>
+  }
+
+  render() {
+    const { ident, fileInput, canvas,
+      fileWasInput } = this;
+
+    const { imageFile, imageData } = this.state;
+
+    return <label {...{
+      className: style.ImagePanel,
+      htmlFor: ident,
+      style: {
+        backgroundImage: `url('${imageData||""}')`
+      }
+    }}>
+
+      {!imageFile?<div {...{
+        className: style.Message
+      }}>click to add file</div>: ""}
+
+      <input {...{
+        type: "file",
+        id: ident,
+        name: ident,
+        ref: fileInput,
+        multiple: false,
+        onChange: fileWasInput,
+        accept: "image/png, image/jpeg"
+      }}/>
+
+      <BlobURLRevoker {...{
+        url: imageFile,
+      }}/>
+
+      <ImageHandle {...{
+        url: imageFile,
+        render: this.renderImageProcessor
+      }}/>
+
+    </label>
+  }
+}
+
+//Image() is the only type which a canvas will consume, but it
+//cannot be generated synchronously in render() and also
+//is not immutable (i.e. PureComponent assumes all images,
+//even with identical Blobs are the same).
+//
+//This helper allows components to be defined as regular
+//PureComponents by only calling a re-render of its child
+//when the blob prop changes and the Image().onload callback
+//is fired.
+class ImageHandle extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = { image: undefined };
+  }
+
+  componentDidUpdate({ url: oldUrl }) {
+    const { url: newUrl } = this.props;
+
+    if (newUrl != oldUrl) {
+      log("getting image", {newUrl, oldUrl});
+      const image = new Image();
+      image.onload = () => this.setState({ image });
+      image.src = newUrl;
+    }
+  }
+
+  render() {
+    const { image } = this.state;
+    const { render } = this.props;
+    if (image) {
+      log("got image!");
+      return render({ image }) || null;
+    }
+    return null;
+  }
+}
+
+//To render a Blob into an image, URL.createObjectURL must be used.
+//however, URL.createObjectURL creates identifiers which are never GC'd
+//until URL.revokeObjectURL is called.
+//
+//This component revokes any URLs passed as props if they change.
+class BlobURLRevoker extends React.PureComponent {
+  componentDidUpdate({ url: oldUrl }) {
+    const { url: newUrl } = this.props;
+    if (!oldUrl) return;
+    log("revoking", oldUrl, {oldUrl, newUrl});
+    URL.revokeObjectURL(oldUrl);
+  }
+
+  render() {
+    return null;
+  }
+}
+
+class ImageProcessor extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.canvas = React.createRef();
+  }
+
+  componentDidMount() {
+    this.componentDidUpdate();
+  }
+
+  componentDidUpdate() {
+    const { onChange, image } = this.props;
+    const { canvas } = this;
+    if (!canvas.current) return;
+
+    const el = canvas.current;
+    [el.width, el.height] = [image.width, image.height];
+    el.getContext('2d')
+      .drawImage(image, 0, 0);
+
+    if (onChange)
+      log({onChange});
+      this.canvas.current.toBlob(
+        blob => onChange({url: URL.createObjectURL(blob) })
+      );
+  }
+
+  render() {
+    const { canvas } = this;
+    return <canvas {...{
+      ref: canvas
+    }}/>
   }
 }
 
