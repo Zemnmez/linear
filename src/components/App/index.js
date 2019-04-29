@@ -25,6 +25,7 @@ const AsyncFullSteamAhead = React.lazy(() => import("components/FullSteamAhead")
 const AsyncGo = React.lazy(() => import("components/Go"));
 const AsyncPetals = React.lazy(() => import("components/Art/Apr2nd2019"));
 const AsyncArcanartist = React.lazy(() => import("components/Arcanartist"));
+const AsyncSpotify = React.lazy(() => import("components/Spotify"));
 
 if (process.env.NODE_ENV == "production")  {
   ReactGA.initialize('UA-134479219-1');
@@ -70,6 +71,17 @@ class App extends React.PureComponent {
 
         <Route {...{
           exact: true,
+          path: "/spotify",
+          render: () => <AsyncSpotify {...{
+            className,
+            client_id: "a31ba389534143c2ac1ce2699a1fb151",
+            redirect_uri: new URL("/spotify", window.location.href),
+          }}/>
+        }}/>
+
+        <Route {...{
+          exact: true,
+          path: "/arcanartist",
           render: () => <AsyncArcanartist {...{
             className
           }}/>

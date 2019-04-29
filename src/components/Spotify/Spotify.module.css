@@ -1,0 +1,32 @@
+.Spotify {
+  composes: GridArea from "../Grid.module.css";
+  grid: "... ............ ..." 1fr
+		"... login-button ..." minmax(3rem, 5rem)
+		"... ............ ..." 1fr / 1fr minmax(6rem, 10rem) 1fr;
+}
+
+.LoginButton {
+  composes: GridArea from "../Grid.module.css";
+  grid-area: login-button;
+  background-color: #232323;
+  border-radius: 3rem;
+  grid: "spotify-logo .........." 1fr
+		"spotify-logo login-icon" 2fr
+		"spotify-logo ..........." 1fr / 1fr 1fr
+}
+
+.LoginIcon, .SpotifyLogo {
+  width: 100% !important; height: 100% !important;
+  stroke: none !important;
+}
+
+.LoginIcon {
+  grid-area: login-icon;
+  color: white;
+}
+
+.SpotifyLogo {
+  grid-area: spotify-logo;
+  color: #1DB954;
+}
+
