@@ -14,6 +14,16 @@ import log from '@zemnmez/macros/log.macro';
 import assert from '@zemnmez/macros/assert.macro';
 import substrings from 'common-substrings';
 import js_ident_re from './js_ident.js';
+import PropTypes from 'prop-types';
+
+const freeze = sym => {
+  sym.args && (sym.args = sym.args.map(freeze));
+  if (sym instanceof math.expression.node.ConstantNode)
+    return new FakeSymbol(sym);
+
+  return sym;
+}
+
 
 const Arcanartist = ({ className, ...etc }) => <KitchenSink {...{
   className
@@ -29,18 +39,19 @@ class UI extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      code: ""
-    }
+    this.state = { code: "", image: undefined }
 
     this.setCode = this.setCode.bind(this);
+    this.imageRender = this.imageRender.bind(this);
   }
 
   setCode(code) { this.setState({code}) }
+  imageRender({ image }) { this.setState({ image }) }
 
   render() {
-    const { setCode } = this;
-    const { code } = this.state;
+    const { setCode, imageRender } = this;
+    const { code, image } = this.state;
+    const vaporised = vaporiseCode(code).toString();
     return <ContentArea {...{
       className: style.UI
     }}>
@@ -51,12 +62,105 @@ class UI extends React.PureComponent {
       <div {...{
         className: style.CodeView
       }}>
-        {vaporiseCode(code).toString()}
+        {vaporised}
       </div>
 
-      <ImagePanel/>
+      <ImagePanel>{
+        imageRender
+      }</ImagePanel>
+
+      <Render {...{
+        imageData: image,
+        code: vaporised
+      }}/>
+
     </ContentArea>
   }
+}
+
+class FileLoader extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      fileData: undefined,
+      fileReader: undefined
+    };
+  }
+
+  fileUrlDidChange() {
+    this.setState(() => {
+      let { fileReader } = this.state;
+      fileReader && fileReader.abort();
+
+      fileReader = new FileReader();
+
+      fileReader.onload = (event) => this.setState({
+        fileData: event.result
+      });
+
+      return {
+        fileReader
+      }
+    })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.url != this.props.url) this.fileUrlDidChange();
+  }
+
+  render() {
+    const { render } = this.props;
+    const { fileData } = this.state;
+    return render({ fileData });
+  }
+}
+
+FileLoader.propTypes = {
+  render: PropTypes.func.isRequired,
+  url: PropTypes.string
+}
+
+export const ShapeTextToImage = ({ threshold = .5, text = '',
+    imageData: { data: imageData, height, width} = {
+      data: [], height: 0, width: 0,
+    }}) => {
+
+  let inputCells = [...text];
+  let cells = [...Array(width * height)];
+  return cells.map((_, idx) => {
+    const [r, g, b, a] = Array.prototype.slice.call(imageData, idx * 4, idx * 4 + 4);
+    const lightness = // aka, 'whiteness'
+      Math.min(
+        [r, g, b].reduce((a, c) => a + c) /3,
+        255 - a // 255 alpha is opaque, but [255,255,255] rgb is white
+      ) / 255;
+
+    return (lightness < threshold? inputCells.shift() || ";": " ")
+      + ( (idx + 1) % width  == 0? "\n": "");
+  }).join('').slice(0, -1);
+}
+
+ShapeTextToImage.propTypes = {
+  theshold: PropTypes.number,
+  text: PropTypes.string,
+  imageData: PropTypes.shape({
+    data: PropTypes.instanceOf(Uint8ClampedArray).isRequired,
+    height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired
+  })
+}
+
+const Render = ({ code, imageData, width, height }) => {
+
+  return <div {...{
+    className: style.RenderPanel
+  }}>
+    <ShapeTextToImage {...{
+      text: code,
+      imageData
+    }}/>
+  </div>
 }
 
 const RandIdent = () => Math.floor(Math.random() * 1E16)
@@ -66,8 +170,9 @@ class ImagePanel extends React.PureComponent {
     super(props);
 
     this.state = {
-      imageFile: undefined,
-      imageData: undefined
+      inputFile: undefined,
+      imageData: undefined,
+      processedImage: undefined
     }
 
     this.ident = RandIdent();
@@ -80,7 +185,11 @@ class ImagePanel extends React.PureComponent {
   fileWasInput(event) {
     const { fileInput: { current: fileInput } } = this;
     const file = fileInput.files[0];
-    this.setState({ imageFile: URL.createObjectURL(file) });
+    this.setState(() => {
+      if (this.state.inputFile)
+        URL.revokeObjectURL(this.state.inputFile);
+      return { inputFile: URL.createObjectURL(file) }
+    });
   }
 
   /* this might seem like a super weird construction
@@ -89,31 +198,40 @@ class ImagePanel extends React.PureComponent {
    * because we are using a render function, previously
    * every time the component rendered it would create a new function
    * instance, causing PureComponent to assume the component had changed.
+   * We could, of course rebind every function that we use here, but, that's not any fun.
    */
   renderImageProcessor({ image }) {
     return <ImageProcessor {...{
-          image,
-          onChange: ({ url }) => this.setState({
-            imageData: url
-          })
-        }}/>
+      image,
+    }}>{
+
+    ({ blob, imageData }) => (this.setState({
+      imageBlob: blob, imageData
+    }), null)
+
+    }</ImageProcessor>
   }
 
   render() {
     const { ident, fileInput, canvas,
-      fileWasInput } = this;
+      fileWasInput, renderImageProcessor } = this;
 
-    const { imageFile, imageData } = this.state;
+    const { inputFile, imageData, imageBlob } = this.state;
+    const { children } = this.props;
 
     return <label {...{
       className: style.ImagePanel,
       htmlFor: ident,
       style: {
-        backgroundImage: `url('${imageData||""}')`
+        backgroundImage: `url(${inputFile})`
       }
     }}>
 
-      {!imageFile?<div {...{
+      {children({
+        image: imageData
+      })}
+
+      {!inputFile?<div {...{
         className: style.Message
       }}>click to add file</div>: ""}
 
@@ -127,17 +245,18 @@ class ImagePanel extends React.PureComponent {
         accept: "image/png, image/jpeg"
       }}/>
 
-      <BlobURLRevoker {...{
-        url: imageFile,
-      }}/>
-
       <ImageHandle {...{
-        url: imageFile,
-        render: this.renderImageProcessor
-      }}/>
+        url: inputFile
+      }}>
+        {renderImageProcessor}
+      </ImageHandle>
 
     </label>
   }
+}
+
+ImagePanel.propTypes = {
+  children: PropTypes.func.isRequired
 }
 
 //Image() is the only type which a canvas will consume, but it
@@ -159,7 +278,6 @@ class ImageHandle extends React.PureComponent {
     const { url: newUrl } = this.props;
 
     if (newUrl != oldUrl) {
-      log("getting image", {newUrl, oldUrl});
       const image = new Image();
       image.onload = () => this.setState({ image });
       image.src = newUrl;
@@ -168,13 +286,15 @@ class ImageHandle extends React.PureComponent {
 
   render() {
     const { image } = this.state;
-    const { render } = this.props;
-    if (image) {
-      log("got image!");
-      return render({ image }) || null;
-    }
-    return null;
+    const { children } = this.props;
+
+    return children({image})
   }
+}
+
+ImageHandle.propTypes = {
+  children: PropTypes.func.isRequired,
+  url: PropTypes.string
 }
 
 //To render a Blob into an image, URL.createObjectURL must be used.
@@ -195,39 +315,106 @@ class BlobURLRevoker extends React.PureComponent {
   }
 }
 
+class ObjectUrl extends React.PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = { url: undefined };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const { url: oldUrl } = state;
+    const { object } = props;
+    oldUrl && URL.revokeObjectURL(oldUrl);
+
+    log({ object });
+
+    return {
+      url: object? URL.createObjectURL(object): undefined
+    }
+  }
+
+  render() {
+    const { children } = this.props;
+    const { url } = this.state;
+    log({children});
+    return children({
+      url
+    })
+  }
+}
+
+ObjectUrl.propTypes = {
+  children: PropTypes.func.isRequired,
+  object: PropTypes.oneOfType([
+    PropTypes.instanceOf(Blob),
+    PropTypes.instanceOf(File)
+  ])
+}
+
 class ImageProcessor extends React.PureComponent {
   constructor(props) {
     super(props);
     this.canvas = React.createRef();
+    this.state = { imageData: undefined, blob: undefined }
   }
 
   componentDidMount() {
     this.componentDidUpdate();
   }
 
-  componentDidUpdate() {
-    const { onChange, image } = this.props;
+  componentDidUpdate(prevProps) {
+    const { image: newImage } = this.props;
+    const { image: oldImage } = prevProps || {};
     const { canvas } = this;
-    if (!canvas.current) return;
+    log({
+      canvas: canvas.current,
+      hasCanvas: !canvas.current,
+      image,
+      hasImage: !image,
+      imageChanged: oldImage != newImage,
+      oldImage, newImage
+    });
+
+    if (!newImage) return;
+    if (oldImage == newImage) return;
+
+    log("handling new image");
+
+    const image = newImage;
 
     const el = canvas.current;
     [el.width, el.height] = [image.width, image.height];
-    el.getContext('2d')
-      .drawImage(image, 0, 0);
+    const ctx = el.getContext('2d');
+    ctx.drawImage(image, 0, 0);
 
-    if (onChange)
-      log({onChange});
-      this.canvas.current.toBlob(
-        blob => onChange({url: URL.createObjectURL(blob) })
-      );
+    el.toBlob(blob => this.setState({
+      blob,
+      imageData: ctx.getImageData(0,0,image.width,image.height)
+    }));
+
   }
 
   render() {
     const { canvas } = this;
-    return <canvas {...{
-      ref: canvas
-    }}/>
+    const { children } = this.props;
+    const { blob, imageData } = this.state;
+    log({ blob, imageData });
+    return <React.Fragment>
+      <canvas {...{
+        ref: canvas
+      }}/>
+
+      {children({
+        blob, imageData
+      })}
+    </React.Fragment>
   }
+}
+
+ImageProcessor.propTypes = {
+  children: PropTypes.func,
+  image: PropTypes.instanceOf(Image)
 }
 
 
@@ -368,6 +555,10 @@ class VaporisedString {
   }
 }
 
+export const arcanise = (imageSrc, code) => {
+  const vapor = vaporiseCode(code);
+}
+
 export const vaporiseCode = ([...chrs]) => {
   const pre = "Function(String.fromCharCode(";
   let values = chrs.map(c => vaporiseNumber(c.charCodeAt(0))).map(sym => sym.toString())
@@ -413,6 +604,9 @@ export const vaporiseCode = ([...chrs]) => {
 
   // lastly, make some attempt
   // to remove superflous brackets
+  //
+  // attempt to re-parse and simplify
+  //values = values.split(",").map(stmt => simplify(freeze(math.parse(stmt))).toString()).join("");
 
   return new VaporisedString({ pre, values, post })
 }

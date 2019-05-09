@@ -1,4 +1,4 @@
-import { vaporiseNumber, vaporiseCode } from './Arcanartist';
+import { vaporiseNumber, vaporiseCode, ShapeTextToImage } from './Arcanartist';
 import log from '@zemnmez/macros/log.macro';
 
 describe('vaporise', () => {
@@ -22,3 +22,35 @@ describe('vaporise', () => {
 
   */
 })
+
+describe('shapeTextToImage', () => {
+  it('should wrap text as expected', () => {
+    const matrix = [
+      0, 1, 0, 1,
+      0, 1, 1, 0,
+      1, 1, 1, 1
+    ];
+
+    const rgba = matrix.map(v =>
+      v?[0,0,0,0]:[252,253,254,0]
+    ).reduce((a, c) => a.concat(...c), []);
+
+    const text = "abcdefghijlkmnop";
+
+    const expected =
+      " a b\n" +
+      " cd \n" +
+      "efgh";
+
+    const output = ShapeTextToImage({
+      imageData: {
+        data: rgba,
+        width: 4,
+        height: 3
+      },
+      text
+    });
+
+    expect(output).toEqual(expected);
+  });
+});
