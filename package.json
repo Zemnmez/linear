@@ -72,7 +72,6 @@
     "bcrypt-cli": "^1.1.0",
     "jpegoptim-bin": "^5.1.0",
     "jpegtran-bin": "^4.0.0",
-    "prettier": "1.17.0",
     "react-snapshot": "^1.3.0",
     "react-test-renderer": "^16.8.6"
   }
