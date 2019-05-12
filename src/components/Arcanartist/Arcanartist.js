@@ -59,11 +59,10 @@ class UI extends React.PureComponent {
         codeCallback: setCode
       }}/>
 
-      <div {...{
-        className: style.CodeView
-      }}>
-        {vaporised}
-      </div>
+      <CodeEditor {...{
+        disabled: true,
+        text: vaporised
+      }}/>
 
       <ImagePanel>{
         imageRender
@@ -422,19 +421,25 @@ const prismPlugin = createPrismPlugin({
     prism: Prism
 });
 
-const CodeEditor = ({ codeCallback }) => {
+const CodeEditor = ({ codeCallback, text = "", disabled = false }) => {
   const [editorState, setEditorState] = React.useState(
     EditorState.createWithContent(
       ContentState.createFromBlockArray([
         new ContentBlock({
           key: genKey(),
           type: 'code-block',
-          text: "",
+          text: text,
           data: new Map([ ["language", "javascript"] ])
         })
       ])
     )
   );
+
+  const onChange = (s) => {
+    setEditorState(s)
+    const contentState = s.getCurrentContent();
+    codeCallback(contentState.getPlainText());
+  }
 
 
   return <div {...{
@@ -442,11 +447,7 @@ const CodeEditor = ({ codeCallback }) => {
   }}>
     <Editor {...{
       editorState: editorState,
-      onChange: (s) => {
-        setEditorState(s)
-        const contentState = s.getCurrentContent();
-        codeCallback(contentState.getPlainText());
-      },
+      onChange: disabled?undefined:onChange,
 
       plugins: [
         prismPlugin

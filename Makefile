@@ -50,6 +50,5 @@ watch/%: .FORCE
 		sleep 1; \
 	done
 
-#: watch for changes and remake any files that change
+#: (watch/%) watch for changes and remake any files that change
 watch: watch/all
-
