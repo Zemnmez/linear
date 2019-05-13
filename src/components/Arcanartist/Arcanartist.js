@@ -46,6 +46,7 @@ class UI extends React.PureComponent {
   }
 
   setCode(code) { this.setState({code}) }
+
   imageRender({ image }) { this.setState({ image }) }
 
   render() {
@@ -94,7 +95,7 @@ class FileLoader extends React.PureComponent {
 
       fileReader = new FileReader();
 
-      fileReader.onload = (event) => this.setState({
+      fileReader.onload = event => this.setState({
         fileData: event.result
       });
 
@@ -121,12 +122,12 @@ FileLoader.propTypes = {
 }
 
 export const ShapeTextToImage = ({ threshold = .5, text = '',
-    imageData: { data: imageData, height, width} = {
-      data: [], height: 0, width: 0,
-    }}) => {
+  imageData: { data: imageData, height, width} = {
+    data: [], height: 0, width: 0
+  }}) => {
 
-  let inputCells = [...text];
-  let cells = [...Array(width * height)];
+  let inputCells = [ ...text ];
+  let cells = [ ...Array(width * height) ];
   return cells.map((_, idx) => {
     const [r, g, b, a] = Array.prototype.slice.call(imageData, idx * 4, idx * 4 + 4);
     const lightness = // aka, 'whiteness'
@@ -136,7 +137,7 @@ export const ShapeTextToImage = ({ threshold = .5, text = '',
       ) / 255;
 
     return (lightness < threshold? inputCells.shift() || ";": " ")
-      + ( (idx + 1) % width  == 0? "\n": "");
+      + ( (idx + 1) % width  === 0? "\n": "");
   }).join('').slice(0, -1);
 }
 
@@ -183,7 +184,7 @@ class ImagePanel extends React.PureComponent {
 
   fileWasInput(event) {
     const { fileInput: { current: fileInput } } = this;
-    const file = fileInput.files[0];
+    const [ file ] = fileInput.files;
     this.setState(() => {
       if (this.state.inputFile)
         URL.revokeObjectURL(this.state.inputFile);
@@ -201,14 +202,14 @@ class ImagePanel extends React.PureComponent {
    */
   renderImageProcessor({ image }) {
     return <ImageProcessor {...{
-      image,
+      image
     }}>{
 
-    ({ blob, imageData }) => (this.setState({
-      imageBlob: blob, imageData
-    }), null)
+        ({ blob, imageData }) => (this.setState({
+          imageBlob: blob, imageData
+        }), null)
 
-    }</ImageProcessor>
+      }</ImageProcessor>
   }
 
   render() {
@@ -258,15 +259,15 @@ ImagePanel.propTypes = {
   children: PropTypes.func.isRequired
 }
 
-//Image() is the only type which a canvas will consume, but it
-//cannot be generated synchronously in render() and also
-//is not immutable (i.e. PureComponent assumes all images,
-//even with identical Blobs are the same).
+// Image() is the only type which a canvas will consume, but it
+// cannot be generated synchronously in render() and also
+// is not immutable (i.e. PureComponent assumes all images,
+// even with identical Blobs are the same).
 //
-//This helper allows components to be defined as regular
-//PureComponents by only calling a re-render of its child
-//when the blob prop changes and the Image().onload callback
-//is fired.
+// This helper allows components to be defined as regular
+// PureComponents by only calling a re-render of its child
+// when the blob prop changes and the Image().onload callback
+// is fired.
 class ImageHandle extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -296,11 +297,11 @@ ImageHandle.propTypes = {
   url: PropTypes.string
 }
 
-//To render a Blob into an image, URL.createObjectURL must be used.
-//however, URL.createObjectURL creates identifiers which are never GC'd
-//until URL.revokeObjectURL is called.
+// To render a Blob into an image, URL.createObjectURL must be used.
+// however, URL.createObjectURL creates identifiers which are never GC'd
+// until URL.revokeObjectURL is called.
 //
-//This component revokes any URLs passed as props if they change.
+// This component revokes any URLs passed as props if they change.
 class BlobURLRevoker extends React.PureComponent {
   componentDidUpdate({ url: oldUrl }) {
     const { url: newUrl } = this.props;
@@ -389,7 +390,7 @@ class ImageProcessor extends React.PureComponent {
 
     el.toBlob(blob => this.setState({
       blob,
-      imageData: ctx.getImageData(0,0,image.width,image.height)
+      imageData: ctx.getImageData(0, 0, image.width, image.height)
     }));
 
   }
@@ -418,7 +419,7 @@ ImageProcessor.propTypes = {
 
 
 const prismPlugin = createPrismPlugin({
-    prism: Prism
+  prism: Prism
 });
 
 const CodeEditor = ({ codeCallback, text = "", disabled = false }) => {
@@ -435,7 +436,7 @@ const CodeEditor = ({ codeCallback, text = "", disabled = false }) => {
     )
   );
 
-  const onChange = (s) => {
+  const onChange = s => {
     setEditorState(s)
     const contentState = s.getCurrentContent();
     codeCallback(contentState.getPlainText());
@@ -473,35 +474,34 @@ class FakeSymbol extends math.expression.node.SymbolNode {
 
 // remove all rules containing caret (^), since
 // we can't express it in a single character
-const newRules = math.simplify.rules.filter(({l,r}) =>
-  ![l,r].some(v => v && v.indexOf('^') != -1)
-);
+const newRules = math.simplify.rules.filter(({l, r}) =>
+  ![l, r].some(v => v && v.indexOf('^') != -1));
 
 const identifierGenerator = () => {
   let ctr = 0
   return () => {
     ctr++
-    while(!js_ident_re.test(String.fromCharCode(ctr)))  ctr++;
+    while (!js_ident_re.test(String.fromCharCode(ctr)))  ctr++;
 
     return String.fromCharCode(ctr++)
   }
 }
 
 
-const simplify = (expr) => math.simplify(expr, newRules);
+const simplify = expr => math.simplify(expr, newRules);
 
-export const vaporiseNumberExpr = memoize((n) => {
+export const vaporiseNumberExpr = memoize(n => {
   const self = vaporiseNumberExpr;
   if (n>=0&&n<=9) return new FakeSymbol(n);
 
-  for(let div = 9; div > 1; div--) {
+  for (let div = 9; div > 1; div--) {
     if (n%div==0) {
       n/=div;
       return simplify(
         new math.expression.node.OperatorNode(
           "*",
           'multiply',
-          [ self(n), new FakeSymbol(div) ]
+          [self(n), new FakeSymbol(div)]
         )
       );
     }
@@ -510,14 +510,14 @@ export const vaporiseNumberExpr = memoize((n) => {
   const addOne = simplify(new math.expression.node.OperatorNode(
     "+",
     'add',
-    [ self(n-1), new FakeSymbol(1) ]
+    [self(n-1), new FakeSymbol(1)]
   ));
 
 
   const subOne = simplify(new math.expression.node.OperatorNode(
     "-",
     'subtract',
-    [ self(n+1), new FakeSymbol(1) ]
+    [self(n+1), new FakeSymbol(1)]
   ));
 
   /*
@@ -543,7 +543,7 @@ export const vaporiseNumberExpr = memoize((n) => {
   return best[0];
 })
 
-export const vaporiseNumber = (n) => vaporiseNumberExpr(n).toString().replace(/ /g,"");
+export const vaporiseNumber = n => vaporiseNumberExpr(n).toString().replace(/ /g, "");
 
 class VaporisedString {
   constructor({ pre, post, values }) {
@@ -560,7 +560,7 @@ export const arcanise = (imageSrc, code) => {
   const vapor = vaporiseCode(code);
 }
 
-export const vaporiseCode = ([...chrs]) => {
+export const vaporiseCode = ([ ...chrs ]) => {
   const pre = "Function(String.fromCharCode(";
   let values = chrs.map(c => vaporiseNumber(c.charCodeAt(0))).map(sym => sym.toString())
   let post = "))()";
@@ -578,7 +578,7 @@ export const vaporiseCode = ([...chrs]) => {
 
     try {
       math.parse(name)
-    } catch(e) { return false}
+    } catch (e) { return false }
 
     return true;
   })
@@ -607,11 +607,11 @@ export const vaporiseCode = ([...chrs]) => {
   // to remove superflous brackets
   //
   // attempt to re-parse and simplify
-  //values = values.split(",").map(stmt => simplify(freeze(math.parse(stmt))).toString()).join("");
+  // values = values.split(",").map(stmt => simplify(freeze(math.parse(stmt))).toString()).join("");
 
   return new VaporisedString({ pre, values, post })
 }
-//*/
+//* /
 
 
 

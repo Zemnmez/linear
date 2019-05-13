@@ -8,10 +8,10 @@ import { DefaultPlayer as Video } from 'react-html5video';
 const Home = ({data, className}) => {
   data.who.name=undefined; // just dont want it lol
 
-  return <div className={[style.home].concat(className).join(" ")}>
-        <VideoBackground />
-        <header> <div className="innerText">{data.who.handle}</div> </header>
-        <article> <Profile data={data} /> </article>
+  return <div className={[ style.home ].concat(className).join(" ")}>
+    <VideoBackground />
+    <header> <div className="innerText">{data.who.handle}</div> </header>
+    <article> <Profile data={data} /> </article>
   </div>
 }
 
@@ -24,7 +24,7 @@ class VideoBackground extends React.Component {
     video.muted = true; // fixes autoplay in chrome
     video.setAttribute('poster', ashPoster);
     video.setAttribute('playsinline', 'true'); // fixes autoplay in webkit (ie. mobile safari)
-    video.setAttribute('class', [style.videoBackground].concat(className).join(" "));
+    video.setAttribute('class', [ style.videoBackground ].concat(className).join(" "));
 
     const source = document.createElement('source');
     source.src = ashVideo;
@@ -34,9 +34,10 @@ class VideoBackground extends React.Component {
     // react probably hates me for this and i also dont care
     this.videoContainer.parentNode.replaceChild(video, this.videoContainer);
   }
+
   render() {
     return (
-      <div ref={(ref) =>  this.videoContainer = ref } />
+      <div ref={ref =>  this.videoContainer = ref } />
     );
   }
 }

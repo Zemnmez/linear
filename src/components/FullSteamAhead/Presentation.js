@@ -14,7 +14,7 @@ import log from '@zemnmez/macros/log.macro';
 import assert from '@zemnmez/macros/assert.macro';
 
 
-const hurl = (error) => { throw new Error(error) }
+const hurl = error => { throw new Error(error) }
 
 const SlideIndexContext = React.createContext(undefined);
 const IndexContext = React.forwardRef(({children, value, ...etc}, ref) =>
@@ -38,38 +38,39 @@ export class Presentation extends React.PureComponent {
       path: this.pathFormat,
       render: ({ match, location, history }) =>
         <ChildAndParentTracker {...{
-        className: [style.presentation].concat(className).join(" "),
-        ...etc,
-        render: ({parent, children}) =>
-          <ReactIntersectionObserver {...{
-          parent, children,
-          render: ({ entries }) =>
-            <VisibilityObserver {...{
-            entries,
-            render: ({visibilityRanking: [mostVisible]}) =>
-              <SlideController {...{
-                match, location, history,
-                parent, children,
-                entries, mostVisible,
-                pathFormat: this.pathFormat
-              }}/>
+          className: [ style.presentation ].concat(className).join(" "),
+          ...etc,
+          render: ({parent, children}) =>
+            <ReactIntersectionObserver {...{
+              parent, children,
+              render: ({ entries }) =>
+                <VisibilityObserver {...{
+                  entries,
+                  render: ({visibilityRanking: [ mostVisible ]}) =>
+                    <SlideController {...{
+                      match, location, history,
+                      parent, children,
+                      entries, mostVisible,
+                      pathFormat: this.pathFormat
+                    }}/>
+                }}/>
             }}/>
-          }}/>
         }}>
-        {React.Children.map(children, (child, i) => <IndexContext
-          value={i+1}>{child}</IndexContext>)}
+          {React.Children.map(children, (child, i) => <IndexContext
+            value={i+1}>{child}</IndexContext>)}
         </ChildAndParentTracker>
     }}/>
   }
 }
 
 export const SlideIndex = ({ className, ...etc }) => <span {...{
-  className: [style.slideIndex].concat(className).join(" "),
+  className: [ style.slideIndex ].concat(className).join(" "),
   ...etc
 }}/>
 
 class CustomSlideIndex extends React.PureComponent {
   static contextType = SlideIndexContext;
+
   render() {
     let { render } = this.props;
     assert(render !== undefined);
@@ -99,10 +100,10 @@ class SlideController extends React.PureComponent {
     const { props: { mostVisible, location, match }, slidePath, slideBy } = this;
     log({...this});
     if (match.params.index == undefined) return <Redirect {...{
-        to: slidePath({ index: 1 })
-      }}/>
+      to: slidePath({ index: 1 })
+    }}/>
     return <React.Fragment>
-      {/*<SlideHotkeyController {...{
+      {/* <SlideHotkeyController {...{
         slidePath,
         slideBy
       }}/>*/}
@@ -110,8 +111,8 @@ class SlideController extends React.PureComponent {
         index: mostVisible.index + 1,
         slidePath: slidePath
       }}/>:""}
-    {/* this just ensures that the children are loaded in before we try to jump to one */}
-    {this.props.children.length > 0? <IndexChangeScroller {...{
+      {/* this just ensures that the children are loaded in before we try to jump to one */}
+      {this.props.children.length > 0? <IndexChangeScroller {...{
         state: location.state,
         index: match.params.index,
         slideBy
@@ -124,7 +125,7 @@ class IndexChangeScroller extends React.Component {
   shouldComponentUpdate(nextProps) {
     const { index } = this.props;
     if (!nextProps.state) return true;
-    return (!nextProps.state.fromIndexChange) && nextProps.index != index
+    return !nextProps.state.fromIndexChange && nextProps.index != index
   }
 
   render() {
@@ -138,6 +139,7 @@ class IndexChangeScroller extends React.Component {
 class ScrollTo extends React.PureComponent {
 
   throttle;
+
   render() {
     const { target, ...etc } = this.props;
     this.throttle&&clearTimeout(this.throttle);
@@ -167,7 +169,7 @@ class IndexChangeRedirector extends React.PureComponent {
 
   static getDerivedStateFromProps(props, state) {
     if ( props.index == state.New ) return;
-    const [ old, New ] = [ state.New, props.index];
+    const [old, New] = [state.New, props.index];
     assert( old != New, { old, New });
     return { old, New };
   }
@@ -190,14 +192,14 @@ class IndexChangeRedirector extends React.PureComponent {
 class VisibilityObserver extends React.PureComponent {
   render() {
     const visibilityRanking = this.props.entries.map((entry, index) =>
-        ({entry, index})).sort(({entry: {
-          intersectionRatio: a
-        }}, {entry: {
-          intersectionRatio: b
-        }}) => b - a);
+      ({entry, index})).sort(({entry: {
+      intersectionRatio: a
+    }}, {entry: {
+      intersectionRatio: b
+    }}) => b - a);
 
     log({visibilityRanking})
-    log("most visible slide", [...visibilityRanking][0]);
+    log("most visible slide", [ ...visibilityRanking ][0]);
 
     return this.props.render({visibilityRanking});
   }
@@ -213,7 +215,7 @@ class ReactIntersectionObserver extends React.PureComponent {
 
   intersectionChanged(IntersectionEntries) {
     log();
-    let entries = [...this.state.entries];
+    let entries = [ ...this.state.entries ];
     IntersectionEntries.forEach(entry =>
       entries[
         this.props.children.indexOf(entry.target)
@@ -232,11 +234,11 @@ class ReactIntersectionObserver extends React.PureComponent {
       this.intersectionChanged.bind(this),
       {
         root: this.props.parent,
-        threshold: this.props.threshold || [ 0, .5, 1],
+        threshold: this.props.threshold || [0, .5, 1]
       }
     );
 
-    this.props.children.forEach((child) => {
+    this.props.children.forEach(child => {
       log("observe", child);
       this.observer.observe(child)
     });
@@ -291,17 +293,17 @@ class ReactIntersectionObserver extends React.PureComponent {
   }
 }
 
-//ChildAndParentTracker exposes a <div> element that pushes
-//up state when it, or its children are mounted or unmounted.
-//Most props are forwarded to the <div> itself.
+// ChildAndParentTracker exposes a <div> element that pushes
+// up state when it, or its children are mounted or unmounted.
+// Most props are forwarded to the <div> itself.
 class ChildAndParentTracker extends React.Component {
   constructor(props) {
     super(props);
 
     this.myRef = React.createRef();
     this.state = {
-        parent: undefined,
-        children: []
+      parent: undefined,
+      children: []
     }
   }
 
@@ -333,15 +335,14 @@ class ChildAndParentTracker extends React.Component {
       ref,
       ...etc
     }}>
-      {(({parent,children})=>
-        render({parent,children}))(this.state)}
+      {(({parent, children})=>
+        render({parent, children}))(this.state)}
 
       {React.Children.map(children, (child, i) =>
         child && <TrackableChild {...{
-            didMount: this.childDidMount.bind(this, i),
-            willUnmount: this.childWillUnmount.bind(this, i)
-        }}>{child}</TrackableChild>
-      )}
+          didMount: this.childDidMount.bind(this, i),
+          willUnmount: this.childWillUnmount.bind(this, i)
+        }}>{child}</TrackableChild>)}
     </div>
   }
 }
@@ -353,6 +354,7 @@ class TrackableChild extends React.PureComponent {
   }
 
   componentDidMount() { this.props.didMount(this.myRef.current); }
+
   componentWillUnmount() { this.props.willUnmount(this.myRef.current); }
 
   render() {
@@ -364,26 +366,26 @@ class TrackableChild extends React.PureComponent {
 }
 
 export const TitleGroup = ({ children, className, ...etc }) => <div {...{
-  className: [style.titleGroup].concat(className).join(" "),
+  className: [ style.titleGroup ].concat(className).join(" "),
   ...etc
 }}> {children} </div>
 
 export const Notes = ({ children, className, ...etc }) => <div {...{
-  className: [style.notes].concat(className).join(" "),
+  className: [ style.notes ].concat(className).join(" "),
   ...etc
 }}> {children} </div>
 
 export const BackgroundYoutube = ({ video, className, options, ...etc }) => <iframe {...{
   src: `//youtube.com/embed/${encodeURIComponent(video)}?${
-      Object.entries({
-        loop: 1,
-        playlist: video,
-        autoplay: 1,
-        controls: 0,
-        mute: 1,
-        ...options
-      }).map(([key, value]) => [key, value].map(encodeURIComponent).join("=")).join("&")
-    }`,
+    Object.entries({
+      loop: 1,
+      playlist: video,
+      autoplay: 1,
+      controls: 0,
+      mute: 1,
+      ...options
+    }).map(([key, value]) => [key, value].map(encodeURIComponent).join("=")).join("&")
+  }`,
   frameborder: 0,
   allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
   className: [].concat(className).join(" ")

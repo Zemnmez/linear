@@ -16,27 +16,25 @@ const Spotify = ({
   render,
   token=localStorage.setItem(localStorageKey,
     new Map(window.location.hash.slice(1).split("&").map(s => s.split("=").map(decodeURIComponent))).get("access_token") ||
-    localStorage.getItem(localStorageKey)
-  ),
+    localStorage.getItem(localStorageKey)),
   ...etc
-  }) => <div {...{
+}) => <div {...{
   className: classes(className, style.Spotify),
   ...etc
 }}>
   {token&&!ForceReauth?
-  (render||(()=>null))({ token }):
-  <LoginButton {...{
+    (render||(()=>null))({ token }):
+    <LoginButton {...{
       onClick: () => window.open(
         `https://accounts.spotify.com/authorize?${Object.entries({
           response_type: "token",
           client_id,
           scopes: scopes.join(','),
-          redirect_uri,
-        }).map(([k,v]) =>
-          [k,v].map(encodeURIComponent).join("=")
-        ).join("&")}`
+          redirect_uri
+        }).map(([k, v]) =>
+          [k, v].map(encodeURIComponent).join("=")).join("&")}`
       )
-  }}/>}
+    }}/>}
 </div>
 
 const LoginButton = ({ ClientID, CallbackURI, className, ...etc }) => <div {...{

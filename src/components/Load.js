@@ -7,25 +7,25 @@ import { scaleLinear } from 'd3-scale';
 
 const Hole = ({ progress, width, height, bgc, fgc, className }) => {
   return <div {...{
-    className: style.fill,
-  }}><svg {...{
-    viewBox: `0 0 ${width} ${height}`,
     className: style.fill
-  }}>
+  }}><svg {...{
+      viewBox: `0 0 ${width} ${height}`,
+      className: style.fill
+    }}>
 
-    <rect {...{
-      width, height, fill: bgc, stroke: "none"
-    }}/>
+      <rect {...{
+        width, height, fill: bgc, stroke: "none"
+      }}/>
 
-    <circle {...{
-    cx: width/2,
-    cy: height/2,
-    r:
+      <circle {...{
+        cx: width/2,
+        cy: height/2,
+        r:
     Math.sqrt(
-       (width/2) ** 2 + (height/2)**2
+      (width/2) ** 2 + (height/2)**2
     ) * progress,
-    fill: fgc
-    }}/>
+        fill: fgc
+      }}/>
     </svg></div>
 };
 
@@ -40,7 +40,7 @@ const Holes = ({ progress, width, height, cycleTime = 5000, className }) => {
 
   let frameRequest;
   const renderFrame = () => {
-    setT((new Date() % doubleCycle) / doubleCycle);
+    setT(new Date() % doubleCycle / doubleCycle);
     return frameRequest = window.requestAnimationFrame(renderFrame);
   }
 
@@ -50,7 +50,7 @@ const Holes = ({ progress, width, height, cycleTime = 5000, className }) => {
 
   return <Hole {...{
     width, height,
-    progress: (t %.5) /.5 ,
+    progress: t %.5 /.5,
     bgc: t > .5? 'black': 'white',
     fgc: t > .5? 'white': 'black',
     className
@@ -74,7 +74,7 @@ class WH extends React.PureComponent {
     const { join } = this;
 
     return <D3 {...{
-      className: [style.fill].concat(className).join(" "),
+      className: [ style.fill ].concat(className).join(" "),
       join: join
     }}>
       {render({main, width, height})}

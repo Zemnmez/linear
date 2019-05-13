@@ -8,29 +8,29 @@ import log from '@zemnmez/macros/log.macro';
 const Src = ({ match: { path } }) => <Route {...{
   path: path + "/:path*",
   render: ({ location: { hash }, match: { params: { path } } }) => {
-      return <Redirect {...{
-        to: urlJoin(
-          'https://github.com/zemnmez/go/blob/master/',
-          path,
-          hash
-        )
-      }}/>
-    }
+    return <Redirect {...{
+      to: urlJoin(
+        'https://github.com/zemnmez/go/blob/master/',
+        path,
+        hash
+      )
+    }}/>
+  }
 }}/>
 
 
 const Doc = ({ match: { path } }) => <Route {...{
   path: path + "/:path*",
   render: ({ location: { hash }, match: { params: { path } } }) => {
-      return <Redirect {...{
-        to: urlJoin(
-          'https://godoc.org',
-          document.location.hostname,
-          path,
-          hash
-        )
-      }}/>
-    }
+    return <Redirect {...{
+      to: urlJoin(
+        'https://godoc.org',
+        document.location.hostname,
+        path,
+        hash
+      )
+    }}/>
+  }
 }}/>
 
 

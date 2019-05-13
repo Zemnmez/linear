@@ -23,7 +23,7 @@ class GraphRenderer extends React.PureComponent {
     const { props: { className, data, events, tags, margins = [
       20, 30, 30, 60
     ]} } = this;
-    const { width , height } = this.state;
+    const { width, height } = this.state;
     const margin = (([top, right, bottom, left]) => ({
       top, right, bottom, left
     }))(margins);
@@ -41,7 +41,7 @@ class GraphRenderer extends React.PureComponent {
 
     [xScale, yScale] = [
       xScale.range([margin.left, width - margin.right]),
-      yScale.range([height - margin.bottom, margin.top]),
+      yScale.range([height - margin.bottom, margin.top])
     ];
 
     /*
@@ -49,11 +49,11 @@ class GraphRenderer extends React.PureComponent {
       .domain(xScale.range())
       .range(xScale.range());
     */
-    const xLogScale = (x) => x;
+    const xLogScale = x => x;
 
 
     return <D3 {...{
-      className: [style.graph].concat(className).join(" "),
+      className: [ style.graph ].concat(className).join(" "),
       join: (...args) => this.join(...args)
     }}>
 
@@ -87,7 +87,7 @@ class GraphRenderer extends React.PureComponent {
 }
 
 const Entry = ({ x, y, height, width, tag }) => <g {...{
-  className: style.event,
+  className: style.event
 }}>
   <rect {...{
     x, y, height, width
@@ -109,6 +109,7 @@ class Axis extends React.Component {
   }
 
   componentDidMount() { this.componentDidUpdate() }
+
   componentDidUpdate() {
     const { generator } = this.props;
     d3.select(this.myRef.current).call(generator);
@@ -128,18 +129,18 @@ export default class Graph extends React.PureComponent {
   render() {
     const { timeline: data, ...etc } = this.props;
     return <GraphRenderer {...{
-      tags: [...data.reduce((a, c) => {
-          c.tags.forEach(tag => a.set(
-            tag,
-            (a.get(tag) || 0) + 1
-          ));
-          return a;
-        }, new Map())].sort(
-          ([, count], [, count2]) => d3.ascending(count, count2)
-        ).map(([tag, count]) => tag),
-    events: data.map(({tags,date})=>tags.map(tag=>({tag,date}))),
-    data,
-    ...etc
+      tags: [ ...data.reduce((a, c) => {
+        c.tags.forEach(tag => a.set(
+          tag,
+          (a.get(tag) || 0) + 1
+        ));
+        return a;
+      }, new Map()) ].sort(
+        ([, count], [, count2]) => d3.ascending(count, count2)
+      ).map(([tag, count]) => tag),
+      events: data.map(({tags, date})=>tags.map(tag=>({tag, date}))),
+      data,
+      ...etc
     }}/>
   }
 }

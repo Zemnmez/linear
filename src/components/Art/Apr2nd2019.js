@@ -51,11 +51,11 @@ class Render extends React.PureComponent {
     const range = new List([width, height]);
     return <D3 {...{
       className: [this.props.className,
-      style.art, style.Apr2nd2019 ],
+        style.art, style.Apr2nd2019],
       join: this.join
     }}>
       <svg {...{
-          viewBox: `0 0 ${width} ${height}`
+        viewBox: `0 0 ${width} ${height}`
       }}>
         <Petal {...{
           range,
@@ -79,12 +79,12 @@ class Petal extends React.PureComponent {
 
   render() {
     const { range, domain, value } = this.props;
-    const k1 = 2*Math.PI * (((+value) % hour) / hour )
-    const k2 = 2*Math.PI * (((+value) % day) / day )
-    const data = [...Array(Math.floor(2*Math.PI/.1))]
+    const k1 = 2*Math.PI * (+value % hour / hour )
+    const k2 = 2*Math.PI * (+value % day / day )
+    const data = [ ...Array(Math.floor(2*Math.PI/.1)) ]
       .map((_, t) => [t, Math.sin(k1*2 * t) * Math.cos(k2*2*t)]);
 
-    const [ width, height ] = range;
+    const [width, height] = range;
 
     const radius = Math.min(width, height) / 2 - 30;
 
@@ -97,7 +97,7 @@ class Petal extends React.PureComponent {
       .angle(([t, ft]) => -t + Math.PI / 2);
 
     return <g {...{
-      transform: `translate(${[...range]
+      transform: `translate(${[ ...range ]
         .map(v => v/2)})`
     }}>
       <path {...{

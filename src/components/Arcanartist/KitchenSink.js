@@ -6,12 +6,12 @@ import { classes } from "classes";
 const KitchenSink = ({ children, className }) => <div {...{
   className: classes(style.KitchenSink, className)
 }}>
-   {children}
+  {children}
 </div>
 
 export const LeftBar = ({ children, className }) => <div {...{
-    className: classes(style.LeftSinkArea, className)
-  }}>
+  className: classes(style.LeftSinkArea, className)
+}}>
 
   {children}
 
@@ -19,8 +19,8 @@ export const LeftBar = ({ children, className }) => <div {...{
 
 
 const Logo = ({ className }) => <div {...{
-    className: classes(style.Logo, className)
-  }}>
+  className: classes(style.Logo, className)
+}}>
 
   <Future {...{
     className: style.Future
@@ -36,8 +36,8 @@ export const TopBar = ({ title, className }) => <React.Fragment>
 </React.Fragment>
 
 const TopSinkArea = ({ title, className }) => <div {...{
-    className: classes(style.TopSinkArea, className)
-  }}>
+  className: classes(style.TopSinkArea, className)
+}}>
   <Title>{title}</Title>
 </div>
 
@@ -48,7 +48,7 @@ const Title = ({ children, className }) => <div {...{
 </div>
 
 export const ContentArea = ({ className, children }) => <div {...{
-  className: classes(className,style.ContentArea)
+  className: classes(className, style.ContentArea)
 }}> {children} </div>
 
 export default KitchenSink;

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-const hurl = (error) => {throw new Error(error)};
+const hurl = error => { throw new Error(error) };
 
-const parseUrl = (url) => {
+const parseUrl = url => {
   const anchor = document.createElement('a');
   anchor.href=url;
   return anchor;
@@ -15,7 +15,7 @@ const Link = ({ to, children, ...etc }) => {
   if ( to == undefined ) {
     origin = to;
     to = "";
-  };
+  }
   if (!/^https?:$/.test(protocol))
     hurl(`non-whitelisted protocol ${protocol}`)
 
@@ -32,10 +32,10 @@ const Link = ({ to, children, ...etc }) => {
     }}/>
 
   return <a {...{
-      href,
-      children,
-      ...etc
-    }}/>
+    href,
+    children,
+    ...etc
+  }}/>
 }
 
 

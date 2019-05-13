@@ -8,7 +8,7 @@ import { Description } from 'components/Timeline';
 import bcrypt_whitelist from 'knowitwhenyouseeit';
 import style from './CV.module.css';
 
-const hurl = (message) => { throw new Error(message) }
+const hurl = message => { throw new Error(message) }
 export default ({ ...etc }) => {
   React.useEffect(() => {
     const last = document.title;
@@ -32,16 +32,15 @@ export const CV = ({
   email = ""
 }) => {
 
-    let of_note = timeline.filter(({ priority }) => priority >=6)
-        .filter(({ tags, description }) =>
-          tags.some(tag => tag === "security") && !tags.some(tag => tag === "work")
-        ).sort(({ priority: a}, {priority: b}) => b - a)
+  let of_note = timeline.filter(({ priority }) => priority >=6)
+    .filter(({ tags, description }) =>
+      tags.some(tag => tag === "security") && !tags.some(tag => tag === "work")).sort(({ priority: a}, {priority: b}) => b - a)
 
-    const [of_note_1, of_note_2] = [of_note.slice(0,4), of_note.slice(4,8)]
+  const [of_note_1, of_note_2] = [of_note.slice(0, 4), of_note.slice(4, 8)]
 
 
   return <div {...{
-    className: [style.cv].concat(className).join(" ")
+    className: [ style.cv ].concat(className).join(" ")
   }}>
 
     <Header {...{
@@ -61,7 +60,7 @@ export const CV = ({
     <Rule className={style.worksTitle}>of note</Rule>
 
     <Skills {...{
-      skills: skills.sort((a,b) => a > b? 1 : -1).slice(0, 12).map(skill => ({title: skill}))
+      skills: skills.sort((a, b) => a > b? 1 : -1).slice(0, 12).map(skill => ({title: skill}))
     }} />
 
     <Rule className={style.skillsTitle}>skills</Rule>
@@ -81,8 +80,8 @@ export const CV = ({
 }
 
 const Skills = ({ skills, className }) => <div {...{
-    className: [style.skills].concat(className).join(" ")
-  }}>
+  className: [ style.skills ].concat(className).join(" ")
+}}>
 
   {skills.map((skill, i) => <Skill key={skill.i} {...{...skill, key: skill.title}} />)}
 </div>
@@ -100,25 +99,25 @@ t.days = t.hours * 24;
 t.weeks = t.days * 7;
 t.years = t.days * 365;
 
-let parseDuration = (duration) => {
+let parseDuration = duration => {
   const [n, unit] = duration.split(" ");
-  return (+n) * (t[unit] || hurl(`unknown unit ${unit}`));
+  return +n * (t[unit] || hurl(`unknown unit ${unit}`));
 }
 
-/*const roundUpToNearestYear = (date) =>
+/* const roundUpToNearestYear = (date) =>
   new Date(date.getFullYear(),12); */
 
-const roundDownToNearestYear = (date) =>
-  new Date(date.getFullYear()-1,12)
+const roundDownToNearestYear = date =>
+  new Date(date.getFullYear()-1, 12)
 
 const Experience = ({ events, className }) => <div {...{
-    className: [style.experience].concat(className).join(" ")
-  }}>
+  className: [ style.experience ].concat(className).join(" ")
+}}>
 
   {events.map((event, i) => <Work key={i} {...event} />)}
 </div>
 
-const aToOne = (str) => str.replace(/\ba\b/g, "1");
+const aToOne = str => str.replace(/\ba\b/g, "1");
 const Work = ({ date, description, duration, title, points, className }) => {
 
   // rough
@@ -127,56 +126,56 @@ const Work = ({ date, description, duration, title, points, className }) => {
   duration = duration === "ongoing"? undefined: parseDuration(duration);
 
   return <div {...{
-      className: [style.work].concat(className).join(" ")
-    }}>
+    className: [ style.work ].concat(className).join(" ")
+  }}>
 
-  <div className={style.employer}>{employer}</div>
-  <div className={style.position}>{position}</div>
-  <When {...{date: date, className: style.start}} />
-  {duration?
-    <When {...{date: new Date( (+date) + duration), className: style.end}}/>:
-    <div className={style.end}>Present</div>
-  }
+    <div className={style.employer}>{employer}</div>
+    <div className={style.position}>{position}</div>
+    <When {...{date: date, className: style.start}} />
+    {duration?
+      <When {...{date: new Date( +date + duration), className: style.end}}/>:
+      <div className={style.end}>Present</div>
+    }
 
-  {duration?
-      <div className={style.duration}><Moment filter={aToOne} ago to={roundDownToNearestYear(new Date( (+date) + duration))}>{date}</Moment></div>:
+    {duration?
+      <div className={style.duration}><Moment filter={aToOne} ago to={roundDownToNearestYear(new Date( +date + duration))}>{date}</Moment></div>:
       <div className={style.duration}><Moment filter={aToOne} ago toNow>{roundDownToNearestYear(date)}</Moment></div>
-  }
+    }
 
-  <Description {...{
-    className: style.content,
-    description
-  }} />
+    <Description {...{
+      className: style.content,
+      description
+    }} />
 
   </div>
 }
 
 
 const Header = ({ email, phone, names, className }) => <div {...{
-    className: [style.header].concat(className).join(" ")
-  }}>
+  className: [ style.header ].concat(className).join(" ")
+}}>
 
-    <a className={style.website} href={process.env.PUBLIC_URL}>zemn.me</a>
-    <Email {...{email}} />
-    <Phone {...{phone}}/>
-    <Icon {...{className: style.headerIcon}} />
-    <When {...{format: "MMM YYYY"}} />
-    <Name {...{className: style.name, names}}/>
+  <a className={style.website} href={process.env.PUBLIC_URL}>zemn.me</a>
+  <Email {...{email}} />
+  <Phone {...{phone}}/>
+  <Icon {...{className: style.headerIcon}} />
+  <When {...{format: "MMM YYYY"}} />
+  <Name {...{className: style.name, names}}/>
 </div>
 
 
 
 
 const Email = ({ className, email }) => <div {...{
-    className: [style.email].concat(className).join(" ")
-  }}>
+  className: [ style.email ].concat(className).join(" ")
+}}>
 
   {email}
 </div>
 
 const Phone = ({ className, phone }) => <div {...{
-    className: [style.phone].concat(className).join(" ")
-  }}>
+  className: [ style.phone ].concat(className).join(" ")
+}}>
 
   {phone}
 </div>
@@ -188,8 +187,8 @@ if (process.env.NODE_ENV=='test') {
 
 
 const When = ({ className, format = "YYYY", date = now }) => <div {...{
-    className: [style.date].concat(className).join(" ")
-  }}>
+  className: [ style.date ].concat(className).join(" ")
+}}>
 
   <Moment {...{format}}>{date}</Moment>
 </div>

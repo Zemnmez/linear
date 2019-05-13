@@ -17,7 +17,7 @@ export default ({ ...etc }) => <Presentation {...{ ...etc }}>
       <h3>Infiltrate 2019</h3>
     </TitleGroup>
 
-  <Notes>
+    <Notes>
   hello everyone! I heard this was an offensive convention so I wanted to start by saying 'fuck'.
   this talk is about modern web & desktop application design, its pros, its cons and its
 pitfalls at least partially by example. I'll demonstrate techniques that result in serious
@@ -37,7 +37,7 @@ While it is absolutely true that these newfangled tools are less well-trodden,
 they also have the opportunity -- and in the best cases capitalise on this --
 to change the security landscape in the most important way: changing the
 abstraction to take insecure modes of operation out of the equation
-  </Notes>
+    </Notes>
   </div>
 
   <div className={style.oneEyedMan}>

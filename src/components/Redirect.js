@@ -1,9 +1,9 @@
 import React from 'react';
 import { Redirect as RouterRedirect } from 'react-router-dom';
 
-const hurl = (error) => {throw new Error(error)};
+const hurl = error => { throw new Error(error) };
 
-const parseUrl = (url) => {
+const parseUrl = url => {
   const anchor = document.createElement('a');
   anchor.href=url;
   return anchor;
