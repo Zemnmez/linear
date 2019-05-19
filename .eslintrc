@@ -25,7 +25,6 @@
 	"comma-dangle": "warn",
 	"eol-last": "warn",
 	"function-paren-newline": ["error", "consistent"],
-	"indent": ["warn", 2],
 	"key-spacing": "warn",
 	"keyword-spacing": "warn",
 	"linebreak-style": ["warn", "unix"],

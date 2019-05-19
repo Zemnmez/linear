@@ -23,7 +23,9 @@
   grid-area: content-area;
   background-color: white;
   composes: GridArea from "../Grid.module.css";
-  grid: 1fr/1fr;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .LeftSinkArea {

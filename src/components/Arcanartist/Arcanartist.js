@@ -16,14 +16,58 @@ import substrings from 'common-substrings';
 import js_ident_re from './js_ident.js';
 import PropTypes from 'prop-types';
 
-const freeze = sym => {
-  sym.args && (sym.args = sym.args.map(freeze));
-  if (sym instanceof math.expression.node.ConstantNode)
-    return new FakeSymbol(sym);
+const ChildIdentity = ({ children }) => {
+  log({ children });
+  if (children) return children({});
+  return null;
+};
 
-  return sym;
+const mustChild = child => {
+  assert(child !== undefined)
+  return child;
 }
 
+const FuncPropPasser = ({ children, props }) =>
+  children(props);
+
+const VisibleFragment = ({ children }) => <React.Fragment {...{
+  children
+}}/>
+
+const ArrayPipeline = ({ args = [], children: [next, ...pipeline] }) => {
+  if (!next) return null;
+  next = next(...args);
+  log({ next, pipeline });
+  assert(next !== undefined);
+  if (pipeline.length == 0) return next;
+  return React.cloneElement(
+    next, {
+      children: (...args) => <ArrayPipeline {...{
+        args,
+        children: pipeline
+      }}/>
+    }
+  )
+}
+
+ArrayPipeline.propTypes = {
+  args: PropTypes.array,
+  children: PropTypes.arrayOf(PropTypes.func.isRequired)
+}
+
+const Pipeline = ({ children = [] }) => {
+  const arrayChildren = [].concat(children);
+  log(arrayChildren);
+  return <ArrayPipeline {...{
+    children: arrayChildren
+  }}/>;
+}
+
+Pipeline.propTypes = {
+  children: PropTypes.arrayOf(
+    PropTypes.func.isRequired
+  )
+}
 
 const Arcanartist = ({ className, ...etc }) => <KitchenSink {...{
   className
@@ -45,6 +89,11 @@ class UI extends React.PureComponent {
     this.imageRender = this.imageRender.bind(this);
   }
 
+  static getDerivedStateFromError(error) {
+    log({error});
+    return { error }
+  }
+
   setCode(code) { this.setState({code}) }
 
   imageRender({ image }) { this.setState({ image }) }
@@ -52,26 +101,39 @@ class UI extends React.PureComponent {
   render() {
     const { setCode, imageRender } = this;
     const { code, image } = this.state;
-    const vaporised = vaporiseCode(code).toString();
     return <ContentArea {...{
       className: style.UI
     }}>
-      <CodeEditor {...{
-        codeCallback: setCode
-      }}/>
 
-      <CodeEditor {...{
-        disabled: true,
-        text: vaporised
-      }}/>
+      <Pipeline {...{
+        children: [
+          () => <CodeEditor/>,
 
-      <ImagePanel>{
-        imageRender
-      }</ImagePanel>
+          ({ code }) => React.createElement(({ children }) => {
+            const vapor = vaporiseCode(code).toString();
+            const child = mustChild(children({ code: vapor }));
+            log({ vapor, child, children, code });
+            return <React.Fragment>
+              <CodeEditor {...{
+                disabled: true,
+                text: vapor
+              }}/>
+              {child}
+            </React.Fragment>
+          }),
 
-      <Render {...{
-        imageData: image,
-        code: vaporised
+          ({ code }) => React.createElement(({ children }) =>
+            <ImagePanel {...{
+              children: ({ imageData }) =>
+                mustChild(children({ code, imageData }))
+            }}/>),
+
+          ({ code, imageData }) => <CodeEditor {...{
+            disabled: true,
+            fake: log({ code, imageData }),
+            text: ShapeTextToImage({ code, imageData })
+          }}/>
+        ]
       }}/>
 
     </ContentArea>
@@ -151,18 +213,6 @@ ShapeTextToImage.propTypes = {
   })
 }
 
-const Render = ({ code, imageData, width, height }) => {
-
-  return <div {...{
-    className: style.RenderPanel
-  }}>
-    <ShapeTextToImage {...{
-      text: code,
-      imageData
-    }}/>
-  </div>
-}
-
 const RandIdent = () => Math.floor(Math.random() * 1E16)
 
 class ImagePanel extends React.PureComponent {
@@ -219,7 +269,9 @@ class ImagePanel extends React.PureComponent {
     const { inputFile, imageData, imageBlob } = this.state;
     const { children } = this.props;
 
-    return <label {...{
+    console.log({ inputFile, imageData, imageBlob });
+
+    return <React.Fragment><label {...{
       className: style.ImagePanel,
       htmlFor: ident,
       style: {
@@ -227,9 +279,6 @@ class ImagePanel extends React.PureComponent {
       }
     }}>
 
-      {children({
-        image: imageData
-      })}
 
       {!inputFile?<div {...{
         className: style.Message
@@ -252,6 +301,12 @@ class ImagePanel extends React.PureComponent {
       </ImageHandle>
 
     </label>
+
+    {mustChild(children({
+      imageData
+    }))}
+
+    </React.Fragment>
   }
 }
 
@@ -288,7 +343,7 @@ class ImageHandle extends React.PureComponent {
     const { image } = this.state;
     const { children } = this.props;
 
-    return children({image})
+    return mustChild(children({image}))
   }
 }
 
@@ -338,9 +393,9 @@ class ObjectUrl extends React.PureComponent {
     const { children } = this.props;
     const { url } = this.state;
     log({children});
-    return children({
+    return mustChild(children({
       url
-    })
+    }))
   }
 }
 
@@ -405,9 +460,9 @@ class ImageProcessor extends React.PureComponent {
         ref: canvas
       }}/>
 
-      {children({
+      {mustChild(children({
         blob, imageData
-      })}
+      }))}
     </React.Fragment>
   }
 }
@@ -422,40 +477,100 @@ const prismPlugin = createPrismPlugin({
   prism: Prism
 });
 
-const CodeEditor = ({ codeCallback, text = "", disabled = false }) => {
-  const [editorState, setEditorState] = React.useState(
-    EditorState.createWithContent(
-      ContentState.createFromBlockArray([
-        new ContentBlock({
-          key: genKey(),
-          type: 'code-block',
-          text: text,
-          data: new Map([ ["language", "javascript"] ])
-        })
-      ])
-    )
+class CodeEditor extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = { editorState: undefined };
+    this.editorStateChanged = this.editorStateChanged.bind(this);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    let { text = "function(){}" } = props;
+    if (!state.editorState || props.disabled)
+    return {
+      editorState: EditorState.createWithContent(
+        ContentState.createFromBlockArray([
+          new ContentBlock({
+            key: genKey(),
+            type: 'code-block',
+            text: text,
+            data: new Map([ ["language", "javascript"] ])
+          })
+        ])
+      )
+    }
+
+    return {};
+  }
+
+  editorStateChanged(editorState) { this.setState({ editorState }) }
+
+  render() {
+    const { disabled = false,
+            children, className } = this.props;
+    log({ children });
+    const { editorState } = this.state;
+    const { editorStateChanged } = this;
+    return <React.Fragment>
+      <div {...{
+          className: classes(style.CodeEditor, className)
+      }}>
+      <Editor {...{
+          editorState,
+          onChange: editorStateChanged,
+          readOnly: disabled,
+          stripPastedStyles: true,
+          plugins: [
+            prismPlugin
+          ]
+        }}/>
+      </div>
+      {children && mustChild(children({
+        code: editorState.getCurrentContent().getPlainText()
+      }))}
+    </React.Fragment>
+  }
+}
+
+CodeEditor.propTypes = {
+  children: PropTypes.func,
+  disabled: PropTypes.bool,
+  text: PropTypes.string
+}
+
+
+/*
+const CodeEditor = ({ text = "function(){}", disabled = false, children }) => {
+
+  /*(const [editorState, setEditorState] = React.useState(
+
   );
 
   const onChange = s => {
     setEditorState(s)
-    const contentState = s.getCurrentContent();
-    codeCallback(contentState.getPlainText());
-  }
+  }* /
 
+  return <React.Fragment>
+    <div {...{
+      className: style.CodeEditor
+    }}>
+      <Editor {...{
+        editorState: editorState,
+        onChange: onChange,
 
-  return <div {...{
-    className: style.CodeEditor
-  }}>
-    <Editor {...{
-      editorState: editorState,
-      onChange: disabled?undefined:onChange,
+        plugins: [
+          prismPlugin
+        ]
+      }}/>
 
-      plugins: [
-        prismPlugin
-      ]
-    }}/>
-  </div>
+    </div>
+    {children && children({ code:
+      editorState.getCurrentContent().getPlainText() })}
+
+  </React.Fragment>
 }
+
+*/
 
 /*
 class FrozenConstant extends FakeSymbol {
@@ -611,6 +726,7 @@ export const vaporiseCode = ([ ...chrs ]) => {
 
   return new VaporisedString({ pre, values, post })
 }
+
 //* /
 
 

@@ -4,12 +4,6 @@
   width:100%; height: 100%;
 }
 
-.UI {
-  display: flex !important;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 .UIItem {
   min-height: 10rem;
   max-width: 30rem;
@@ -22,14 +16,11 @@
   padding: 2rem;
 }
 
-.Code {
-  overflow-wrap: break-word;
-  hyphens: auto;
-  overflow: auto;
-}
-
-.Code pre {
-  white-space: pre-wrap;
+.Code, .Code * {
+  overflow-wrap: break-word !important;
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  word-break: break-all !important;
 }
 
 .CodeView {

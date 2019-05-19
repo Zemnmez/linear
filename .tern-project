@@ -1,6 +1,7 @@
 {
 	"plugins": {
-		"node": {}
+		"node": {
+		}
 	},
 
 	"loadEagerly": {
