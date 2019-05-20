@@ -109,29 +109,18 @@ class UI extends React.PureComponent {
         children: [
           () => <CodeEditor/>,
 
-          ({ code }) => React.createElement(({ children }) => {
-            const vapor = vaporiseCode(code).toString();
-            const child = mustChild(children({ code: vapor }));
-            log({ vapor, child, children, code });
-            return <React.Fragment>
-              <CodeEditor {...{
-                disabled: true,
-                text: vapor
-              }}/>
-              {child}
-            </React.Fragment>
-          }),
+          ({ code }) => <Vaporiser {...{
+            code
+          }}/>,
 
-          ({ code }) => React.createElement(({ children }) =>
-            <ImagePanel {...{
-              children: ({ imageData }) =>
-                mustChild(children({ code, imageData }))
-            }}/>),
+          ({ code }) => <ImageSelector {...{
+            code
+          }}/>,
 
           ({ code, imageData }) => <CodeEditor {...{
             disabled: true,
             fake: log({ code, imageData }),
-            text: ShapeTextToImage({ code, imageData })
+            text: ShapeTextToImage({ text: code, imageData })
           }}/>
         ]
       }}/>
@@ -313,6 +302,24 @@ class ImagePanel extends React.PureComponent {
 ImagePanel.propTypes = {
   children: PropTypes.func.isRequired
 }
+
+const Vaporiser = ({ children, code }) => {
+  const vapor = vaporiseCode(code).toString();
+  const child = mustChild(children({ code: vapor }));
+  log({ vapor, child, children, code });
+  return <React.Fragment>
+    <CodeEditor {...{
+      disabled: true,
+      text: vapor
+    }}/>
+    {child}
+    </React.Fragment>
+}
+
+const ImageSelector = ({ code, children }) => <ImagePanel {...{
+  children: ({ imageData }) =>
+    mustChild(children({ code, imageData }))
+}}/>
 
 // Image() is the only type which a canvas will consume, but it
 // cannot be generated synchronously in render() and also
