@@ -21,6 +21,7 @@
     "draft-js-prism": "^1.0.6",
     "draft-js-prism-plugin": "^0.1.3",
     "hammerjs": "^2.0.8",
+    "helmet": "^3.18.0",
     "immutable": "^4.0.0-rc.12",
     "knowitwhenyouseeit": "^1.0.0",
     "mathjs": "^5.9.0",
