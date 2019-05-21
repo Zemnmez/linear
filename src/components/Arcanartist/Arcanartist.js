@@ -119,7 +119,6 @@ class UI extends React.PureComponent {
 
           ({ code, imageData }) => <CodeEditor {...{
             disabled: true,
-            fake: log({ code, imageData }),
             text: ShapeTextToImage({ text: code, imageData })
           }}/>
         ]

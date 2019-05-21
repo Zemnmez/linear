@@ -55,7 +55,7 @@
     "build": "yarn make && react-scripts build",
     "test": "yarn make && react-scripts test --notify",
     "coverage": "yarn make && react-scripts test --coverage",
-	"autofix": "yarn run eslint --fix 'src/**/*.js'",
+    "autofix": "yarn run eslint --fix 'src/**/*.js'",
     "deploy": "yarn coverage && yarn run build && aws s3 sync build s3://zemn.me --acl public-read && yarn run deploy.invalidateCache",
     "deploy.invalidateCache": "make -j invalidate_cache",
     "eject": "react-scripts eject"
