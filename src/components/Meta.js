@@ -34,5 +34,5 @@ export const META_TAGS = flatten({
 
 })
 
-const flatten = () => 1
+const flatten = (map, prefix) => 1
 

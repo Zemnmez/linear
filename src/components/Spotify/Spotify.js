@@ -4,8 +4,97 @@ import { classes } from "classes";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight as signInIcon } from '@fortawesome/free-solid-svg-icons'
 import { faSpotify as spotifyIcon } from "@fortawesome/free-brands-svg-icons";
+import { Route } from 'react-router-dom';
+import { Map } from 'immutable';
 
-const localStorageKey = "spotify-oauth-token";
+const localStorageKey = "spotify-oauth-tokens";
+
+const SpotifyContext = React.createContext({ });
+
+const getStoredTokens = () => {
+  const json = localStorage.get(localStorageKey);
+  if (!json) return new Map();
+  const parsed = json.parse(json);
+
+  // convert object to immutable map
+  const out = new Map();
+  Object.entries(parsed).forEach(([k, v]) =>
+    out.set(k, v));
+
+  return out;
+}
+
+const setStoredTokens = (map) => {
+  // convert immutable map to object
+  const obj = map.entries().reduce((a, [k, v]) =>
+    (a[k] = v, a)
+  , {})
+
+  localStorage.set(localStorageKey, JSON.stringify(obj));
+}
+
+class OAuthTokenStorage extends Map {
+  constructor(...args) {
+    super(...args)
+  }
+
+  toString() {
+    const obj = this.entries().reduce((a, [k, v]) =>
+      (a[k] = v, a)
+    , {});
+
+    return JSON.stringify(obj);
+  }
+
+  static fromString(str) {
+    if (!str) return new OAuthTokenStorage();
+
+    return new OAuthTokenStorage(Object.entries(JSON.parse(str)));
+  }
+
+  _setToken({ token, scopes: [ ...scopes ]}) {
+
+  }
+
+  _getToken({ withScopes: [ ...scopes ] }) {
+
+  }
+}
+
+const SpotifyProvider = ({
+  location = { path:  "" },
+  redirectPath,
+  client_id,
+  children
+}) => {
+
+  const [tokens, setTokens] = useState(
+    localStorage.get(localStorageKey)
+  )
+  return <SpotifyContext.Provider {...{
+    value: {
+
+    }
+  }}>
+    <Route {...{
+      exact: true,
+      path: location.path + redirectPath,
+      render: () => <SpotifyCallbackHandler/>
+    }}/>
+
+    {children}
+
+  </SpotifyContext.Provider>
+}
+
+const SpotifyAuth = ({
+  children,
+  scopes = []
+}) => null;
+
+const SpotifyCallbackHandler = ({
+
+}) => null;
 
 const Spotify = ({
   client_id,
