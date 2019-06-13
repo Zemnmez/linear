@@ -33,34 +33,6 @@ const setStoredTokens = (map) => {
   localStorage.set(localStorageKey, JSON.stringify(obj));
 }
 
-class OAuthTokenStorage extends Map {
-  constructor(...args) {
-    super(...args)
-  }
-
-  toString() {
-    const obj = this.entries().reduce((a, [k, v]) =>
-      (a[k] = v, a)
-    , {});
-
-    return JSON.stringify(obj);
-  }
-
-  static fromString(str) {
-    if (!str) return new OAuthTokenStorage();
-
-    return new OAuthTokenStorage(Object.entries(JSON.parse(str)));
-  }
-
-  _setToken({ token, scopes: [ ...scopes ]}) {
-
-  }
-
-  _getToken({ withScopes: [ ...scopes ] }) {
-
-  }
-}
-
 const SpotifyProvider = ({
   location = { path:  "" },
   redirectPath,
@@ -71,20 +43,22 @@ const SpotifyProvider = ({
   const [tokens, setTokens] = useState(
     localStorage.get(localStorageKey)
   )
-  return <SpotifyContext.Provider {...{
-    value: {
+  return <React.Fragment>
+      <SpotifyContext.Provider {...{
+      value: {
 
-    }
-  }}>
-    <Route {...{
-      exact: true,
-      path: location.path + redirectPath,
-      render: () => <SpotifyCallbackHandler/>
-    }}/>
+      }
+    }}>
+      <Route {...{
+        exact: true,
+        path: location.path + redirectPath,
+        render: () => <SpotifyCallbackHandler/>
+      }}/>
 
-    {children}
+      {children}
 
-  </SpotifyContext.Provider>
+    </SpotifyContext.Provider>
+  </React.Fragment>
 }
 
 const SpotifyAuth = ({

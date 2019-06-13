@@ -1,43 +1,72 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Map } from 'immutable';
+import log from "@zemnmez/macros/log.macro";
 
-class Storage extends React.Component {
+export default class Storage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { }
+    this.state = {
+      entries: undefined
+    }
 
     this.onStorageEvent = this.onStorageEvent.bind(this);
   }
 
-  storageArea() { return {localStorage: localStorage, sessionStorage: sessionStorage}[ this.props.storageArea || "localStorage"] }
+  values() { return this.props.values }
 
   key() { return this.props.name }
 
-  deserialize(json) { return json? new Map(Object.entries(JSON.parse(json))): new Map() }
+  deserialize(json) {
+    return json? new Map(Object.entries(JSON.parse(json))): new Map()
+}
 
-  currentValueFromLocalStorage() { return this.deserialize(localStorage.get(this.key())); }
+  storageArea() { return this.props.storageArea || localStorage }
+
+  currentValueFromStorage() { return this.deserialize(this.storageArea().get(this.key())) }
+
+  bindStorageEvent(handler) {
+    const storageArea = this.storageArea();
+    if (storageArea.bindStorageEvent) return storageArea.bindStorageEvent(handler);
+
+    return window.addEventListener('storage', handler, false);
+  }
+
+  unbindStorage(handler) {
+    const storageArea = this.storageArea();
+    if (storageArea.unbindStorageEvent) return storageArea.unbindStorageEvent(handler);
+
+    return window.removeEventListener('storage', handler, false);
+  }
 
   onStorageEvent({ key, oldValue, newValue, storageArea }) {
     if (storageArea != this.storageArea()) return;
     if (key != this.key()) return;
     if (oldValue == newValue) return;
 
-    this.setState(this.deserialize(newValue));
+    this.setState({entries: this.deserialize(newValue)});
+  }
+
+  componentDidUpdate() {
+    const [key, value] = [this.key(), JSON.stringify(this.values())];
+    log({key, value});
+    this.storageArea().set(key, value);
   }
 
   componentDidMount() {
     this.setState(() => {
-      window.addEventListener('storage', this.onStorageEvent, false);
-      return this.currentValueFromLocalStorage();
+      this.bindStorageEvent(this.onStorageEvent);
+      return { entries: this.currentValueFromStorage() };
     })
   }
 
-  componentWillUnmount() { window.removeEventListener('storage', this.onStorageEvent, false) }
+  componentWillUnmount() { this.unbindStorage(this.onStorageEvent) }
 
   render() {
     const { children } = this.props;
-    React.Children.only(children)(this.state);
+    log(this.state);
+
+    return children(this.state.entries);
   }
 
 }
@@ -45,5 +74,23 @@ class Storage extends React.Component {
 Storage.propTypes = {
   children: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  storageArea: PropTypes.string
+  values: PropTypes.object.isRequired,
+  storageArea: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    set: PropTypes.func.isRequired,
+    getBytesInUse: PropTypes.func, // will become required when we use it
+    remove: PropTypes.func,
+    clear: PropTypes.func,
+    bindStorageEvent: PropTypes.func, // for testing
+    unbindStorageEvent: PropTypes.func // testing
+  })
 }
+
+export const PersistProps = ({ name }) => Component => React.forwardRef(
+  (props, ref) => <Storage {...{
+    name, values: props
+  }}>
+    {props => <Component ref={ref} {...props}/>}
+  </Storage>
+);
+
