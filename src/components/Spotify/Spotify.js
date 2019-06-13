@@ -6,61 +6,75 @@ import { faArrowRight as signInIcon } from '@fortawesome/free-solid-svg-icons'
 import { faSpotify as spotifyIcon } from "@fortawesome/free-brands-svg-icons";
 import { Route } from 'react-router-dom';
 import { Map } from 'immutable';
+import Storage from 'components/Storage';
 
 const localStorageKey = "spotify-oauth-tokens";
 
 const SpotifyContext = React.createContext({ });
 
-const getStoredTokens = () => {
-  const json = localStorage.get(localStorageKey);
-  if (!json) return new Map();
-  const parsed = json.parse(json);
+class SpotifyProvider extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = { tokens: new Map() }
+    this.Token = this.Token.bind(this);
+  }
 
-  // convert object to immutable map
-  const out = new Map();
-  Object.entries(parsed).forEach(([k, v]) =>
-    out.set(k, v));
+  static tokenKey(...scopes) { return scopes.join(",") }
 
-  return out;
+  Token({ scopes, children }) {
+    const key = SpotifyProvider.tokenKey(scopes);
+    if (this.state.tokens.has(key))
+      return children({ token: this.state.tokens.get(key)});
+
+    // and get the token
+
+    return "";
+  }
+
+  getToken({ withScopes: [ ...scopes ] }) {
+    if (!this.state.tokens.has(SpotifyProvider.tokenKey(scopes))) {
+
+    }
+  }
+
+  render() {
+    const { children } = this.props;
+    const { Token } = this;
+    return <Storage {...{
+      name: "spotify",
+      values: { tokens }
+    }}>
+      {({ tokens }) => <SpotifyContext.Provider {...{
+        value: { Token }
+      }}>
+        {children}
+      </SpotifyContext.Provider>}
+    </Storage>
+  }
 }
 
-const setStoredTokens = (map) => {
-  // convert immutable map to object
-  const obj = map.entries().reduce((a, [k, v]) =>
-    (a[k] = v, a)
-  , {})
-
-  localStorage.set(localStorageKey, JSON.stringify(obj));
-}
 
 const SpotifyProvider = ({
-  location = { path:  "" },
+  location = { path: "" },
   redirectPath,
   client_id,
   children
 }) => {
-
-  const [tokens, setTokens] = useState(
-    localStorage.get(localStorageKey)
-  )
-  return <React.Fragment>
-      <SpotifyContext.Provider {...{
-      value: {
-
-      }
-    }}>
-      <Route {...{
-        exact: true,
-        path: location.path + redirectPath,
-        render: () => <SpotifyCallbackHandler/>
-      }}/>
-
-      {children}
-
-    </SpotifyContext.Provider>
-  </React.Fragment>
+  const [tokens, setTokens] = React.useState(new Map());
 }
 
+const SpotifyToken = ({
+  scopes = [],
+  children
+}) => <SpotifyContext.Consumer>
+  {({ Token }) => <Token {...{
+    scopes
+  }}>{
+    ({ token }) => children({token})
+  }</Token>}
+</SpotifyContext.Consumer>
+
+/*
 const SpotifyAuth = ({
   children,
   scopes = []
@@ -113,6 +127,8 @@ const LoginButton = ({ ClientID, CallbackURI, className, ...etc }) => <div {...{
     className: style.LoginIcon
   }}/>
 </div>
+
+*/
 
 
 export default Spotify;
