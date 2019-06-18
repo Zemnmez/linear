@@ -31,12 +31,6 @@ class SpotifyProvider extends React.PureComponent {
     return "";
   }
 
-  getToken({ withScopes: [ ...scopes ] }) {
-    if (!this.state.tokens.has(SpotifyProvider.tokenKey(scopes))) {
-
-    }
-  }
-
   render() {
     const { children } = this.props;
     const { Token } = this;

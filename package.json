@@ -41,6 +41,7 @@
     "react-loading": "^2.0.3",
     "react-markdown": "^4.0.6",
     "react-moment": "^0.8.4",
+    "react-oauth2-hook": "^1.0.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "^2.1.8",
     "reactive-d3": "^1.2.1",
@@ -59,7 +60,9 @@
     "autofix": "yarn run eslint --fix 'src/**/*.js'",
     "deploy": "yarn coverage && yarn run build && aws s3 sync build s3://zemn.me --acl public-read && yarn run deploy.invalidateCache",
     "deploy.invalidateCache": "make -j invalidate_cache",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -71,7 +74,13 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@storybook/addon-actions": "^5.1.8",
+    "@storybook/addon-links": "^5.1.8",
+    "@storybook/addons": "^5.1.8",
+    "@storybook/react": "^5.1.8",
     "@testing-library/react": "^8.0.1",
+    "babel-loader": "^8.0.6",
     "bcrypt-cli": "^1.1.0",
     "eslint-plugin-prettier": "^3.1.0",
     "jest-dom": "^3.5.0",
