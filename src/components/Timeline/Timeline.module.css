@@ -3,43 +3,51 @@
   --year-font-size: 200%;
   --month-font-size: 1rem;
   --marker-colour: var(--fgc);
+  display: flex;
+  flex-wrap: wrap;
   display: grid;
-  grid: auto-flow min-content / auto;
+  grid-auto-rows: 1fr / 100%;
 }
 
 .year {
-  display: grid;
   border-top: 1px dotted var(--fgc);
-  grid: ". title marker ." min-content / .5rem 1fr 20% .5rem;
-  grid-auto-rows: min-content;
+  width: 100%;
+  display: grid;
+  grid: "age months year" 100% / minmax(min-content, 7rem) 1fr minmax(min-content, 7rem);
+  margin: 0 0 1rem 0;
 }
+
+.year > .group {
+  display: flex;
+  flex-wrap: wrap;
+  grid-area: months;
+}
+
+.group {}
 
 .duration { }
 
 .title > * + *::before { content: ", " }
 
+
 .year::after {
   content: attr(data-year);
-  grid-area: marker;
   font-size: var(--year-font-size);
   text-align: right;
-  /*border-top: var(--marker-size) solid var(--marker-colour); */
+  grid-area: year;
 }
 
 .year::before {
   content: counter(year, upper-roman);
-  grid-area: title;
+  box-sizing: border-box;
+  grid-area: age;
   font-size: var(--year-font-size);
 }
 
 .month {
-  display: grid;
-  grid: ". title marker" minmax(min-content, 1fr) / 1rem 1fr 10%;
-  grid-column: 2 / span 2 ;
 }
 
 .month::after {
-  grid-area: marker;
   /* border-top: var(--marker-size) solid var(--marker-colour); */
   content: "";
   font-size: var(--month-font-size);
@@ -47,7 +55,6 @@
 
 .month::before {
   opacity: .5;
-  grid-area: title;
   text-transform:lowercase;
 }
 
@@ -65,10 +72,14 @@
 .month[data-month="11"]::before { content: "Dec" }
 
 .event {
-  grid-column: 2;
-  max-width: 30rem;
-  padding: 1em 0 1em 3em;
+  max-width: 15rem;
+  box-sizing: border-box;
+  margin: 1em 0 1em 3em;
   text-transform: lowercase;
+}
+
+.event::before {
+  opacity: .7;
 }
 
 .event:global(.work) {
@@ -85,13 +96,3 @@
 .event:not(:global(.work)) .description p:first-child {
   display: inline;
 }
-
-.event::before {
-  grid-area: bullet;
-  content: "– ";
-  opacity: .5;
-}
-
-.event .title { grid-area: title }
-.event .description { grid-area: description }
-.event .duration { grid-area: duration }

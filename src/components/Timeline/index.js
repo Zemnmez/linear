@@ -74,7 +74,9 @@ const Year = ({year, months, className }) => <div {...{
   style: {counterReset: `year ${year-1994}`},
   "data-year": year
 }}>
+  <Group>
   {[ ...months.entries() ].map(([month, events]) => <Month {...{month, events, key: month}} />)}
+  </Group>
 </div>
 
 const Month =({ month, events, className }) => <div {...{
@@ -85,7 +87,7 @@ const Month =({ month, events, className }) => <div {...{
   {events.map((event, i) => <Event {...{...event, key: i}}/>)}
 </div>
 
-const Event = ({date, tags, url, title, description, longDescription, duration, className }) => <div {...{
+export const Event = ({date, tags, url, title, description, longDescription, duration, className }) => <div {...{
   className: [ style.event ].concat(className, tags).join(" ")
 }}>
   <Link className={style.title} to={url}>
@@ -116,3 +118,7 @@ const Duration = ({date, duration, className}) => {
     className: [ style.duration ].concat(className).join(" ")
   }}>{duration}</div>;
 }
+
+const Group = ({ children }) => <div className={style.group}>
+  {children}
+</div>

@@ -11,6 +11,7 @@ const parseUrl = url => {
 
 
 const Link = ({ to, children, ...etc }) => {
+  if (!to) return <a {...etc}>{children}</a>;
   let { pathname, search, hash, origin, protocol, href } = parseUrl(to);
   if ( to == undefined ) {
     origin = to;

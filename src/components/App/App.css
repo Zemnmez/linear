@@ -6,6 +6,9 @@ body, html {
   padding: 0;
   margin: 0;
   font-family: "Lora", serif;
+  font-variant: historical-ligatures common-ligatures;
+  --unvisited-link-color: blue;
+  --visited-link-color: purple;
 }
 
 svg { width: 100%; height: 100% }
@@ -22,7 +25,5 @@ h1, h2, h3, h4 { font-weight: inherit }
   marks: none;
 }
 
-a:link { color: inherit; text-decoration-skip: spaces ; font-style: italic }
-a:visited { color: inherit }
-
-
+a:link { color: inherit; text-decoration-skip: spaces;  text-decoration-color: var(--unvisited-link-color) }
+a:visited { color: inherit; text-decoration-color: var(--visited-link-color); text-decoration-style: dotted  }
