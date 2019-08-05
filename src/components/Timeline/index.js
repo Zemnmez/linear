@@ -69,23 +69,18 @@ export default ({ className, timeline, minimumPriority, focuses = [], limit = In
 }
 
 
-const Year = ({year, months, className }) => <div {...{
-  className: [ style.year ].concat(className).join(" "),
-  style: {counterReset: `year ${year-1994}`},
-  "data-year": year
-}}>
-  <Group>
-  {[ ...months.entries() ].map(([month, events]) => <Month {...{month, events, key: month}} />)}
-  </Group>
-</div>
+const Year = ({year, months, className }) => <React.Fragment>
+  <div {...{
+  className: [ style.year ].concat(className).join(" ")
+}} >{year}</div>
 
-const Month =({ month, events, className }) => <div {...{
-  className: [ style.month ].concat(className).join(" "),
-  "data-month": month,
-  style: {counterReset: `month ${month}`}
-}}>
+  {[ ...months.entries() ].map(([month, events]) => <Month {...{year, month, events, key: month}} />)}
+
+</React.Fragment>
+
+const Month =({ month, events, className }) => <React.Fragment>
   {events.map((event, i) => <Event {...{...event, key: i}}/>)}
-</div>
+</React.Fragment>
 
 export const Event = ({date, tags, url, title, description, longDescription, duration, className }) => <div {...{
   className: [ style.event ].concat(className, tags).join(" ")
