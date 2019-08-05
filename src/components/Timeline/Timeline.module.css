@@ -13,7 +13,9 @@
   border-top: 1px dotted var(--fgc);
   width: 100%;
   display: grid;
-  grid: "age months year" 100% / minmax(min-content, 7rem) 1fr minmax(min-content, 7rem);
+  grid: "age . year" 3em
+    "age months year" 100% /
+    minmax(min-content, 5rem) 1fr minmax(min-content, 5rem);
   margin: 0 0 1rem 0;
 }
 
@@ -26,6 +28,8 @@
 .group {}
 
 .duration { }
+
+.title { display: block; margin-bottom: .2rem }
 
 .title > * + *::before { content: ", " }
 
@@ -72,7 +76,7 @@
 .month[data-month="11"]::before { content: "Dec" }
 
 .event {
-  max-width: 15rem;
+  max-width: 14rem;
   box-sizing: border-box;
   margin: 1em 0 1em 3em;
   text-transform: lowercase;
