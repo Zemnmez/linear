@@ -5,23 +5,22 @@
   --marker-colour: var(--fgc);
   display: flex;
   flex-wrap: wrap;
-  flex-wrap: wrap;
-  display: flex;
-  padding: 1rem;
-}
-
-.timeline > * {
-  min-width: 15rem;
-  max-width: 15rem;
-  margin: 1rem auto 1rem auto;
+  display: grid;
+  grid-auto-rows: 1fr / 100%;
 }
 
 .year {
-  font-size: 130%;
+  border-top: 1px dotted var(--fgc);
+  width: 100%;
+  display: grid;
+  grid: "age months year" 100% / minmax(min-content, 7rem) 1fr minmax(min-content, 7rem);
+  margin: 0 0 1rem 0;
 }
 
-.month {
-  opacity: .7
+.year > .group {
+  display: flex;
+  flex-wrap: wrap;
+  grid-area: months;
 }
 
 .group {}
@@ -31,11 +30,51 @@
 .title > * + *::before { content: ", " }
 
 
+.year::after {
+  content: attr(data-year);
+  font-size: var(--year-font-size);
+  text-align: right;
+  grid-area: year;
+}
 
+.year::before {
+  content: counter(year, upper-roman);
+  box-sizing: border-box;
+  grid-area: age;
+  font-size: var(--year-font-size);
+}
+
+.month {
+}
+
+.month::after {
+  /* border-top: var(--marker-size) solid var(--marker-colour); */
+  content: "";
+  font-size: var(--month-font-size);
+}
+
+.month::before {
+  opacity: .5;
+  text-transform:lowercase;
+}
+
+.month[data-month="0"]::before { content: "Jan" }
+.month[data-month="1"]::before { content: "Feb" }
+.month[data-month="2"]::before { content: "Mar" }
+.month[data-month="3"]::before { content: "Apr" }
+.month[data-month="4"]::before { content: "May" }
+.month[data-month="5"]::before { content: "Jun" }
+.month[data-month="6"]::before { content: "Jul" }
+.month[data-month="7"]::before { content: "Aug" }
+.month[data-month="8"]::before { content: "Sep" }
+.month[data-month="9"]::before { content: "Oct" }
+.month[data-month="10"]::before { content: "Nov" }
+.month[data-month="11"]::before { content: "Dec" }
 
 .event {
   max-width: 15rem;
   box-sizing: border-box;
+  margin: 1em 0 1em 3em;
   text-transform: lowercase;
 }
 
