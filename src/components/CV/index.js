@@ -1,5 +1,7 @@
 import React from 'react';
 import { Name } from 'components/Profile';
+import Link from 'components/Link'
+import { classes } from 'lib/classes';
 import Moment from 'react-moment';
 import Icon from 'components/SadHumans';
 import Rule from 'components/Rule';
@@ -29,7 +31,8 @@ export const CV = ({
   focuses = "",
   limit = 6,
   phone = "",
-  email = ""
+  email = "",
+  ...etc
 }) => {
 
   let of_note = timeline.filter(({ priority }) => priority >=6)
@@ -40,7 +43,8 @@ export const CV = ({
 
 
   return <div {...{
-    className: [ style.cv ].concat(className).join(" ")
+    className: classes(className, style.cv),
+    ...etc
   }}>
 
     <Header {...{
@@ -80,7 +84,7 @@ export const CV = ({
 }
 
 const Skills = ({ skills, className }) => <div {...{
-  className: [ style.skills ].concat(className).join(" ")
+  className: classes(className, style.skills)
 }}>
 
   {skills.map((skill, i) => <Skill key={skill.i} {...{...skill, key: skill.title}} />)}
@@ -111,7 +115,7 @@ const roundDownToNearestYear = date =>
   new Date(date.getFullYear()-1, 12)
 
 const Experience = ({ events, className }) => <div {...{
-  className: [ style.experience ].concat(className).join(" ")
+  className: classes(className, style.experience)
 }}>
 
   {events.map((event, i) => <Work key={i} {...event} />)}
@@ -126,7 +130,7 @@ const Work = ({ date, description, duration, title, points, className }) => {
   duration = duration === "ongoing"? undefined: parseDuration(duration);
 
   return <div {...{
-    className: [ style.work ].concat(className).join(" ")
+    className: classes(className, style.work)
   }}>
 
     <div className={style.employer}>{employer}</div>
@@ -152,10 +156,10 @@ const Work = ({ date, description, duration, title, points, className }) => {
 
 
 const Header = ({ email, phone, names, className }) => <div {...{
-  className: [ style.header ].concat(className).join(" ")
+  className: classes(className, style.header)
 }}>
 
-  <a className={style.website} href={process.env.PUBLIC_URL}>zemn.me</a>
+  <Link className={style.website} to={process.env.PUBLIC_URL}>zemn.me</Link>
   <Email {...{email}} />
   <Phone {...{phone}}/>
   <Icon {...{className: style.headerIcon}} />
@@ -167,14 +171,14 @@ const Header = ({ email, phone, names, className }) => <div {...{
 
 
 const Email = ({ className, email }) => <div {...{
-  className: [ style.email ].concat(className).join(" ")
+  className: classes(className, style.email)
 }}>
 
   {email}
 </div>
 
 const Phone = ({ className, phone }) => <div {...{
-  className: [ style.phone ].concat(className).join(" ")
+  className: classes(className, style.phone)
 }}>
 
   {phone}
@@ -187,7 +191,7 @@ if (process.env.NODE_ENV=='test') {
 
 
 const When = ({ className, format = "YYYY", date = now }) => <div {...{
-  className: [ style.date ].concat(className).join(" ")
+  className: classes(className, style.date)
 }}>
 
   <Moment {...{format}}>{date}</Moment>

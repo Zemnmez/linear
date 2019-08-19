@@ -61,7 +61,7 @@
     "deploy": "yarn coverage && yarn run build && aws s3 sync build s3://zemn.me --acl public-read && yarn run deploy.invalidateCache",
     "deploy.invalidateCache": "make -j invalidate_cache",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "export NODE_PATH=src && start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "eslintConfig": {
@@ -80,7 +80,6 @@
     "@storybook/addons": "^5.1.8",
     "@storybook/react": "^5.1.8",
     "@testing-library/react": "^8.0.1",
-    "babel-loader": "^8.0.6",
     "bcrypt-cli": "^1.1.0",
     "eslint-plugin-prettier": "^3.1.0",
     "jest-dom": "^3.5.0",

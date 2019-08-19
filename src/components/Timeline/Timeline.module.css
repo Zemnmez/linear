@@ -13,10 +13,10 @@
   border-top: 1px dotted var(--fgc);
   width: 100%;
   display: grid;
-  grid: "age . year" 3em
-    "age months year" 100% /
-    minmax(min-content, 5rem) 1fr minmax(min-content, 5rem);
-  margin: 0 0 1rem 0;
+  grid: ". age . year ." 3em
+    ". age months year ." 100% /
+    1rem minmax(min-content, 5rem) 1fr minmax(min-content, 5rem) 1rem;
+  margin: 0 0 3rem 0;
 }
 
 .year > .group {
@@ -25,14 +25,7 @@
   grid-area: months;
 }
 
-.group {}
-
-.duration { }
-
-.title { display: block; margin-bottom: .2rem }
-
-.title > * + *::before { content: ", " }
-
+.title { margin-bottom: .2rem }
 
 .year::after {
   content: attr(data-year);
@@ -49,7 +42,10 @@
 }
 
 .month {
+  margin-right: 2rem;
 }
+
+
 
 .month::after {
   /* border-top: var(--marker-size) solid var(--marker-colour); */
@@ -76,7 +72,7 @@
 .month[data-month="11"]::before { content: "Dec" }
 
 .event {
-  max-width: 14rem;
+  max-width: 30rem;
   box-sizing: border-box;
   margin: 1em 0 1em 3em;
   text-transform: lowercase;
@@ -84,19 +80,13 @@
 
 .event::before {
   opacity: .7;
-}
-
-.event:global(.work) {
-  grid: "bullet title title title"
-        ". . . ." .2em
-        ". duration duration duration"
-        ". description description description"
-        / 1rem 2fr 2em 3em;
-}
-
-.event:global(.work) * { display: inline }
-.event:global(.work) * + *::before{ content: " " }
-
-.event:not(:global(.work)) .description p:first-child {
+  content: "- ";
   display: inline;
 }
+
+.duration { display: inline }
+.duration:before { content: "(" }
+.duration:after { content: ")" }
+
+.event p:first-of-type { display:inline }
+.event p:first-of-type:before { content: " " }

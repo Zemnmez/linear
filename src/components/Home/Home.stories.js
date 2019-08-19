@@ -1,18 +1,18 @@
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from 'lib/stories';
 
 import "components/App/App.css";
 
 import appStyle from 'components/App/App.module.css';
 
 import bio from 'bio'
-import Home from 'components/Home';
+import Home from '.';
 
 const { timeline } = bio
 
-storiesOf('page', module)
-  .add('home', () => <Home {...{
+storiesOf(module)
+  .add('default', () => <Home {...{
     data: bio,
     className: appStyle.App
   }}/>)

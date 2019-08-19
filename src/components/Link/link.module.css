@@ -1,0 +1,8 @@
+
+.link { font-style: italic }
+
+.link:link { color: inherit; text-decoration-skip: spaces;  text-decoration-color: var(--unvisited-link-color) }
+.link:visited { color: inherit; text-decoration-color: var(--visited-link-color); }
+
+
+/* .notinline { } */

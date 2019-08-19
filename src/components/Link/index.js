@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { classes } from 'lib/classes';
+import style from "./link.module.css";
+import assert from "@zemnmez/macros/assert.macro";
 
 const hurl = error => { throw new Error(error) };
 
@@ -10,7 +13,10 @@ const parseUrl = url => {
 }
 
 
-const Link = ({ to, children, ...etc }) => {
+const Link = ({ to, children, notinline = false, className, ...etc }) => {
+  assert(etc.href === undefined);
+  className = classes(className, style.link, notinline && style.notinline)
+  etc.className = className;
   if (!to) return <a {...etc}>{children}</a>;
   let { pathname, search, hash, origin, protocol, href } = parseUrl(to);
   if ( to == undefined ) {
@@ -27,10 +33,9 @@ const Link = ({ to, children, ...etc }) => {
         search,
         hash,
         origin,
-        children,
-        ...etc
-      }
-    }}/>
+      },
+      ...etc
+    }}>{children}</RouterLink>
 
   return <a {...{
     href,

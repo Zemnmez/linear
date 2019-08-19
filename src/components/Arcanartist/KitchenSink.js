@@ -1,7 +1,7 @@
 import React from 'react';
 import style from "./KitchenSink.module.css";
 import Future from "components/Future";
-import { classes } from "classes";
+import { classes } from "lib/classes";
 
 const KitchenSink = ({ children, className }) => <div {...{
   className: classes(style.KitchenSink, className)

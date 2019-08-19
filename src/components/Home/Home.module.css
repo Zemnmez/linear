@@ -4,6 +4,7 @@
   z-index: -1;
   height: 100%;
   -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
   object-fit: cover;
 }
 

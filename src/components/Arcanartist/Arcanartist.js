@@ -7,7 +7,7 @@ import { EditorState, genKey, ContentBlock, ContentState, Modifier } from 'draft
 import Prism from 'prismjs';
 import createPrismPlugin from 'draft-js-prism-plugin';
 import "prismjs/themes/prism.css"; // add prism.css to add highlights
-import { classes } from "classes";
+import { classes } from "lib/classes";
 import math from "mathjs";
 import memoize from 'memoizee';
 import log from '@zemnmez/macros/log.macro';

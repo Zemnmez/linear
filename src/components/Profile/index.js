@@ -1,9 +1,10 @@
 import React from 'react';
-import Timeline from '../Timeline';
-import Graph from '../Graph';
-import SadHumans from '../SadHumans';
-import Future from '../Future';
-import Rule from '../Rule';
+import Timeline from 'components/Timeline';
+import Graph from 'components/Graph';
+import SadHumans from 'components/SadHumans';
+import Link from 'components/Link';
+import Future from 'components/Future';
+import Rule from 'components/Rule';
 import style from './Profile.module.css';
 
 export const Profile = ({className, data: {who, timeline, links}}) => <div {...{
@@ -31,7 +32,7 @@ export const Header = ({who: {name: names, handle}, links, className}) => <heade
     {names&&<Name {...{names}} />}
 
     <div className={style.links}>
-      {Object.entries(links).map(([name, href]) => <a {...{key: name, href}}>{name}</a>)}
+      {Object.entries(links).map(([name, href]) => <Link notinline {...{key: name, to: href }}>{name}</Link>)}
     </div>
   </div>
 </header>

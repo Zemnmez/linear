@@ -1,4 +1,5 @@
 import style from './Timeline.module.css';
+import { classes } from 'lib/classes';
 import Moment from 'react-moment';
 import React from 'react';
 import Link from 'components/Link';
@@ -62,7 +63,7 @@ export default ({ className, timeline, minimumPriority, focuses = [], limit = In
   });
 
   return <div {...{
-    className: [ style.timeline ].concat(focuses).concat(className).join(" ")
+    className: classes(style.timeline, className, ...focuses) 
   }}>
     {[ ...years.entries() ].map(([year, months]) => <Year {...{year, months, key: year}}/> )}
   </div>
@@ -70,17 +71,17 @@ export default ({ className, timeline, minimumPriority, focuses = [], limit = In
 
 
 const Year = ({year, months, className }) => <div {...{
-  className: [ style.year ].concat(className).join(" "),
+  className: classes(className, style.year),
   style: {counterReset: `year ${year-1994}`},
   "data-year": year
 }}>
   <Group>
-  {[ ...months.entries() ].map(([month, events]) => <Month {...{month, events, key: month}} />)}
+  {[ ...months.entries() ].reverse().map(([month, events]) => <Month {...{month, events, key: month}} />)}
   </Group>
 </div>
 
 const Month =({ month, events, className }) => <div {...{
-  className: [ style.month ].concat(className).join(" "),
+  className: classes(style.month, className),
   "data-month": month,
   style: {counterReset: `month ${month}`}
 }}>
@@ -88,10 +89,10 @@ const Month =({ month, events, className }) => <div {...{
 </div>
 
 export const Event = ({date, tags, url, title, description, longDescription, duration, className }) => <div {...{
-  className: [ style.event ].concat(className, tags).join(" ")
+  className: classes(style.event, className, ...tags)
 }}>
   <Link className={style.title} to={url}>
-    {title.split(",").map((segment, i) => <span key={i}>{segment.trim()}</span>)}
+    {title}
   </Link>{" "}
   {duration?<Duration {...{date, duration}}/>:""}
   <Description {...{description}} />
@@ -100,7 +101,7 @@ export const Event = ({date, tags, url, title, description, longDescription, dur
 export const Description = ({ description = "", className }) => {
 
   return <span {...{
-    className: [ style.description ].concat(className).join(" ")
+    className: classes(className, style.description)
   }}>
 
     {description.split("\n").map((para, i) => <p key={i}>{para}</p>)}
@@ -110,7 +111,7 @@ export const Description = ({ description = "", className }) => {
 const aToOne = str => str.replace(/\ba\b/g, "1");
 const Duration = ({date, duration, className}) => {
   if (duration === "ongoing") return <div {...{
-    className: [ style.duration ].concat(className).join(" ")
+    className: classes(style.duration, className)
   }}>
     <Moment fromNow ago filter={aToOne}>{date}</Moment> (present)
   </div>

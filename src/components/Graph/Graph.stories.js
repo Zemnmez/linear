@@ -1,14 +1,14 @@
 
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from 'lib/stories'
 
 import bio from 'bio'
 import Graph from 'components/Graph'
 
 const { timeline } = bio
 
-storiesOf('Graph', module)
-  .add('with text', () => <Graph {...{
+storiesOf(module)
+  .add('default', () => <Graph {...{
     timeline
   }}/>)

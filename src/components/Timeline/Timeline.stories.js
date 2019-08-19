@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from 'lib/stories';
 
 import "../App/App.css";
 
@@ -9,12 +9,10 @@ import Timeline, { Event } from 'components/Timeline'
 
 const { timeline } = bio
 
-storiesOf('Timeline', module)
+storiesOf(module)
   .add('default', () => <Timeline {...{
     timeline
   }}/>)
-
-storiesOf('Timeline', module)
   .add('event', () => <Event {...{
     title: 'a thing that happened',
     date: new Date(),
