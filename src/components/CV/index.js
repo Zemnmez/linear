@@ -1,5 +1,5 @@
 import React from 'react';
-import { Name } from 'components/Profile';
+import { Names as Name } from 'components/Home';
 import Link from 'components/Link'
 import { classes } from 'lib/classes';
 import Moment from 'react-moment';

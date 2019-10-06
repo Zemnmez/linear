@@ -1,7 +1,8 @@
 import React from 'react';
 import style from './index.module.css';
+import {classes} from 'lib/classes';
 
-export default ({className, ...props}) => <svg {...props} className={[ style.sadIcon ].concat(className).join(" ")} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.78 7.81">
+export default ({className, ...props}) => <svg {...props} className={classes(className, style.sadIcon)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.78 7.81">
   <g transform="translate(-13.03 -62.53)">
     <path className={style.frustum} strokeWidth=".26" d="M16.73 62.66l-3.47 6.02h17.32l-3.47-6.02z"/>
     <circle className={style.iris} cx="21.92" cy="65.47" r="1.61" fill="none" strokeWidth=".16"/>

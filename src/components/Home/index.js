@@ -3,12 +3,14 @@ import style from './Home.module.css';
 import SadHumans from 'components/SadHumans';
 import Timeline from 'components/Timeline';
 
-
 export const Home = ({data: bio, className }) => {
-  return <div className={[ style.home ].concat(className).join(" ")}>
+  return <div className={[ style.Home ].concat(className).join(" ")}>
     <Header {...bio}/>
 
-    <Timeline {...{timeline: bio.timeline}}/>
+    <Timeline {...{
+      timeline: bio.timeline,
+      className: style.Timeline
+    }}/>
   </div>
 }
 
@@ -19,7 +21,7 @@ const Header = ({ who: {handle, name}}) =>
     <div className={style.name}><Names {...{names: name}}/></div>
 </header>
 
-const Names = ({names}) => names.map(
+export const Names = ({names}) => names.map(
   n => n instanceof Array?
     n.map(([firstLetter]) => firstLetter).join(""):
     n).join(" ");
