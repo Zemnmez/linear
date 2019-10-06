@@ -4,8 +4,11 @@ import SadHumans from 'components/SadHumans';
 import Timeline from 'components/Timeline';
 
 export const Home = ({data: bio, className }) => {
+  const { handle, name } = bio.who;
   return <div className={[ style.Home ].concat(className).join(" ")}>
-    <Header {...bio}/>
+    <SadHumans className={style.logo}/>
+    <div className={style.handle}>{handle}</div>
+    <div className={style.name}><Names {...{names: name}}/></div>
 
     <Timeline {...{
       timeline: bio.timeline,
@@ -13,13 +16,6 @@ export const Home = ({data: bio, className }) => {
     }}/>
   </div>
 }
-
-const Header = ({ who: {handle, name}}) =>
-  <header className={style.Header}>
-    <SadHumans className={style.logo} />
-    <div className={style.handle}>{handle}</div>
-    <div className={style.name}><Names {...{names: name}}/></div>
-</header>
 
 export const Names = ({names}) => names.map(
   n => n instanceof Array?

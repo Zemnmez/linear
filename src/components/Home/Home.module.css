@@ -18,6 +18,9 @@
 
 .Header * {
   margin: auto;
+  width: 100%;
+  height: 100%;
+  text-align: center;
 }
 
 .handle { grid-area: handle }
@@ -26,17 +29,15 @@
 
 @media (orientation: portrait) {
   .Home {
-    grid: "header" 10vh "timeline" 1fr;
+    display: grid;
+    grid:
+      ".. name logo handle .." 10vh
+      "timeline timeline timeline timeline timeline" 1fr/
+      1fr 2fr 2fr 2fr 1fr;
   }
 
-  .Header {
-    display: grid;
-    grid: ". name logo handle ." 1fr
-          / 1fr 1fr 1fr 1fr 1fr;
-    position: fixed;
-    height: 10vh;
-    padding: .2rem 0;
-    width: 100vw;
-    background-color: var(--background-color);
+  .handle, .name, .logo {
+    position: sticky; top:0;
   }
+
 }
