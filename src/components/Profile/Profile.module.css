@@ -6,8 +6,8 @@
 
 .rule { grid: ". line-left . text . line-right ." min-content / .2em 1fr 2rem min-content 2rem 1fr .2em }
 
-.profile footer::before { content:"–"; grid-area:left-spacer; margin:auto; opacity: .5 }
-.profile footer::after { content:"–"; grid-area: right-spacer; margin: auto; opacity: .5 }
+.profile .footer::before { content:"–"; grid-area:left-spacer; margin:auto; opacity: .5 }
+.profile .footer::after { content:"–"; grid-area: right-spacer; margin: auto; opacity: .5 }
 
 
 .footer {
