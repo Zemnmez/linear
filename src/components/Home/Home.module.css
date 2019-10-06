@@ -8,6 +8,12 @@
   object-fit: cover;
 }
 
+@media (prefers-color-scheme: dark) {
+  .videoBackground {
+	filter: contrast(.5);
+  }
+}
+
 
 @media (orientation: portrait) {
   .home {

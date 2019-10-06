@@ -36,18 +36,10 @@
 
 .lightMode {
   composes: base;
-  --background-color: var(--verylight);
-  --midground-color: var(--verylight);
-  --foreground-color: var(--verydark);
-  --highlight-color: var(--verydark);
 }
 
 .darkMode {
   composes: base;
-  --background-color: var(--dark);
-  --midground-color: var(--light);
-  --foreground-color: var(--light);
-  --highlight-color: var(--verylight);
 }
 
 .base {

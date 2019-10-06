@@ -9,8 +9,9 @@
   grid-auto-rows: 1fr / 100%;
 }
 
+.year + .year { border-top: 1px solid var(--fgc); }
+
 .year {
-  border-top: 1px dotted var(--fgc);
   width: 100%;
   display: grid;
   grid: ". age . year ." 3em
