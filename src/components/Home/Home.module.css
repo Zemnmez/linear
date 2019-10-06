@@ -20,6 +20,9 @@
 .handle { grid-area: handle }
 .name { grid-area: name }
 .logo { grid-area: logo }
+.links { grid-area: links }
+
+.links * { margin: auto }
 
 .Home {
   composes: GridArea from "../grid.module.css";
@@ -29,13 +32,31 @@
   .Home {
     display: grid;
     grid:
-      ".. name .. logo .. handle .." 10vh
+      "begin-header name .. logo .. links end-header" 5vh
+      "begin-header handle .. logo .. links end-header" 5vh
       "timeline timeline timeline timeline timeline timeline timeline" 1fr/
-      1fr 2fr .5fr 2fr .5fr 2fr 1fr;
+      1fr 2fr .5rem 2fr .5rem 2fr 1fr;
   }
 
-  .handle, .name, .logo {
+  /* header background */
+  .Home::before {
+    content: '';
+    grid-column-start: begin-header;
+    grid-column-end: end-header;
+    grid-row-start: begin-header;
+    grid-row-end: end-header;
+    z-index: 3;
+    background-color: var(--background-color);
+  }
+
+  .handle, .name, .logo, .Home::before, .links {
+    z-index: 4
+  }
+
+  .handle, .logo, .Home::before, .links {
     position: sticky; top:0;
   }
+
+  .handle { top: 2.5vh }
 
 }
