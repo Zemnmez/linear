@@ -16,24 +16,22 @@
   }
 }
 
-.Header * {
-  margin: auto;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-}
 
 .handle { grid-area: handle }
 .name { grid-area: name }
 .logo { grid-area: logo }
 
+.Home {
+  composes: GridArea from "../grid.module.css";
+}
+
 @media (orientation: portrait) {
   .Home {
     display: grid;
     grid:
-      ".. name logo handle .." 10vh
-      "timeline timeline timeline timeline timeline" 1fr/
-      1fr 2fr 2fr 2fr 1fr;
+      ".. name .. logo .. handle .." 10vh
+      "timeline timeline timeline timeline timeline timeline timeline" 1fr/
+      1fr 2fr .5fr 2fr .5fr 2fr 1fr;
   }
 
   .handle, .name, .logo {
