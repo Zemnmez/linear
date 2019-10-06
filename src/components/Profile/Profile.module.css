@@ -3,20 +3,9 @@
   grid: "header" min-content "timeline" 1fr "asterism" 8rem "footer" min-content;
 }
 
-.header { display: grid; grid: "." 4em "eye" 4em "text" "." 3em / 1fr }
-.eye { grid-area: eye }
-
-.header .text { grid-area: text ; text-align: center }
-.header .text .links { margin-top: 1rem }
-
-.text .links { max-width: 20rem; margin: auto; display: flex }
 
 .rule { grid: ". line-left . text . line-right ." min-content / .2em 1fr 2rem min-content 2rem 1fr .2em }
-.rule::before, .rule::after { }
 
-.text .links > * { margin: auto }
-
-.name { }
 .profile footer::before { content:"–"; grid-area:left-spacer; margin:auto; opacity: .5 }
 .profile footer::after { content:"–"; grid-area: right-spacer; margin: auto; opacity: .5 }
 
