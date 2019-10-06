@@ -22,11 +22,10 @@
 
 .LoginIcon {
   grid-area: login-icon;
-  color: white;
+  color: var(--bgc);
 }
 
 .SpotifyLogo {
   grid-area: spotify-logo;
   color: #1DB954;
 }
-

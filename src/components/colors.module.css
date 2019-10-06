@@ -1,0 +1,56 @@
+.base {
+  --eigengrau: #16161d;
+  --whiteish: #e2e2e9;
+  --greygrau: #717177;
+  --darkgreygrau: #333335;;
+  --white: white;
+  --black: black;
+
+  --light: var(--whiteish);
+  --lighter: var(--white);
+  --lightest: var(--white);
+
+  --dark: var(--greygrau);
+  --darker: var(--darkgreygrau);
+  --darkest: var(--black);
+}
+
+
+
+
+@media (prefers-color-scheme: light), print {
+  .base {
+    --background-color: var(--lightest);
+    --midground-color: var(--lightest);
+    --foreground-color: var(--darkest);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .base {
+    --background-color: var(--darker);
+    --midground-color: var(--darker);
+    --foreground-color: var(--light);
+  }
+}
+
+.lightMode {
+  composes: base;
+  --background-color: var(--verylight);
+  --midground-color: var(--verylight);
+  --foreground-color: var(--verydark);
+  --highlight-color: var(--verydark);
+}
+
+.darkMode {
+  composes: base;
+  --background-color: var(--dark);
+  --midground-color: var(--light);
+  --foreground-color: var(--light);
+  --highlight-color: var(--verylight);
+}
+
+.base {
+  --fgc: var(--foreground-color);
+  --bgc: var(--background-color);
+}

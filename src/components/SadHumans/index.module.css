@@ -1,0 +1,14 @@
+@import "../index.module.css";
+
+.sadIcon {
+  --sad-white: var(--background-color, white);
+  --sad-black: var(--foreground-color, black);
+
+  fill:none;
+}
+
+.sadIcon * { stroke: var(--sad-black) }
+
+.frustum { fill: var(--sad-white); }
+.tear { fill: var(--sad-white); }
+.pupil { fill: var(--sad-black); }

@@ -10,7 +10,7 @@
   width: 210mm;
   height: 297mm;
   margin: auto ;
-  border: 1px solid black;
+  border: 1px solid var(--fgc);
 
   display: grid;
   grid: "header header header header header" min-content
@@ -115,7 +115,7 @@
 .works { grid-area: works; }
 .works2 { grid-area: works2; }
 
-.future { grid-area: future; stroke: none; fill: black !important }
+.future { grid-area: future; stroke: none; fill: var(--fgc) !important }
 
 .skills.works { grid-gap: 0 1em }
 

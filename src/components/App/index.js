@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import './App.css';
+import '../index.css';
 import style from './App.module.css';
 import bio from 'bio.js';
 import {

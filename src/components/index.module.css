@@ -1,5 +1,4 @@
 
-.sadIcon { }
 .future { fill: none }
 .rule {
   display:none;
@@ -21,7 +20,7 @@
   .rule::before{
   content: "";
   height: 0;
-  border-top: 1px solid black;
+  border-top: 1px solid var(--fgc);
   margin: auto;
   width: 100%;
 }

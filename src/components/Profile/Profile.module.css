@@ -37,5 +37,5 @@
 .graph { grid-area:graph }
 
 @media (orientation: portrait) {
-  .future * { fill: black; stroke: none }
+  .future * { fill: --fgc; stroke: none }
 }

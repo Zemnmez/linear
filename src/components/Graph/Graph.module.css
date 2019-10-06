@@ -4,4 +4,5 @@
 .graph .x.y.axis {}
 
 .graph * { stroke: none }
-.graph .event:hover { fill: grey }
+.graph .event { fill: var(--fgc) }
+.graph .event:hover { fill: var(--fgc-highlight) }

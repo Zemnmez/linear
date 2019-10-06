@@ -12,17 +12,9 @@ header.profile .name {
   font-size: larger;
 }
 
-.App, .App.day {
-  --fgc: black;
-  --bgc: white;
-}
-
-.App.night {
-  --fgc: white;
-  --bgc: black;
-}
-
 .App  {
+  composes: app from '../global.module.css';
+  composes: base from '../colors.module.css';
   transition: color, background-color ease-in-out;
   display: grid;
   width: 100%;

@@ -4,15 +4,13 @@ import { storiesOf } from 'lib/stories';
 
 import "components/App/App.css";
 
-import appStyle from 'components/App/App.module.css';
+import { componentStories } from 'storyhelper';
 
 import bio from 'bio'
 import Home from '.';
 
 const { timeline } = bio
 
-storiesOf(module)
-  .add('default', () => <Home {...{
-    data: bio,
-    className: appStyle.App
-  }}/>)
+let stories = storiesOf(module);
+
+componentStories({ stories, component: Home, props: { data: bio} });
