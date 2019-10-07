@@ -5,18 +5,16 @@
   --marker-colour: var(--fgc);
   display: flex;
   flex-wrap: wrap;
-  display: grid;
-  grid-auto-rows: 1fr / 100%;
 }
 
 .year + .year { border-top: 1px solid var(--fgc); }
 
+.yearIndicator, .year { width: 100% }
 .year {
-  width: 100%;
+  z-index: 2;
   display: grid;
-  grid: ". age . year ." 3em
-    ". age months year ." 100% /
-    1rem minmax(min-content, 5rem) 1fr minmax(min-content, 5rem) 1rem;
+  grid: ". months ." 100% /
+    .2rem 1fr .2rem;
   margin: 0 0 3rem 0;
 }
 
@@ -28,18 +26,72 @@
 
 .title { margin-bottom: .2rem }
 
-.year::after {
-  content: attr(data-year);
-  font-size: var(--year-font-size);
-  text-align: right;
-  grid-area: year;
+
+/*
+  You might say to me -- "thomas, my good friend,
+  my brother-in-arms: why do you use `counter-reset`
+  so weirdly here? You already have --timeline-year."
+
+  "Ah", I say, smoking an imaginary tobbacco-free pipe
+  and blowing out large clouds of smoke; "you see --
+  it seems that CSS pseudoelements can't inherit CSS variables because they don't have true DOM parentage."
+
+  Then, you say to me -- "if you want the year indicator
+  to be inline with the main timeline block, why not
+  just have it be part of the same grid as the timeline?"
+
+  At this, i take such a long drag on my imaginary pipe
+  that i nearly pass out.
+
+  "Well. I want the year indicators in the timeline
+  to be position: sticky so they show as you scroll
+  over the year.
+  
+  However, position: sticky automatically
+  sets the parent element to be the 'sticky parent' --
+  which is what the sticky element sticks to the top of.
+
+  If our sticky parent is the 'year' component of the
+  timeline, the year will not stick, since the year
+  component never overflows. Conversely, however
+  it's not at all easy -- if it is possible at all
+  to define some kind of 'grid sequence' that would
+  allow us to define the repeating grid sections
+  of the years themselves if the grid parent was
+  the whole timeline -- which would be the only way
+  to have the correct sticky parent. It is not
+  possible to choose what an element's sticky parent
+  is.
+*/
+
+.yearIndicator {
+  counter-reset: birth-year calc(var(--timeline-year)
+    - 1994) year var(--timeline-year);
+
+  composes: GridArea from "../grid.module.css";
+    grid: "birthYearIndicator . yearIndicator" /
+      auto 1fr auto;
+  background-color: var(--bgc);
+  z-index: 1;
 }
 
-.year::before {
-  content: counter(year, upper-roman);
-  box-sizing: border-box;
-  grid-area: age;
+.yearIndicator::after {
+  content: counter(year);
   font-size: var(--year-font-size);
+  text-align: right;
+  grid-area: yearIndicator;
+}
+
+.yearIndicator::before {
+  grid-area: birthYearIndicator;
+  content: counter(birth-year, upper-roman);
+  box-sizing: border-box;
+  font-size: var(--year-font-size);
+}
+
+.yearIndicator {
+  position: sticky;
+  top: var(--sticky-year-offset, 0);
 }
 
 .month {

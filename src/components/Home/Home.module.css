@@ -30,10 +30,15 @@
 
 @media (orientation: portrait) {
   .Home {
+    --header-height: 10vh;
+    --links-height: 1.5rem;
+    --sticky-year-offset: calc(
+      var(--header-height) +
+      var(--links-height));
     display: grid;
     grid:
-      "begin-header name .. logo .. links end-header" 5vh
-      "begin-header handle .. logo .. links end-header" 5vh
+      "begin-header name .. logo .. handle end-header" var(--header-height)
+      "begin-header links links links links links end-header" 
       "timeline timeline timeline timeline timeline timeline timeline" 1fr/
       1fr 2fr .5rem 2fr .5rem 2fr 1fr;
   }
@@ -49,14 +54,17 @@
     background-color: var(--background-color);
   }
 
-  .handle, .name, .logo, .Home::before, .links {
-    z-index: 4
+
+  .links {
+    position: sticky;
+    top: var(--header-height);
+    z-index: 4;
   }
 
-  .handle, .logo, .Home::before, .links {
+  .name, .handle, .logo, .Home::before {
     position: sticky; top:0;
+    z-index: 4;
+    text-align: center;
   }
-
-  .handle { top: 2.5vh }
 
 }

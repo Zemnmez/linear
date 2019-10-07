@@ -5,7 +5,9 @@ import React from 'react';
 import Link from 'components/Link';
 
 
-export default ({ className, timeline, minimumPriority, focuses = [], limit = Infinity}) => {
+export default ({
+  className, timeline, minimumPriority, focuses = [], limit = Infinity
+}) => {
   if (minimumPriority) timeline = timeline.filter(({ priority }) => priority >= minimumPriority);
   if (focuses.length) timeline = timeline.filter(({ tags }) => tags.some(a => focuses.some(b => a === b )));
 
@@ -70,15 +72,24 @@ export default ({ className, timeline, minimumPriority, focuses = [], limit = In
 }
 
 
-const Year = ({year, months, className }) => <div {...{
-  className: classes(className, style.year),
-  style: {counterReset: `year ${year-1994}`},
-  "data-year": year
-}}>
-  <Group>
-  {[ ...months.entries() ].reverse().map(([month, events]) => <Month {...{month, events, key: month}} />)}
-  </Group>
-</div>
+const Year = ({ year, months, className }) => <>
+  <div {...{
+    className: style.yearIndicator,
+    style: {
+      "--timeline-year": year,
+    }
+  }}/>
+  <div {...{
+    className: classes(className, style.year),
+    style: {
+      "--timeline-year": year,
+    },
+  }}>
+    <Group>
+    {[ ...months.entries() ].reverse().map(([month, events]) => <Month {...{month, events, key: month}} />)}
+    </Group>
+  </div>
+</>
 
 const Month =({ month, events, className }) => <div {...{
   className: classes(style.month, className),
