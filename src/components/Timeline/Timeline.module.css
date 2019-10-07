@@ -42,23 +42,22 @@
 
   z-index: 1;
   padding-bottom: var(--year-bottom-padding);
+  font-size: var(--year-font-size);
 }
 
-.yearIndicator::after {
+.decimalYear {
   position: sticky;
   top: var(--sticky-year-offset, 0);
-  content: counter(year);
-  font-size: var(--year-font-size);
-  text-align: right;
+  background-color: var(--bgc);
 }
 
-.yearIndicator::before {
-  float:right;
-  content: counter(birth-year, upper-roman);
+.ageIndicator {
+  float: right;
   background-color: var(--bgc);
-  box-sizing: border-box;
-  font-size: var(--year-font-size);
+  content: counter(birth-year, upper-roman);
 }
+
+
 
 .month {
   --event-margin-width: calc(

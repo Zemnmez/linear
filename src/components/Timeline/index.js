@@ -80,12 +80,15 @@ const Year = ({ year, months, className }) => <>
     },
   }}>
 
-  <div {...{
-    className: style.yearIndicator,
-    style: {
-      "--timeline-year": year,
-    }
-  }}/>
+    <div {...{
+      className: style.decimalYear,
+    }}>
+      {year}
+    </div>
+
+    <div {...{
+      className: style.ageIndicator,
+    }}/>
 
     <Group>
     {[ ...months.entries() ].reverse().map(([month, events]) => <Month {...{month, events, key: month}} />)}
