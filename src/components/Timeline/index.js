@@ -74,17 +74,19 @@ export default ({
 
 const Year = ({ year, months, className }) => <>
   <div {...{
-    className: style.yearIndicator,
-    style: {
-      "--timeline-year": year,
-    }
-  }}/>
-  <div {...{
     className: classes(className, style.year),
     style: {
       "--timeline-year": year,
     },
   }}>
+
+  <div {...{
+    className: style.yearIndicator,
+    style: {
+      "--timeline-year": year,
+    }
+  }}/>
+
     <Group>
     {[ ...months.entries() ].reverse().map(([month, events]) => <Month {...{month, events, key: month}} />)}
     </Group>
