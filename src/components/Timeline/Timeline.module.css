@@ -1,10 +1,23 @@
 .timeline {
   --marker-size: 1px;
-  --year-font-size: 200%;
+  --year-font-size: 1.5rem;
+  --year-bottom-padding: .2rem;
   --month-font-size: 1rem;
   --marker-colour: var(--fgc);
+  --year-indicator-width: 4rem;
+
   display: flex;
   flex-wrap: wrap;
+
+  --year-size: calc(
+    var(--year-font-size) +
+    var(--year-bottom-padding)
+  );
+
+  --sticky-month-offset: calc(
+    var(--sticky-year-offset) +
+    var(--year-size)
+  );
 }
 
 .year + .year { border-top: 1px solid var(--fgc); }
@@ -12,9 +25,6 @@
 .yearIndicator, .year { width: 100% }
 .year {
   z-index: 2;
-  display: grid;
-  grid: ". months ." 100% /
-    .2rem 1fr .2rem;
   margin: 0 0 3rem 0;
 }
 
@@ -35,33 +45,6 @@
   "Ah", I say, smoking an imaginary tobbacco-free pipe
   and blowing out large clouds of smoke; "you see --
   it seems that CSS pseudoelements can't inherit CSS variables because they don't have true DOM parentage."
-
-  Then, you say to me -- "if you want the year indicator
-  to be inline with the main timeline block, why not
-  just have it be part of the same grid as the timeline?"
-
-  At this, i take such a long drag on my imaginary pipe
-  that i nearly pass out.
-
-  "Well. I want the year indicators in the timeline
-  to be position: sticky so they show as you scroll
-  over the year.
-  
-  However, position: sticky automatically
-  sets the parent element to be the 'sticky parent' --
-  which is what the sticky element sticks to the top of.
-
-  If our sticky parent is the 'year' component of the
-  timeline, the year will not stick, since the year
-  component never overflows. Conversely, however
-  it's not at all easy -- if it is possible at all
-  to define some kind of 'grid sequence' that would
-  allow us to define the repeating grid sections
-  of the years themselves if the grid parent was
-  the whole timeline -- which would be the only way
-  to have the correct sticky parent. It is not
-  possible to choose what an element's sticky parent
-  is.
 */
 
 .yearIndicator {
@@ -70,9 +53,11 @@
 
   composes: GridArea from "../grid.module.css";
     grid: "birthYearIndicator . yearIndicator" /
-      auto 1fr auto;
-  background-color: var(--bgc);
+      var(--year-indicator-width) 1fr var(--year-indicator-width);
   z-index: 1;
+  padding-bottom: var(--year-bottom-padding);
+  position: sticky;
+  top: var(--sticky-year-offset, 0);
 }
 
 .yearIndicator::after {
@@ -85,49 +70,56 @@
 .yearIndicator::before {
   grid-area: birthYearIndicator;
   content: counter(birth-year, upper-roman);
+  background-color: var(--bgc);
   box-sizing: border-box;
   font-size: var(--year-font-size);
 }
 
-.yearIndicator {
-  position: sticky;
-  top: var(--sticky-year-offset, 0);
-}
-
 .month {
-  margin-right: 2rem;
+  --event-margin-width: calc(
+    var(--year-indicator-width) +
+    .5rem
+  );
 }
 
 
+.monthIndicator {
+  position: sticky;
+  top: var(--sticky-month-offset, 0);
+  padding-left: calc(
+    var(--year-indicator-width) / 2
+  )
+}
 
-.month::after {
+
+.monthIndicator::after {
   /* border-top: var(--marker-size) solid var(--marker-colour); */
   content: "";
   font-size: var(--month-font-size);
 }
 
-.month::before {
+.monthIndicator::before {
   opacity: .5;
   text-transform:lowercase;
 }
 
-.month[data-month="0"]::before { content: "Jan" }
-.month[data-month="1"]::before { content: "Feb" }
-.month[data-month="2"]::before { content: "Mar" }
-.month[data-month="3"]::before { content: "Apr" }
-.month[data-month="4"]::before { content: "May" }
-.month[data-month="5"]::before { content: "Jun" }
-.month[data-month="6"]::before { content: "Jul" }
-.month[data-month="7"]::before { content: "Aug" }
-.month[data-month="8"]::before { content: "Sep" }
-.month[data-month="9"]::before { content: "Oct" }
-.month[data-month="10"]::before { content: "Nov" }
-.month[data-month="11"]::before { content: "Dec" }
+.monthIndicator[data-month="0"]::before { content: "Jan" }
+.monthIndicator[data-month="1"]::before { content: "Feb" }
+.monthIndicator[data-month="2"]::before { content: "Mar" }
+.monthIndicator[data-month="3"]::before { content: "Apr" }
+.monthIndicator[data-month="4"]::before { content: "May" }
+.monthIndicator[data-month="5"]::before { content: "Jun" }
+.monthIndicator[data-month="6"]::before { content: "Jul" }
+.monthIndicator[data-month="7"]::before { content: "Aug" }
+.monthIndicator[data-month="8"]::before { content: "Sep" }
+.monthIndicator[data-month="9"]::before { content: "Oct" }
+.monthIndicator[data-month="10"]::before { content: "Nov" }
+.monthIndicator[data-month="11"]::before { content: "Dec" }
 
 .event {
   max-width: 30rem;
   box-sizing: border-box;
-  margin: 1em 0 1em 3em;
+  margin: 1rem var(--event-margin-width);
   text-transform: lowercase;
 }
 

@@ -32,15 +32,19 @@
   .Home {
     --header-height: 10vh;
     --links-height: 1.5rem;
+    --header-bottom-spacer: .2rem;
     --sticky-year-offset: calc(
       var(--header-height) +
-      var(--links-height));
+      var(--links-height) +
+      var(--header-bottom-spacer)
+    );
     display: grid;
     grid:
       "begin-header name .. logo .. handle end-header" var(--header-height)
-      "begin-header links links links links links end-header" 
-      "timeline timeline timeline timeline timeline timeline timeline" 1fr/
-      1fr 2fr .5rem 2fr .5rem 2fr 1fr;
+      "begin-header links links links links links end-header" var(--links-height)
+      "begin-header . . . . . end-header" var(--header-bottom-spacer) 
+      "timeline timeline timeline timeline timeline timeline timeline" 1fr /
+      .5fr 2fr .5rem 1.5fr .5rem 2fr .5fr;
   }
 
   /* header background */

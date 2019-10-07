@@ -95,9 +95,15 @@ const Year = ({ year, months, className }) => <>
 
 const Month =({ month, events, className }) => <div {...{
   className: classes(style.month, className),
-  "data-month": month,
   style: {counterReset: `month ${month}`}
 }}>
+
+
+  <div {...{
+    className: style.monthIndicator,
+    "data-month": month,
+  }}/>
+
   {events.map((event, i) => <Event {...{...event, key: i}}/>)}
 </div>
 
