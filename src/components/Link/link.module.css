@@ -1,7 +1,7 @@
 
-.link { font-style: italic }
+.link { font-style: italic; font-weight: bold }
 
-.link:link { color: inherit; opacity: .7; text-decoration: none }
+.link:link { color: inherit; text-decoration: none }
 .link:visited { color: inherit }
 
 

@@ -1,10 +1,9 @@
 .timeline {
-  --marker-size: 1px;
-  --year-font-size: 1.5rem;
+  --year-font-size: 1.3rem;
   --year-bottom-padding: .2rem;
   --month-font-size: 1rem;
   --marker-colour: var(--fgc);
-  --year-indicator-width: 4rem;
+  --year-indicator-width: 3rem;
 
   display: flex;
   flex-wrap: wrap;
@@ -37,30 +36,20 @@
 .title { margin-bottom: .2rem }
 
 
-/*
-  You might say to me -- "thomas, my good friend,
-  my brother-in-arms: why do you use `counter-reset`
-  so weirdly here? You already have --timeline-year."
-
-  "Ah", I say, smoking an imaginary tobbacco-free pipe
-  and blowing out large clouds of smoke; "you see --
-  it seems that CSS pseudoelements can't inherit CSS variables because they don't have true DOM parentage."
-*/
-
 .yearIndicator {
   counter-reset: birth-year calc(var(--timeline-year)
     - 1994) year var(--timeline-year);
 
   composes: GridArea from "../grid.module.css";
-    grid: "birthYearIndicator . yearIndicator" /
+    grid: "yearIndicator . birthYearIndicator" /
       var(--year-indicator-width) 1fr var(--year-indicator-width);
   z-index: 1;
   padding-bottom: var(--year-bottom-padding);
-  position: sticky;
-  top: var(--sticky-year-offset, 0);
 }
 
 .yearIndicator::after {
+  position: sticky;
+  top: var(--sticky-year-offset, 0);
   content: counter(year);
   font-size: var(--year-font-size);
   text-align: right;
@@ -77,8 +66,7 @@
 
 .month {
   --event-margin-width: calc(
-    var(--year-indicator-width) +
-    .5rem
+    var(--year-indicator-width)
   );
 }
 
@@ -119,7 +107,7 @@
 .event {
   max-width: 30rem;
   box-sizing: border-box;
-  margin: 1rem var(--event-margin-width);
+  margin: 1rem .5rem 1rem var(--event-margin-width);
   text-transform: lowercase;
 }
 
