@@ -1,101 +1,101 @@
 import * as React from 'react';
 import * as Immutable from 'immutable';
 
-export type SearchFunc = (search: (text: string) => SearchedText) => void;
-
-export type AddFunc = (searchFunc: SearchFunc) => () => void;
-
 export type FuzzyContextProps = {
-    add: AddFunc
+    search?: string,
+    add: (key: () => void) => {
+        setCount: (number) => void,
+        remove: () => void
+    },
 }
 
-type useFuzzySearchT = (input: string) => [
-    React.Provider<FuzzyContextProps>,
-    (setSearch: string) => void
-]
+export const fuzzyContext = React.createContext<Partial<FuzzyContextProps>>(null)
 
 type regexpEscapeT = (...chr: string[]) => string
 const regexpEscape: regexpEscapeT = (...chr) => chr.map(c => `\${c}`).join("");
 
-export const useFuzzySearch: useFuzzySearchT = (defaultSearch: string) => {
-    const [ searchables, setSearchables ] = React.useState(Immutable.Map<SearchFunc, boolean>());
-    const [ search, setSearch ] = React.useState(defaultSearch);
+type FuzzyMatch = {
+    text: string,
+    match: boolean
+}
 
-    const add = React.useCallback<AddFunc>((searchFunc: SearchFunc) => {
-        setSearchables(searchables.set(searchFunc, true));
-        
-        return () => setSearchables(searchables.remove(searchFunc))
-    }, [ searchables, setSearchables ]);
+type useFuzzyParams = { withText?: string, withSearch?: string }
+export function useFuzzy(params: useFuzzyParams): {
+    count: number,
+
+    Provider:  React.Provider<FuzzyContextProps>,
+
+    searched: Array<FuzzyMatch>,
+
+    search: string
+    setSearch: (string) => void,
+
+    setText: (string) => void
+    text: Array<FuzzyMatch>,
+};
+
+function sizerAsLengther<T extends {length: number}, T2 extends T & {size: number}>(v : T): T2
+
+function sizerAsLengther(v) { return Object.defineProperty(v, 'length', {
+    get: function() { return this.size }
+})}
+    
+
+
+export function useFuzzy({ withText, withSearch }) {
+
+    const { search: parentSearch, add } = React.useContext(fuzzyContext);
+    const [ search, setSearch ] = React.useState( withSearch || parentSearch );
+
+
+    const [ text, setText ] = React.useState(withText);
+    const [ matches, setMatches ] = React.useState<Immutable.List<FuzzyMatch>>();
 
     React.useEffect(() => {
-        const re = new RegExp(`(.*)${regexpEscape(search)}(.*)`);
-        [...searchables.keys()].forEach((searchFunc) =>
-            searchFunc(text => {
-                const matches: SearchedText = [];
+        const re = new RegExp(`(.*)(${regexpEscape(search)})(.*)`, "gi");
+        let newMatches = Immutable.List();
+        let groups;
+        for (;;) {
+            if (!(groups = re.exec(text))) break;
+            const [ /* all */, pre, match, post ] = groups;
+            newMatches = newMatches.push(
+                { text: pre, match: false },
+                { text: match, match: true },
+                { text: post, match: false }
+            )
+        }
 
-                for (let groups: Array<string> | null | undefined;;) {
-                    if ((groups = re.exec(text)) === null) break;
-                    const [ /* all */, pre, match, post] = groups;
-                    matches.push(
-                        {text: pre, matched: false},
-                        {text: match, matched: true},
-                        {text: post, matched: false}
-                    );
-                }
-
-                // reset
-                re.lastIndex = 0;
-
-                return matches;
-            })
-       )
-    }, [ search ])
-
-    return [
-        React.createContext<FuzzyContextProps>({
-            add,
-        }),
-
-        setSearch,
-    ]
-}
-
-type setText = (text: string) => void;
-type SearchedTextItem = {
-    text: string,
-    matched: boolean,
-}
-
-type SearchedText = Array<SearchedTextItem>;
-
-type useSearchableTextT = (startingText: string) => [
-    SearchedText, setText
-]
-
-export const useSearchableText: useSearchableTextT = (startingText) => {
-    const [text, setText] = React.useState<string>(startingText);
-    const { add } = React.useContext(FuzzyContext);
-    const getText = React.useCallback(() => text, [text]);
-
-    const [remove, setRemove ] = React.useState<() => void>();
-
-    const [ searchedText, setSearchedText ] = React.useState<Array<SearchedTextItem>>([{
-        text: text,
-        matched: false
-    }]);
-
-    const searchText = React.useCallback<SearchFunc>(() => {
-        return [
-            text,
-            (SearchedText) => setSearchedText(SearchedText)
-        ]
-    }, [ text, setSearchedText ]);
+        setMatches(newMatches);
+    }, [ text, search ]);
 
 
+    // our searched value is set to whatever the caller sets, or whatever is in
+    // the context
+    React.useEffect(() => (!withSearch) && setSearch(parentSearch), [ parentSearch ])
+
+    const key = React.useCallback(() => {},[])
+
+    const [ remove, setRemove ] = React.useState();
+    const [ setCount, setSetCount ] = React.useState();
+
+    React.useEffect(() => setCount(matches.size), [ matches.size ]);
+
+    // registers callback for any node that wants to take a count
     React.useEffect(() => {
         if (remove) remove();
-        setRemove(add(searchText));
-    }, []);
+        const { remove: newRemove, setCount: newSetCount } = add(key);
+        setRemove(newRemove);
+        setSetCount(newSetCount);
+    }, [])
 
-    return [searchedText, setText];
+
+
+
+
+    return {
+        search, text, setText, setSearch,
+        count: matches.size,
+    }
+
+
 }
