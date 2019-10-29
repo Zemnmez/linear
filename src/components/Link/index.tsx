@@ -1,23 +1,24 @@
-import React from 'react';
+import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { classes } from 'lib/classes';
 import style from "./link.module.css";
 import assert from "@zemnmez/macros/assert.macro";
 
-const hurl = error => { throw new Error(error) };
+const hurl = (error: string) => { throw new Error(error) };
 
-const parseUrl = url => {
+const parseUrl = (url: string) => {
   const anchor = document.createElement('a');
   anchor.href=url;
   return anchor;
 }
 
 
-const Link = ({ to, children, notinline = false, className, ...etc }) => {
-  assert(etc.href === undefined);
-  className = classes(className, style.link, notinline && style.notinline)
-  etc.className = className;
-  if (!to) return <a {...etc}>{children}</a>;
+const Link: React.FunctionComponent<{
+  to?: string,
+  className?: string,
+}> = ({ to, children, className, ...etc }) => {
+  className = classes(className, style.link);
+  if (!to) return <a {...{...etc, className}}>{children}</a>;
   let { pathname, search, hash, origin, protocol, href } = parseUrl(to);
   if ( to == undefined ) {
     origin = to;

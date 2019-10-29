@@ -27,8 +27,8 @@ export const Home = ({data: bio, className }) => {
 export const Links = ({ links, className }) => <div {...{
   className: classes(className, style.links)
 }}>
-  {Object.entries(links).map(([name, href]) =>
-    <Link {...{href}}>{name}</Link>)}
+  {Object.entries(links).map(([name, to]) =>
+    <Link {...{to}}>{name}</Link>)}
 </div>
 
 export const Names = ({names}) => names.map(
