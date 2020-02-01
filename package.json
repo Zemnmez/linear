@@ -31,5 +31,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "ts-toolbelt": "^6.1.6",
+    "typescript": "^3.7.5"
   }
 }

@@ -1,14 +1,15 @@
-{
+import { Bio as ParseBio } from './timeline'
+export const Bio = ParseBio({
     "bio": "security engineer with strong skills in the Go programming language and the design of robust modern application security architectures",
-    "birthdate": "May 17 1994",
+    "birthdate": [17, "may", 1994],
     "employment": [
         {
-            "since": "Sep 2014",
+            "since": ['sep', 2014],
             "title": "Information Security Engineer",
             "where": "Twitch"
         },
         {
-            "since": "May 2018",
+            "since": ['may', 2018],
             "title": "Application Security Engineer",
             "where": "UKNCSC"
         }
@@ -37,7 +38,15 @@
     ],
     "timeline": [
         {
-            "date": "Jan 20 2019",
+            date: [11, 'jul', 2019],
+            title: "National Cyber Security Centre 'Turing' challenge coin",
+            priority: 5,
+            tags: [ 'accolade' ],
+            url: "https://twitter.com/zemnmez/status/1149278890969456640",
+            description: "award for my work on UK government vulnerability disclosure policy and my responsible disclosure of vulnerabilities in the UK tax system."
+        },
+        {
+            "date": [20, 'jan', 2019],
             "description": "hybrid ctf / esports competition winners",
             "priority": 6,
             "tags": [
@@ -49,7 +58,7 @@
             "url": "https://twitter.com/tf2shmoo/status/1086785642514796544"
         },
         {
-            "date": "Jan 14 2019",
+            "date": [14, 'jan', 2019],
             "description": "react helper bindings for d3",
             "priority": 6,
             "tags": [
@@ -62,7 +71,7 @@
             "url": "https://github.com/Zemnmez/reactive-d3"
         },
         {
-            "date": "Jan 7 2019",
+            "date": [7, 'jan', 2019],
             "description": "react based personal website for 2019",
             "priority": 6,
             "tags": [
@@ -73,7 +82,7 @@
             "url": "https://github.com/Zemnmez/linear"
         },
         {
-            "date": "Jan 8 2019",
+            "date": [8, 'jan', 2019],
             "description": "news coverage of steam rce",
             "priority": 7,
             "tags": [
@@ -85,7 +94,7 @@
             "url": "https://www.forbes.com/sites/thomasbrewster/2019/01/08/7500-steam-weakness-let-hackers-take-remote-control-of-gamers-pcs"
         },
         {
-            "date": "Aug 12 2018",
+            "date": [12, 'aug', 2019],
             "priority": 6,
             "tags": [
                 "security",
@@ -96,7 +105,7 @@
             "url": "https://twitter.com/tf2shmoo/status/1028462663368507392"
         },
         {
-            "date": "Jan 7 2019",
+            "date": [7, 'jan', 2019],
             "description": "vulnerability to remotely access Steam users' computers",
             "priority": 8,
             "tags": [
@@ -108,7 +117,7 @@
             "url": "https://hackerone.com/reports/409850"
         },
         {
-            "date": "Dec 15 2018",
+            "date": [15, 'dec', 2018],
             "description": "Quick article on the security of modern desktop web applications",
             "priority": 7,
             "tags": [
@@ -118,8 +127,7 @@
             "url": "https://medium.com/@Zemnmez/%C3%BCbersicht-remote-code-execution-spotify-takeover-a5f6fd6809d0"
         },
         {
-            "date": "Jan 22 2018",
-            "description": "",
+            "date": [22, 'jan', 2018],
             "priority": 8,
             "tags": [
                 "gaming",
@@ -131,7 +139,7 @@
             "description": "for my work at Twitch, and on responsible disclosure"
         },
         {
-            "date": "Jan 22 2018",
+            "date": [22, 'jan', 2018],
             "description": "advisory position. Provided expertise to UK cyber advisory / defence group on Go and building security analysis systems",
             "duration": "ongoing",
             "priority": 8,
@@ -142,7 +150,7 @@
             "title": "Application Security Engineer, UK National Cyber Security Centre"
         },
         {
-            "date": "Nov 23 2017",
+            "date": [23, 'nov', 2017],
             "description": "talk at owasp about critical uk tax system flaw in obfuscated system and the 57 day trek to get it fixed",
             "priority": 6,
             "tags": [
@@ -154,7 +162,7 @@
             "url": "https://twitter.com/zemnmez/status/933847040198574080"
         },
         {
-            "date": "Sep 8 2017",
+            "date": [8, 'sep', 2017],
             "description": "news post on manipulation of UK tax data",
             "priority": 6,
             "tags": [
@@ -166,7 +174,7 @@
             "url": "http://www.bbc.co.uk/news/technology-41188008"
         },
         {
-            "date": "Jan 25 2016",
+            "date": [25, 'jan', 2016],
             "description": "unauthorized remote shutdown of Buffalo-made network attached storage devices",
             "priority": 6,
             "tags": [
@@ -178,7 +186,7 @@
             "url": "https://packetstormsecurity.com/files/135368"
         },
         {
-            "date": "May 1 2012",
+            "date": [1, 'may', 2012],
             "description": "full stack freelance work building MVPs for London startups and wrangling data for hackathons",
             "duration": "2 years",
             "priority": 7,
@@ -188,7 +196,7 @@
             "title": "Software Engineer, Consultant"
         },
         {
-            "date": "May 16 2016",
+            "date": [16, 'may', 2016],
             "description": "code execution in official Mr Robot site",
             "priority": 7,
             "tags": [
@@ -200,7 +208,7 @@
             "url": "https://www.forbes.com/sites/thomasbrewster/2016/05/16/mr-robot-imagetragick-usa-network-wide-open-to-hackers/#7d49f6f66d77"
         },
         {
-            "date": "May 11 2016",
+            "date": [11, 'may', 2016],
             "description": "XSS in Mr Robot official site",
             "priority": 6,
             "tags": [
@@ -212,7 +220,7 @@
             "url": "https://www.forbes.com/sites/thomasbrewster/2016/05/11/flaw-in-mr-robot-website-allowed-facebook-attack/#747437ef6bed"
         },
         {
-            "date": "Sep 8 2017",
+            "date": [8, 'sep', 2017],
             "description": "vulnerability allowing manipulation of UK tax system",
             "priority": 8,
             "tags": [
@@ -224,7 +232,7 @@
             "url": "https://medium.com/@Zemnmez/how-to-hack-the-uk-tax-system-i-guess-3e84b70f8b"
         },
         {
-            "date": "Feb 18 2017",
+            "date": [18, 'feb', 2017],
             "description": "musings on the evolution of design",
             "tags": [
                 "writing"
@@ -233,7 +241,7 @@
             "url": "https://medium.com/@Zemnmez/design-evolves-by-constraint-f2d87697d25e"
         },
         {
-            "date": "Jan 3 2016",
+            "date": [3, 'jan', 2016],
             "description": "minimal reactive d3.js resistor colour code calculator",
             "priority": 6,
             "tags": [
@@ -243,7 +251,7 @@
             "url": "http://r.no.ms"
         },
         {
-            "date": "Apr 27 2016",
+            "date": [27, 'apr', 2016],
             "description": "padding oracle based decryption of Steam traffic",
             "priority": 7,
             "tags": [
@@ -255,7 +263,7 @@
             "url": "https://threatpost.com/steam-patches-broken-crypto-in-wake-of-replay-padding-oracle-attacks/117691/"
         },
         {
-            "date": "Jul 7 2014",
+            "date": [7, 'jul', 2014],
             "description": "exploit using content security policy 1 to steal data on the web",
             "priority": 9,
             "tags": [
@@ -267,7 +275,7 @@
             "url": "http://archive.is/UXD8j"
         },
         {
-            "date": "Jul 4 2017",
+            "date": [4, "jul", 2017],
             "description": "musings on go-specific security gotchas",
             "priority": 5,
             "tags": [
@@ -278,7 +286,7 @@
             "url": "https://www.infoq.com/presentations/go-security"
         },
         {
-            "date": "Sep 1 2011",
+            "date": [1, 'sep', 2011],
             "description": "Volunteer role at once largest trading website in the Steam community. Worked on administration of high-profile trades & scams",
             "duration": "3 years",
             "priority": 5,
@@ -289,7 +297,7 @@
             "title": "Sr. Admin, TF2Outpost"
         },
         {
-            "date": "Jan 24 2016",
+            "date": [24, 'jan', 2016],
             "description": "Host based account hijack attack on php-openid",
             "priority": 6,
             "tags": [
@@ -301,7 +309,7 @@
             "url": "https://cve.mitre.org/cgi-bin/cvetitle.cgi?title:CVE-2016-2049"
         },
         {
-            "date": "Dec 14 2015",
+            "date": [14, 'dec', 2015],
             "description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issue allowing decryption of all Steam traffic",
             "priority": 6.5,
             "tags": [
@@ -313,7 +321,7 @@
             "url": "http://steamcommunity.com/id/both/inventory/#440_2_4398163918"
         },
         {
-            "date": "Oct 19 2015",
+            "date": [19, 'oct', 2015],
             "description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing remote access to computers running the video game",
             "priority": 7,
             "tags": [
@@ -325,7 +333,7 @@
             "url": "http://steamcommunity.com/id/both/inventory/#440_2_4228772424"
         },
         {
-            "date": "Apr 22 2014",
+            "date": [22, 'apr', 2014],
             "description": "unique developer granted cosmetic item for the video game Team Fortress 2 granted for security issues allowing movement millions of dollars of virtual items between arbitrary accounts via account takeover",
             "priority": 6.5,
             "tags": [
@@ -337,7 +345,7 @@
             "url": "http://steamcommunity.com/id/both/inventory/#440_2_4818206214"
         },
         {
-            "date": "Feb 1 2011",
+            "date": [1, 'feb', 2011],
             "description": "Young Rewired State 2011",
             "priority": 5,
             "tags": [
@@ -348,7 +356,7 @@
             "url": "https://web.archive.org/web/20120306190316/http://youngrewiredstate.org/2011-08/cant-vote-but-can-put-a-wind-in-governments-sails/"
         },
         {
-            "date": "Aug 5 2011",
+            "date": [5, 'aug', 2011],
             "description": "Rewired State: Parliament",
             "priority": 5,
             "tags": [
@@ -359,7 +367,7 @@
             "url": "https://web.archive.org/web/20121105174535/http://rewiredstate.org:80/blog/2011/11/press-release-for-rewired-state-parliament"
         },
         {
-            "date": "Apr 1 2011",
+            "date": [1, 'apr', 2011],
             "description": "London Real Time Hackathon",
             "priority": 5,
             "tags": [
@@ -370,7 +378,7 @@
             "url": "https://web.archive.org/web/20121113024249/http://Londonrealtime.co.uk/"
         },
         {
-            "date": "Apr 1 2011",
+            "date": [1, 'apr', 2011],
             "description": "National Hack the Government Day 2011",
             "priority": 5,
             "tags": [
@@ -381,7 +389,7 @@
             "url": "https://www.theguardian.com/info/developer-blog/2011/apr/05/national-hack-the-government-day-2011"
         },
         {
-            "date": "Jan 1 2013",
+            "date": [1, 'jan', 2013],
             "description": "international chemistry challenge",
             "priority": 6,
             "tags": [
@@ -391,7 +399,7 @@
             "title": "7th place Cambridge Chemistry Challenge (C3L6)"
         },
         {
-            "date": "Jan 1 2014",
+            "date": [1, 'jan', 2014],
             "description": "international chemistry challenge",
             "priority": 5,
             "tags": [
@@ -401,7 +409,7 @@
             "title": "5th place, Cambridge Chemistry Challenge (C3L6)"
         },
         {
-            "date": "Nov 8 2011",
+            "date":[8, 'nov', 2011],
             "description": "Interview on National Hack the Government Day prize (dutch)",
             "priority": 5,
             "tags": [
@@ -412,7 +420,7 @@
             "url": "http://www.denieuwereporter.nl/2011/11/mozfest-rewired-state-geeft-jonge-programmeurs-een-kans/"
         },
         {
-            "date": "Sep 1 2014",
+            "date": [1, 'sep', 2014],
             "description": "first security engineer at the video game streaming website. Designed security architecture for flagship projects including bits, the Twitch API, extensions and Twitch's OIDC / OAuth AuthN/Z systems. Created and defined security relationships and processes. Built Go security static analysis system, security frameworks and libraries",
             "duration": "ongoing",
             "priority": 9,
@@ -425,7 +433,7 @@
             "url": "https://twitch.tv"
         },
         {
-            "date": "Mar 1 2012",
+            "date": [1, 'mar', 2012],
             "description": "charity focused on teaching code literacy. Ran and participated in hackathons for good causes. Taught software engineering to young people",
             "duration": "3 years",
             "priority": 6,
@@ -441,11 +449,9 @@
         "handle": "zemnmez",
         "name": [
             "thomas",
-            [
-                "neil",
-                "james"
-            ],
+            "neil",
+            "james",
             "shadwell"
         ]
     }
-}
+})

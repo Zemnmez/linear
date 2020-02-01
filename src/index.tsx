@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import { hydrate, render } from "react-dom";
 
 const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("cannot locate root");
 if (rootElement.hasChildNodes()) {
   hydrate(<App />, rootElement);
 } else {
