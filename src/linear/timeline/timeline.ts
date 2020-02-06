@@ -16,7 +16,8 @@ export interface BioJson {
 export type Bio = Upgrade<BioJson, {
     birthdate: Date,
     timeline: Event[],
-    links: KV<string, URL>
+    links: KV<string, URL>,
+    employment: Employment[]
 }>
 
 export interface Who {
@@ -30,6 +31,19 @@ export interface EmploymentJson {
     title: string,
     where: string
 }
+
+export type Employment = Upgrade<EmploymentJson,{
+    since: Date
+}>
+
+export const Employment:
+    (v: EmploymentJson) => Employment
+=
+    ({ since, ...etc }) => ({
+        since: ParseSimpleDate(since),
+        ...etc
+    })
+;
 
 export interface JsonEvent {
     date: SimpleDate,
@@ -50,16 +64,17 @@ export type Event = Upgrade<JsonEvent,{
 export const Bio:
     (b: BioJson) => Bio
 =
-    ({birthdate, timeline, links, ...etc}) => ({
+    ({birthdate, timeline, links, employment, ...etc}) => ({
         birthdate: ParseSimpleDate(birthdate),
         timeline: Timeline(timeline),
+        employment: employment.map(Employment),
         links: new Map(Object.entries(links).map(([k,v]) =>
             [k, new URL(v)])),
         ...etc
     })
 ;
 
-const Timeline:
+export const Timeline:
     (t: JsonEvent[]) => Event[]
 =
     t => t.map(Event)
@@ -70,7 +85,7 @@ const Event:
 =
     ({ date, url, ...etc }) => ({
         date: ParseSimpleDate(date),
-        url: url == undefined? url: new URL(url),
+        url: url === undefined? url: new URL(url),
         ...etc
     })
 ;

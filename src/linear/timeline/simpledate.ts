@@ -3,10 +3,10 @@
  *  type checked date syntax for typescript.
  */
 
-import { Upgrade, assertInvalidNever } from '../util';
+import { assertInvalidNever } from '../util';
 import { N, L, O } from 'ts-toolbelt';
 
-enum Month {
+export enum Month {
     jan,
     feb,
     mar,
