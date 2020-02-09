@@ -1,0 +1,1 @@
+export default (...s: (string|undefined)[]) => s.filter(s => !!s).join(' ')

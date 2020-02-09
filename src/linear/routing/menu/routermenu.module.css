@@ -1,0 +1,10 @@
+.RouterMenu { }
+
+.DisplayRoute {
+    width: 100%;
+    display: grid;
+    grid: 'title path' 1fr / 1fr auto;
+}
+
+.DisplayRoute .title { grid-area: title; font-weight: bold;}
+.DisplayRoute .path { grid-area: path }

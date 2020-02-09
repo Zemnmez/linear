@@ -1,0 +1,9 @@
+.Header {
+    --header-fgc: var(--fgc, black);
+    --header-bgc: var(--bgc, white);
+    display: grid;
+    grid: 'all' 1fr / 1fr;
+    width: 100%; height: 100%;
+}
+.name { grid-area: all; background: var(--header-bgc); color: var(--header-fgc); margin: auto; font-size: xx-large; z-index: 2; padding: 1rem }
+.Video { grid-area: all; z-index: -1 }

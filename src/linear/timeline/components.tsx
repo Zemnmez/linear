@@ -1,6 +1,6 @@
 import { Who, Bio, Employment, Event as BioEvent } from 'linear/timeline/timeline';
 import { Map } from 'immutable';
-import { Month as MonthIndex } from 'linear/timeline/simpledate';
+import { Month as MonthIndex } from 'linear/time/simpledate';
 import * as React from 'react';
 import { Link, isLinkable } from 'linear/Link';
 import { must } from 'linear/higher/guard';
@@ -104,7 +104,8 @@ export interface OrderedTimeline {
 }
 
 export type Timeline = TimelineProps
-export type TimelineProps = OrderedTimeline | Bio
+export type TimelineProps = {
+} & (OrderedTimeline | Bio)
 export const Timeline:
     React.FC<Timeline>
 =
@@ -117,7 +118,7 @@ export const Timeline:
     }
 ;
 
-const CollateBio:
+export const CollateBio:
     (t: Bio) => OrderedTimeline
 =
     t => {

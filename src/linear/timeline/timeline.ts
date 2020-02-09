@@ -1,6 +1,6 @@
 import { Upgrade } from "../util"
 import { KV } from '../higher';
-import SimpleDate, { Parse as ParseSimpleDate } from './simpledate'
+import SimpleDate, { Parse as ParseSimpleDate } from '../time/simpledate'
 
 
 export interface BioJson {

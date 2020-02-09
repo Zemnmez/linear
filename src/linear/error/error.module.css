@@ -1,0 +1,27 @@
+.Error {
+    --error-bgc: var(--error-bgc, var(--page-bgc, transparent));
+    --error-fgc: var(--error-fgc, var(--page-fgc, black));
+    width: 100%; height: 100%;
+    display: grid;
+    text-align: center;
+    background-color: var(--error-bgc);
+    grid: 'x' 1fr
+          'mark' min-content
+          'xx' .5fr
+          'message' min-content
+          'xxx' .5fr / 1fr;
+}
+
+.Error::before{
+    content: "✕";
+    margin: auto;
+    grid-area: mark;
+}
+
+.ErrorString {
+    grid-area: message;
+}
+
+.ErrorString::first-letter {
+    text-transform: capitalize;
+}

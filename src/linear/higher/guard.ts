@@ -3,6 +3,12 @@ export type NamedGuard<I,O extends I, name extends string> = {
     guardName?: name
 }
 
+const name:
+    (v: NamedGuard<any,any,string>) => string
+=
+    v => v.guardName || v.name
+;
+
 
 export const must:
     <T, IT extends Readonly<T>, OT extends IT, S extends string>(f: NamedGuard<IT, OT, S>) =>
@@ -10,7 +16,7 @@ export const must:
 =
     f => v => {
         if (!f(v)) throw new Error(
-            `type assertion ${f.guardName || f.name} failed on ${v}`
+            `type assertion ${name(f)} failed on ${v}`
         )
         return v;
     }
@@ -25,7 +31,7 @@ export const All = <T, I extends Readonly<T>, O extends I, N extends string>(
         ) => All(
             Object.assign(
                 (v: I & I2): v is O & O2 => f(v) && f2(v),
-                { get guardName() {return `${f.name} & ${f2.name}` } }
+                { get guardName() {return `(${name(f)} && ${name(f2)})` } }
             ),
         ),
         {
@@ -43,7 +49,7 @@ export const Any = <T, I extends Readonly<T>, O extends I, N extends string>(
         ) => Any(
                 Object.assign(
                     (v: I): v is O | O2 => f(v) || f2(v),
-                    { get guardName() { return `${f.name} || ${f2.name}`}}
+                    { get guardName() { return `(${name(f)} || ${name(f2)})`}}
                 ),
             ),
         {
@@ -51,3 +57,7 @@ export const Any = <T, I extends Readonly<T>, O extends I, N extends string>(
         }
     )
 ;
+
+export const isSingletonEnum=
+        <T>(v: T[]): v is [T] =>
+            v.length == 1;
