@@ -1,5 +1,51 @@
-.Event { }
+.Event { margin: 1rem 0 }
 .Description { }
 .Month { }
-.Year { }
-.Timeline { }
+.Month[data-month="0"]::before { content: 'jan' }
+.Month[data-month="1"]::before { content: 'feb' }
+.Month[data-month="2"]::before { content: 'mar' }
+.Month[data-month="3"]::before { content: 'apr' }
+.Month[data-month="4"]::before { content: 'may' }
+.Month[data-month="5"]::before { content: 'jun' }
+.Month[data-month="6"]::before { content: 'jul' }
+.Month[data-month="7"]::before { content: 'aug' }
+.Month[data-month="8"]::before { content: 'sep' }
+.Month[data-month="9"]::before { content: 'oct' }
+.Month[data-month="10"]::before { content: 'nov' }
+.Month[data-month="11"]::before { content: 'dec' }
+.Month::before { opacity: .5 }
+.Year {
+    flex-basis: clamp(0%, 100%, 25rem);
+    flex-direction: column;
+    overflow: hidden;
+    display: flex;
+  /*  grid:   "header"
+            "article"
+            "xxxxxxx" 2rem
+            "dots" 1fr
+            "xxxxxxxx" 2rem; */
+}
+.Year article, .Year::after {
+    flex-grow: 0;
+}
+.Year::before {
+    content: attr(data-year);
+    font-size: xx-large;
+    text-align: center;
+    grid-area: header;
+}
+.Year::after {
+    /* content: "\30FB\A\30FB\A\30FB"; */
+    padding: 1rem 0;
+    content: "\27f9";
+    font-weight: 100;
+    flex-basis: 0;
+    min-height: 0;
+    margin: auto auto;
+    writing-mode: vertical-rl;
+    text-align: center;
+    grid-area: dots;
+    flex-grow: 1;
+}
+.Timeline { display: flex; flex-wrap: wrap; justify-content: space-evenly; align-items: space-evenly}
+.Tags { display: none }

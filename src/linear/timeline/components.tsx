@@ -93,9 +93,12 @@ export const Year:
 =
     ({ year, months }) => <div {...{
         'data-year': year,
-        className: style.Year,
-        children: months.map((m, i) => <Month key={i} {...m}/>)
-    }}/>;
+        className: style.Year
+    }}>
+    <article>
+    {months.map((m, i) => <Month key={i} {...m}/>)}
+    </article>
+    </div>;
 ;
 
 
