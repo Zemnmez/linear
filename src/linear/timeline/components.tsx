@@ -104,7 +104,9 @@ export const Year:
 
 
 export const StretchMarkers = () => <>
-    <div className={style.stretchMarkerM}/>
+    <div className={style.stretchMarkerM}>
+        <div className={style.stretchMarkerLine} />
+    </div>
 </>
 
 export interface OrderedTimeline {
