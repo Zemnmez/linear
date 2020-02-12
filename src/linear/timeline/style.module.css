@@ -3,8 +3,11 @@
 .Month { }
 .Timeline { display: flex; flex-wrap: wrap; justify-content: space-evenly; }
 .Timeline > *, .Timeline::after {
-    --unit-size: clamp(0%, 100%, 20rem);
-    flex-basis: var(--unit-size);
+    --unit-size: 20rem;
+    /*flex-basis: var(--unit-size); 8*/
+    width: 100%;
+    max-width: var(--unit-size);
+    min-width: 0;
     justify-content: stretch;
 }
 .Month[data-month="0"]::before { content: 'jan' }
@@ -36,10 +39,10 @@
 }
 .Year {
     display: grid;
-    grid:   "stretchMarkerL header stretchMarkerR"
-            "stretchMarkerL article stretchMarkerR"
-            "stretchMarkerL stretchMarkerM stretchMarkerR" minmax(0, 1fr)
-            / .5fr var(--unit-size) .5fr;
+    grid:   "xxx header xxxx"
+            "xxx article xxxx"
+            "xxx stretchMarkerM xxxx" minmax(0, 1fr)
+                / 0 minmax(0, var(--unit-size)) 0;
     flex-grow: 1;
 }
 
