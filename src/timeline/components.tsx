@@ -1,10 +1,12 @@
-import { Who, Bio, Employment, Event as BioEvent } from 'linear/timeline/timeline';
+import { Bio, Event as BioEvent } from './timeline';
+import { L, I } from 'ts-toolbelt';
 import { Map } from 'immutable';
-import { Month as MonthIndex } from 'linear/time/simpledate';
+import { Month as MonthIndex } from 'timeline/simpledate';
 import * as React from 'react';
-import { Link, isLinkable } from 'linear/Link';
-import { must } from 'linear/higher/guard';
+import { Link, isLinkable } from 'Link';
+import { must } from 'higher/guard';
 import style from './style.module.css'
+import { KV } from 'higher';
 
 
 export type Tags = Pick<Event, 'tags'>;
@@ -50,7 +52,7 @@ export type Event = BioEvent;
 export const Event:
     React.FC<Event>
 =
-    ({description, tags, title, url, priority,
+    ({date, description, tags, title, url, priority,
         duration}) => <div {...{
         className: style.Event,
         "data-tags": tags?.join(","),
@@ -93,27 +95,18 @@ export const Year:
 =
     ({ year, months }) => <div {...{
         'data-year': year,
-        className: style.Year
-    }}>
-    <article>
-    {months.map((m, i) => <Month key={i} {...m}/>)}
-    </article>
-    <StretchMarkers/>
-    </div>;
+        className: style.Year,
+        children: months.map((m, i) => <Month key={i} {...m}/>)
+    }}/>;
 ;
 
-
-export const StretchMarkers = () => <>
-    <div className={style.stretchMarkerM}/>
-</>
 
 export interface OrderedTimeline {
     years: Year[]
 }
 
 export type Timeline = TimelineProps
-export type TimelineProps = {
-} & (OrderedTimeline | Bio)
+export type TimelineProps = OrderedTimeline | Bio
 export const Timeline:
     React.FC<Timeline>
 =
@@ -126,7 +119,7 @@ export const Timeline:
     }
 ;
 
-export const CollateBio:
+const CollateBio:
     (t: Bio) => OrderedTimeline
 =
     t => {

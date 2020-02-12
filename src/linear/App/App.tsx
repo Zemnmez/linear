@@ -1,9 +1,9 @@
 import React from 'react';
-import { Bio } from 'linear/timeline/bio';
-import { Timeline } from 'linear/timeline';
 import { ErrorBoundary } from 'linear/error';
 import './base.css';
+import { Home } from 'linear/Home/home';
 
 export const App = () => <ErrorBoundary>
-    <Timeline {...Bio}/> </ErrorBoundary>
+    <Home/>
+</ErrorBoundary>
 export default App;

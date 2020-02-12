@@ -2,11 +2,11 @@
 .Description { }
 .Month { }
 .Timeline { display: flex; flex-wrap: wrap; justify-content: space-evenly; }
-.Timeline::after{ content: "" }
 .Timeline > *, .Timeline::after {
-    flex-basis: clamp(0%, 100%, 20rem)
+    --unit-size: clamp(0%, 100%, 20rem);
+    flex-basis: var(--unit-size);
+    justify-content: stretch;
 }
-    
 .Month[data-month="0"]::before { content: 'jan' }
 .Month[data-month="1"]::before { content: 'feb' }
 .Month[data-month="2"]::before { content: 'mar' }
@@ -26,23 +26,56 @@
     font-size: xx-large;
     text-align: center;
     grid-area: header;
-}
-.Year::after {
-    content: "";
-    border-left: 1px dotted black;
-    width: 0;
-    margin: 0 auto;
-    grid-area: dots;
+    width: 100%;
+    border-bottom: 1px solid black;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
 }
 .Year article {
     grid-area: article
 }
 .Year {
     display: grid;
-    grid:   "header"
-            "article"
-            "xxxxxxx" .25fr
-            "dots" 1fr
-            "xxxxxxxx" .25fr
+    grid:   "stretchMarkerL header stretchMarkerR"
+            "stretchMarkerL article stretchMarkerR"
+            "stretchMarkerL stretchMarkerM stretchMarkerR" minmax(0, 1fr)
+            / .5fr var(--unit-size) .5fr;
+    flex-grow: 1;
 }
+
+
+/*
+    The logic here is to fill any free space we fit into
+    with some lovely decorations :)
+*/
+.stretchMarkerM {
+    width: 100%; height: 100%;
+    grid-area: stretchMarkerM;
+    display: grid;
+    grid: "xxxxxxx" minmax(0, 20%)
+          "line" 1fr
+          "xxxxxx" minmax(0, 20%);
+}
+
+.stretchMarkerM::before {
+    content: "";
+    grid-area: line;
+
+    border: 0;
+    border-left: 1px dotted black;
+    margin: 0 auto;
+}
+
+.stretchMarkerM {
+}
+
+/*
+.Year::after {
+    content: "";
+    border-left: 1px dotted black;
+    width: 0;
+    margin: 0 auto;
+    grid-area: stretchMarkerM;
+}
+*/
 .Tags { display: none }
