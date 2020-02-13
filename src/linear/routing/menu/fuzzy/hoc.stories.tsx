@@ -8,7 +8,21 @@ interface Person {
     children?: Person[]
 }
 
- const _Person:
+
+
+interface Child extends Person {
+    children: undefined;
+}
+interface Adult extends Person {
+    children: Child[]
+}
+
+interface Family {
+    adults: Adult
+}
+
+
+ const Adult:
     React.FC<Partial<Person>>
 =
     ({ name, age, children }) => {
@@ -22,8 +36,10 @@ interface Person {
     }
 ;
 
-const Person = t.Fuzzy(_Person, {
+const Person = t.Fuzzy<Adult>()(Adult, {
     name: true,
     age: true,
-    children: true
+    children: {
+        name: true
+    }
 })

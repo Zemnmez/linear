@@ -1,7 +1,8 @@
 import * as React from 'react';
-import {A} from 'ts-toolbelt'
+import {A, T} from 'ts-toolbelt'
 import { O } from 'ts-toolbelt';
 import { Any } from 'ts-toolbelt';
+import { Assign } from 'Object/_api';
 
 /**
  * Fuzzy is a Higher Order Component.
@@ -29,9 +30,18 @@ import { Any } from 'ts-toolbelt';
  */
 export const Fuzzy:
     <Props>() =>
-    <Keys extends KeyObject<Props>>(c: React.FC<
-        A.Compute<Intersect<Props, Keys, undefined>>
-    >, keys: Keys) => React.FC<Props>
+    /**
+     * @param keys a whitelist (key: true)
+     * indicating what to fuzzy search on
+     */
+    <Keys extends KeyObject<Props>>(keys: Keys) =>
+    /**
+     * @param c a react functional component
+     * consuming potentially matched props.
+     */
+    (c: React.FC<
+        A.Compute<InputObject<Props, Keys>>
+    >) => React.FC<Props>
 
 =
     (component, keyObject) => {
@@ -41,35 +51,119 @@ export const Fuzzy:
 
 export type SearchableMemberTypes = string | number;
 
-type KeyObject<O> = UnArr<_KeyObject<O>>
+export const MatchSymbol = Symbol('match');
 
-type UnArr<O> =
-    O extends Array<infer X>
-    ? X: (
-        O extends object?
-        {[K in keyof O]: UnArr<O[K]>}: O
-    );
+export interface Matched {
+    [MatchSymbol]: {
+            /**
+             * runs is an array of ranges representing how many times
+             * a range of the relevant string (value) was matched
+             */
+            runs: {
+                /**
+                 * range indicates a substring of `value`.
+                 */
+                range: [number, number],
+                /**
+                 * depth is the number of overlapping matches on `range`.
+                 */
+                depth: number
+            }[]
 
-type _KeyObject<O> =
+            /**
+             * The coerced string of the matched value
+             */
+            value: string
+    }
+}
+
+
+type InputObjectObjectMap<T> =
+    AssignableOptional<T, optionalMark>;
+
+type InputObjectRecordMap<PropObject, KeyObject, key extends keyof PropObject> =
+    key extends keyof KeyObject
+    // specified as true -- should be optional
+    ? (PropObject[key] & Matched) | optionalMark: PropObject[key];
+
+type InputObject<Props, Keys> =
+    Props extends object
+    ? Keys extends object
+    ? A.Compute<InputObjectObjectMap<{
+        [K in keyof Props]: InputObjectRecordMap<Props, Keys, K>
+    }>>: Props: Props;
+
+type optionalMark = {
+    __optionalBrand: never
+}
+
+type extractIfArray<T, unionT = never> =
+    T extends Array<infer P>? P | unionT: T;
+
+type keyObjectRecordMap<T> = T extends SearchableMemberTypes
+    ? true | optionalMark
+    : T extends undefined
+        ? optionalMark
+        : KeyObject<extractIfArray<T, optionalMark>>;
+
+type keyObjectObjectMap<T> = AssignableOptional<T, optionalMark>;
+
+
+type KeyObject<O> =
     O extends object
-    ? A.Compute<{
-        [K in keyof O]:  O[K] extends SearchableMemberTypes?
-            (true | undefined) :  _KeyObject<O[K]>
-    }>
+    ? A.Compute<keyObjectObjectMap<{
+        [K in keyof O]:  keyObjectRecordMap<O[K]>
+    }>>
     :O;
 
+type M = KeyObject<{
+    cool: 1,
+    cool2: {
+        cool3: {
+            cool4: {
+                ok: undefined,
+                cool5: 1
+            }[]
+        }
+    }
+}>
+
 /**
- * make the values of O1 also include T if the key is in O2,
- * recursively.
+ * Get the keys of the properties to which U can be assigned.
  */
-type Intersect<O1, O2, T> =
-    O1 extends object
-    ? O2 extends object
-    ? A.Compute<{
-        [K in keyof O1]:
-            O1[K] | (K extends keyof O2?
-                T: never
-            )
+type AssignableKeys<T, U> = {
+  [K in keyof T]: U extends T[K] ? K : never
+}[keyof T];
 
-    }>: O1: O1
+/**
+ * Get the interface containing only properties to which T2 can be assigned,
+ * extracting T2.
+ */
+type AssignableProperties<T, T2> = {
+  [K in AssignableKeys<T, T2>]: Exclude<T[K], T2>
+}
 
+/**
+ * Get all of the keys except those to which U can be assigned.
+ */
+type IncompatibleKeys<T, U> = {
+  [K in keyof T]: U extends T[K] ? never : K
+}[keyof T];
+
+/**
+ * Get the interface containing no properties to which T2 can be assigned.
+ */
+type OmitAssignableProperties<T, T2> = {
+  [K in IncompatibleKeys<T, T2>]: T[K]
+}
+
+/**
+ * Get the interface where all properties are optional.
+ */
+type Optional<T> = {[K in keyof T]?: T[K]};
+
+/**
+ * Get the interface where properties that can be assigned T2 are
+ * also optional.
+ */
+type AssignableOptional<T, T2> = OmitAssignableProperties<T, T2> & Optional<AssignableProperties<T, T2>>;
