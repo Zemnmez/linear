@@ -44,9 +44,9 @@ export const Fuzzy:
     >) => React.FC<Props>
 
 =
-    (component, keyObject) => {
+        () => keys => component => {
 
-    }
+        }
 ;
 
 export type SearchableMemberTypes = string | number;
@@ -84,7 +84,10 @@ type InputObjectObjectMap<T> =
 type InputObjectRecordMap<PropObject, KeyObject, key extends keyof PropObject> =
     key extends keyof KeyObject
     // specified as true -- should be optional
-    ? (PropObject[key] & Matched) | optionalMark: PropObject[key];
+    ? PropObject[key] extends object
+        ? InputObject<PropObject[key], KeyObject[key]>
+        : (PropObject[key] & Matched) | optionalMark
+    : PropObject[key];
 
 type InputObject<Props, Keys> =
     Props extends object
@@ -104,7 +107,7 @@ type keyObjectRecordMap<T> = T extends SearchableMemberTypes
     ? true | optionalMark
     : T extends undefined
         ? optionalMark
-        : KeyObject<extractIfArray<T, optionalMark>>;
+        : KeyObject<extractIfArray<T, optionalMark>> | optionalMark;
 
 type keyObjectObjectMap<T> = AssignableOptional<T, optionalMark>;
 
