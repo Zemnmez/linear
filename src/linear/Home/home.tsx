@@ -1,11 +1,13 @@
-import { ErrorBoundary } from "linear/error";
+import { ErrorBoundary, ErrorBoundaryProps } from "linear/error";
 import { Timeline } from "linear/timeline";
 import { Bio } from 'linear/timeline/bio';
 import { Header } from 'linear/header';
 import * as React from 'react';
 
 
-export const Home = () => <ErrorBoundary>
+export const Home:
+    React.FC<ErrorBoundaryProps>
+= (props) => <ErrorBoundary {...props}>
     <Header name={Bio.who.handle}/>
     <Timeline {...Bio} />
 </ErrorBoundary>

@@ -2,7 +2,8 @@ import { RouteProps, Switch, Route } from 'react-router-dom';
 import * as React from 'react';
 
 export interface RouteObj extends RouteProps {
-    title: string
+    title: string,
+    path?: string
 }
 
 /** root routeProps */

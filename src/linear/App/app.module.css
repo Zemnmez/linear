@@ -1,0 +1,14 @@
+.App {
+    grid:   'search' min-content
+            'page' 1fr;
+    scroll-snap-type: y mandatory;
+}
+
+.search {
+    grid-area: search;
+    scroll-snap-align: start;
+}
+
+.page {
+    grid-area: page;
+}

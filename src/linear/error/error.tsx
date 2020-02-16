@@ -1,19 +1,22 @@
 import * as React from 'react';
 import style from './error.module.css';
 
-export type ErrorBox = {
+type div = JSX.IntrinsicElements["div"];
+
+export interface ErrorBox extends div {
     error: any
 }
 
 export const ErrorBox:
     React.FC<ErrorBox>
 =
-    ({error}) => {
+    ({error, ...etc}) => {
         let errorString = error?.human
         errorString = typeof errorString == "string"?
             errorString: undefined;
 
         return <div {...{
+            ...etc,
             className: style.Error,
             children:
                 errorString?
@@ -47,10 +50,12 @@ export const DescribedError:
     });
 ;
 
+export interface ErrorBoundaryProps extends div {}
+
 export class ErrorBoundary extends React.Component<
-    {},
+    ErrorBoundaryProps,
     { error?: Error }> {
-    constructor(props: {}) {
+    constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = {};
     }
@@ -64,9 +69,11 @@ export class ErrorBoundary extends React.Component<
     }
 
     render() {
-        if (this.state.error) return <ErrorBox error={this.state.error}/>;
+        if (this.state.error) return <ErrorBox error={this.state.error} {...this.props} />;
 
-        return this.props.children;
+        return <div {...this.props}>
+            {this.props.children}
+        </div>
     }
 }
 

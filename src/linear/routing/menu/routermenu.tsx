@@ -5,9 +5,10 @@ import { DescribedError, ErrorBoundary } from 'linear/error';
 import style from './routermenu.module.css';
 import { RouteObj } from 'linear/routing';
 import classes from 'linear/classes';
-import { Searcher, BoundSearchable } from 'linear/routing/menu/fuzzy';
-import { HighlightSearch } from 'linear/routing/menu/fuzzy/highlight'
-import { FuseResultWithMatches } from 'fuse.js';
+import { Link, isLinkable } from 'linear/Link';
+import fuse from 'fuse.js';
+import { must } from 'linear/higher/guard';
+
 
 export type RouteMenu = {
 
@@ -32,43 +33,47 @@ export const RouteMenuImpl:
                 setSearch(e.target.value)
         , [setSearch]);
 
-        const { Provider, Searchable } = Searcher();
-
-
-        return <Provider {...{search}}>
-            <div {...{
+        return <div {...{
                 className: classes(style.RouterMenu, className),
                 ...etc
             }}>
 
                 <input onChange={onChange} value={search} className={style.search} />
 
-                <Routes {...{routes, search: Searchable}} />
+                <Routes {...{routes, search: search}} />
 
             </div>
-        </Provider>
     }
 ;
 
 export interface RoutesProps {
     routes: RouteObj[]
-    search: BoundSearchable
+    search: string
 }
-
-const routeKeys: (keyof RouteObj)[] = ['path', 'title'];
 
 export const Routes:
     React.FC<RoutesProps>
 =
     ({ routes, search }) => {
-        const filteredRoutes = search<RouteObj>(routes, {
-            keys: routeKeys
-        });
+        const searcher = React.useMemo(
+            () => new fuse (routes, {
+                includeMatches: false,
+                includeScore: false,
+                findAllMatches: true,
+                shouldSort: true,
+                keys: ["path", "title"]
+            })
+        , [ routes ]);
+
+        const results = React.useMemo(
+            () => search!=""?searcher.search(search): routes
+        , [ searcher, search ]);
+        console.log(search, results);
 
         return <>
         {
-            (filteredRoutes as Array<RouteObj | FuseResultWithMatches<RouteObj>>).map(
-                (r, i) => <DisplayRoute {...r} key={i}/>
+            results.map(
+                r => <DisplayRoute {...r} key={r.path}/>
             )
         }
         </>
@@ -76,16 +81,20 @@ export const Routes:
 ;
 
 export const DisplayRoute:
-    React.FC<RouteObj | FuseResultWithMatches<RouteObj>>
+    React.FC<RouteObj>
 =
     p => {
 
-        return <div {...{
-            className: style.DisplayRoute
+        return <Link {...{
+            className: style.DisplayRoute,
+            url: must(isLinkable)(new URL(
+                p.path|| "",
+                document.location.href
+            ))
         }}>
             <div className={style.title}>{p.title}</div>
             <div className={style.path}>{p.path}</div>
-        </div>
+        </Link>
     }
 ;
 
