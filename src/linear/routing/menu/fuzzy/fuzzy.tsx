@@ -1,5 +1,5 @@
 import * as React from 'react';
-import fuse, { FuseOptions, FuseResultWithScore, FuseResultWithMatches } from 'fuse.js';
+import fuse, { FuseResultWithScore, FuseResultWithMatches } from 'fuse.js';
 
 
 export type FuzzyContext = {

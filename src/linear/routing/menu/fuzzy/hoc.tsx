@@ -1,8 +1,27 @@
 import * as React from 'react';
-import {A, T} from 'ts-toolbelt'
-import { O } from 'ts-toolbelt';
-import { Any } from 'ts-toolbelt';
-import { Assign } from 'Object/_api';
+import {A} from 'ts-toolbelt';
+import fuse from 'fuse.js';
+import { findByDisplayValue } from '@testing-library/react';
+
+type WithDefaults<T, T2 extends Partial<T>, omit extends keyof T = never> = Omit<AssignableOptional<{
+    [K in keyof T]:
+        K extends keyof T2
+        ? T2[K] | optionalMark
+        : T[K]
+}, optionalMark>, omit>;
+
+export const MandatoryOptions = {
+    includeMatches: true,
+    findAllMatches: true
+}
+
+export type Options<T> = A.Compute<
+    WithDefaults<
+        fuse.FuseOptions<T>,
+        typeof MandatoryOptions,
+        "keys"
+    >
+>
 
 /**
  * Fuzzy is a Higher Order Component.
@@ -34,7 +53,10 @@ export const Fuzzy:
      * @param keys a whitelist (key: true)
      * indicating what to fuzzy search on
      */
-    <Keys extends KeyObject<Props>>(keys: Keys) =>
+    <Keys extends KeyObject<Props>>(
+        keys: Keys,
+        options?: Options<Props>
+    ) =>
     /**
      * @param c a react functional component
      * consuming potentially matched props.
@@ -44,10 +66,32 @@ export const Fuzzy:
     >) => React.FC<Props>
 
 =
-        () => keys => component => {
-
+        () => (keys, options) => component => props => {
+            const opts: fuse.FuseOptions<typeof props> = {
+                ...options,
+                ...MandatoryOptions
+            };
+            React.useMemo(
+                () => fuse
+            )
         }
 ;
+
+interface ArbitraryKeyObject {
+    [key: string]: ArbitraryKeyObject | true
+}
+
+const paths:
+    (o: ArbitraryKeyObject | true) => string[]
+=
+
+o => {
+    if (o == true) return [];
+    return Object.entries(o).map(
+        ([k, v]) => 
+    )
+}
+
 
 export type SearchableMemberTypes = string | number;
 
@@ -85,7 +129,21 @@ type InputObjectRecordMap<PropObject, KeyObject, key extends keyof PropObject> =
     key extends keyof KeyObject
     // specified as true -- should be optional
     ? PropObject[key] extends object
-        ? InputObject<PropObject[key], KeyObject[key]>
+        ? PropObject[key] extends Array<infer A>
+            // arrays are 'flattened' in key objects
+            // i.e. T { F: {ok: 1}[] } becomes
+            // {F: { ok: true }} as a key object,
+            // so we need to extract the array type
+            // to make it work :)
+            //
+            // now, for recursive types this means
+            // the key object needs to keep defining
+            // fields to search all the way down, but
+            // this is INTENTIONAL because we need
+            // all the fields to search
+            // in advance of the search
+            ? InputObject<A, KeyObject[key]>
+            : InputObject<PropObject[key], KeyObject[key]>
         : (PropObject[key] & Matched) | optionalMark
     : PropObject[key];
 
