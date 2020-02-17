@@ -15,9 +15,9 @@ export type RouteMenu = {
 } & JSX.IntrinsicElements["div"];
 
 export const RouteMenuImpl:
-    React.FC<RouteMenu & RouteChildrenProps>
+    React.FC<RouteMenu>
 =
-    ({ location, className, ...etc }) => {
+    ({ className, ...etc }) => {
         const routeProps = React.useContext(RouteContext);
         if (!routeProps)
             throw DescribedError(
@@ -68,7 +68,6 @@ export const Routes:
         const results = React.useMemo(
             () => search!=""?searcher.search(search): routes
         , [ searcher, search ]);
-        console.log(search, results);
 
         return <>
         {

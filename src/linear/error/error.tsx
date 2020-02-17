@@ -52,10 +52,10 @@ export const DescribedError:
 
 export interface ErrorBoundaryProps extends div {}
 
-export class ErrorBoundary extends React.Component<
-    ErrorBoundaryProps,
+class ErrorBoundaryClass extends React.Component<
+    { props?: ErrorBoundaryProps},
     { error?: Error }> {
-    constructor(props: ErrorBoundaryProps) {
+    constructor(props: {props?: ErrorBoundaryProps}) {
         super(props);
         this.state = {};
     }
@@ -69,13 +69,21 @@ export class ErrorBoundary extends React.Component<
     }
 
     render() {
-        if (this.state.error) return <ErrorBox error={this.state.error} {...this.props} />;
+        if (this.state.error) return <ErrorBox error={this.state.error} {...this.props.props} />;
 
-        return <div {...this.props}>
+        return <div {...this.props.props}>
             {this.props.children}
         </div>
     }
 }
+
+export const ErrorBoundary:
+    React.FC<ErrorBoundaryProps>
+=
+    ({children, ...props}) => <ErrorBoundaryClass props={props}>
+        {children}
+    </ErrorBoundaryClass>
+;
 
 export interface SpecificError<
     name extends string, message extends string

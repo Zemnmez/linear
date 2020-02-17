@@ -6,7 +6,7 @@ import * as React from 'react';
 
 
 export const Home:
-    React.FC<ErrorBoundaryProps>
+    React.FC<JSX.IntrinsicElements["div"]>
 = (props) => <ErrorBoundary {...props}>
     <Header name={Bio.who.handle}/>
     <Timeline {...Bio} />

@@ -27,7 +27,7 @@ export const Link:
             "": url.toString();
         if (url && url.origin === window.location.origin)
             return <RouterLink {...{
-                to: url.toString(),
+                to: url.pathname,
                 ...etc
             }}/>;
 

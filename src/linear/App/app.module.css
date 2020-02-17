@@ -1,7 +1,10 @@
 .App {
     grid:   'search' min-content
             'page' 1fr;
+    display: grid;
     scroll-snap-type: y mandatory;
+    width: 100vw; height: 100vh;
+    overflow: auto;
 }
 
 .search {
@@ -11,4 +14,5 @@
 
 .page {
     grid-area: page;
+    scroll-snap-align: center;
 }
