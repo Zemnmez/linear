@@ -12,3 +12,5 @@ export const assertInvalidNever:
 export const InvalidNever =
     (what: string) => (v: never) =>
         new Error(`Invalid ${what} ${v}`)
+
+export type ElementProperties<T extends keyof JSX.IntrinsicElements> = JSX.IntrinsicElements[T]

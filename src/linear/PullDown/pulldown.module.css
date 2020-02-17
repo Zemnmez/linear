@@ -1,0 +1,19 @@
+.PullDown {
+    scroll-snap-type: y proximity;
+    overflow: auto;
+    display: grid;
+    grid: 'menu' 100%
+        'main' 100% / 1fr;
+}
+
+.pullDownMenu {
+    grid-area: menu;
+    scroll-snap-align: top;
+}
+
+.main {
+    grid-area: main;
+    overflow: auto;
+    scroll-snap-align:top;
+    scroll-snap-stop: always;
+}

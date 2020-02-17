@@ -4,11 +4,6 @@ import 'linear/App/base.css';
 
 export default { title: 'error' };
 
-export const Fatal_ErrorBox = () =>
-    <t.ErrorBox error={new Error("something is awry!")}/>;
-
-export const Described_ErrorBox = () =>
-    <t.ErrorBox error={t.AnnotateError('is your internet connected?')(new Error('fuck!!'))}/>
 
 export const Described_ErrorBoundary = () => <>
     <p>
@@ -22,14 +17,16 @@ export const Described_ErrorBoundary = () => <>
         errors to our humans when we have them.
     </p>
 
-    <t.ErrorBoundary>
-       <BadComponent/>
-    </t.ErrorBoundary>
+    <BadComponent/>
 </>
 
-const BadComponent: React.FC = () => {
+
+const badComponent: React.FC = () => {
     throw Object.assign(
         new Error('oopsie'),
         { human: 'oopsie doopsie!!'}
     )
 }
+
+
+const BadComponent = t.ErrorBoundary(badComponent);

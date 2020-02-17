@@ -12,20 +12,24 @@ type MaybeLazy<T extends React.FC<any>>
     = React.LazyExoticComponent<T> | T;
 
 interface SuggestedProps {
-    className: JSX.IntrinsicElements["div"]["className"]
+    className?: JSX.IntrinsicElements["div"]["className"]
 }
 
-const routes = [
+export interface Route extends RouteObj {
+    render: (props: SuggestedProps) => React.ReactElement
+}
+
+export const routes = [
     {
         path: "/test",
         title: 'test',
-        render: Test
+        render: () => Test
     },
 
     {
         path: "/",
         title: 'home',
-        render: Home
+        render: () => Home
     },
 
 ]

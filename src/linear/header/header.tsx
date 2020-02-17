@@ -1,16 +1,18 @@
 import { Video } from 'linear/video';
 import * as React from 'react';
 import style from './header.module.css';
+import { ElementProperties } from 'linear/util';
+import { classes } from 'linear/classes';
 
-export type Header = {
+export interface Header extends ElementProperties<"header"> {
     name: string
-} & JSX.IntrinsicElements["header"]
+}
 
 export const Header:
     React.FC<Header>
 =
-    ({ name, ...etc }) => <header {...{
-            className: style.Header,
+    ({ name, className, ...etc }) => <header {...{
+            className: classes(className, style.Header),
             ...etc
         }}>
         <div {...{

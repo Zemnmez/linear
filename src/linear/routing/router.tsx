@@ -24,12 +24,20 @@ export const Pages:
     React.FC<Router>
 =
     (routeProps) => <RouteContext.Provider value={routeProps}>
-        <Switch>
-            {routeProps.routes.map((params,i) => <Route {...{
-                key: i,
-                ...params
-            }} />)}
-        </Switch>
         {routeProps.children}
     </RouteContext.Provider>
+;
+
+export const Page:
+    React.FC
+=
+    () => {
+        const cntx = React.useContext(RouteContext);
+        return <Switch>
+            {cntx?.routes.map((r,i) => <Route {...{
+                key: i,
+                ...r
+            }}/>) ?? ""}
+        </Switch>
+    }
 ;

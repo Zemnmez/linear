@@ -1,5 +1,6 @@
 import * as React from 'react';
 import style from './error.module.css';
+import { ElementProperties } from 'linear/util';
 
 type div = JSX.IntrinsicElements["div"];
 
@@ -50,12 +51,15 @@ export const DescribedError:
     });
 ;
 
-export interface ErrorBoundaryProps extends div {}
+interface ErrorBoundaryClassProps<T extends RequestedProps> {
+    childProps: T
+    Component: React.FC<T>
+}
 
-class ErrorBoundaryClass extends React.Component<
-    { props?: ErrorBoundaryProps},
-    { error?: Error }> {
-    constructor(props: {props?: ErrorBoundaryProps}) {
+class ErrorBoundaryClass<T extends RequestedProps>
+    extends React.Component<ErrorBoundaryClassProps<T>, { error?: Error }> {
+
+    constructor(props: ErrorBoundaryClassProps<T>) {
         super(props);
         this.state = {};
     }
@@ -69,20 +73,47 @@ class ErrorBoundaryClass extends React.Component<
     }
 
     render() {
-        if (this.state.error) return <ErrorBox error={this.state.error} {...this.props.props} />;
+        return <>
+            {this.state.error
+                ? <ErrorBox
+                    error={this.state.error}
+                    className={this.props.childProps.className}
+                />
 
-        return <div {...this.props.props}>
-            {this.props.children}
-        </div>
+                : ""
+            }
+
+            {(!this.state.error)
+                ? <this.props.Component
+                    {...this.props.childProps}
+                />
+                : ""
+            }
+        </>
     }
 }
 
+interface RequestedProps {
+    className?: ElementProperties<"div">["className"]
+}
+
+/**
+ * ErrorBoundary is a higher order component
+ * which wraps an existing component.
+ *
+ * If an error occurs, the ErrorBoundary will
+ * render itself instead of the component, inheriting
+ * the className so as to preserve relevant style
+ * parameters (such as grid-areas)
+ */
 export const ErrorBoundary:
-    React.FC<ErrorBoundaryProps>
+    <T extends RequestedProps>(component: React.FC<T>) =>
+    React.FC<T>
 =
-    ({children, ...props}) => <ErrorBoundaryClass props={props}>
-        {children}
-    </ErrorBoundaryClass>
+    component => props => <ErrorBoundaryClass
+        Component={component}
+        childProps={props}
+    />
 ;
 
 export interface SpecificError<
