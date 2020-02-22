@@ -12,19 +12,22 @@ export const ErrorBox:
     React.FC<ErrorBox>
 =
     ({error, ...etc}) => {
-        let errorString = error?.human
+        let errorString = error?.human;
+        if (process.env.NODE_ENV != "production")
+            errorString = [errorString, error].filter(v => !!v).join("; ");
         errorString = typeof errorString == "string"?
             errorString: undefined;
 
         return <div {...{
             ...etc,
             className: style.Error,
-            children:
-                errorString?
-                    <div className={style.ErrorString}>
-                        {errorString}
-                    </div>:<></>
-        }}/>
+        }}>
+            {errorString?
+                <div className={style.ErrorString}>
+                    {errorString}
+                </div>:<></>}
+
+        </div>
     }
 ;
 

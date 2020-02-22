@@ -1,6 +1,6 @@
 import * as React from 'react';
-import 'react-router-dom';
-import { RouteObj } from 'linear/routing';
+import router from 'react-router-dom';
+import { Route as Route_ } from 'react-router-dom';
 
 const Test:
     React.FC<JSX.IntrinsicElements["div"]>
@@ -8,41 +8,55 @@ const Test:
 
 const Home = React.lazy(() => import('linear/routes/Home'))
 
+
+
 type MaybeLazy<T extends React.FC<any>>
     = React.LazyExoticComponent<T> | T;
 
-interface SuggestedProps {
-    className?: JSX.IntrinsicElements["div"]["className"]
+
+export interface SuggestedProps<R extends HTMLElement = HTMLElement> {
+    className?: string;
+    ref?: React.Ref<R>
 }
 
-export interface Route extends RouteObj {
-    render: (props: SuggestedProps) => React.ReactElement
+export type RouteComponent<P extends SuggestedProps<R>, R extends HTMLElement> =
+    MaybeLazy<(React.RefForwardingComponent<P>) | React.FC<P>>
+
+interface _Route<P extends SuggestedProps<R>, R extends HTMLElement> extends Omit<router.RouteProps, 'render'> {
+    render: RouteComponent<P, R>,
+    title: string,
+    path: string
 }
 
-export const routes = [
+export interface Route extends _Route<SuggestedProps<HTMLElement>, HTMLElement> {}
+
+
+export interface RouteProps extends Route {
+    className?: string
+}
+
+export const Route:
+    React.FC<RouteProps>
+=
+    ({render: Render, className, ...props}) => <Route_ {...{
+        render: () => <Render className={className}/>,
+        ...props
+    }}/>
+;
+
+export const routes:
+    Route[]
+= [
     {
         path: "/test",
         title: 'test',
-        render: () => Test
+        render: Test
     },
 
     {
         path: "/",
         title: 'home',
-        render: () => Home
+        render: Home
     },
 
-]
-
-export const routesWithProps:
-    (props: SuggestedProps) =>
-    RouteObj[]
-=
-    props => routes.map(
-        ({render: Render, ...etc}) => ({
-            ...etc,
-            render: () =>
-                <Render {...props}/>
-        })
-    )
-;
+];

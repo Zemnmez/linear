@@ -1,8 +1,9 @@
 import { Who, Bio, Employment, Event as BioEvent } from 'linear/timeline/timeline';
+import { classes } from 'linear/classes';
 import { Map } from 'immutable';
 import { Month as MonthIndex } from 'linear/time/simpledate';
 import * as React from 'react';
-import { Link, isLinkable } from 'linear/Link';
+import { Link, isHTTPURL } from 'linear/safety';
 import { must } from 'linear/higher/guard';
 import style from './style.module.css'
 
@@ -38,7 +39,7 @@ export const Title:
         className: style.Title,
     }}>
         <Link {...{
-            url: url?must(isLinkable)(url):url
+            url: url?must(isHTTPURL)(url):url
         }}>
             {title}
         </Link>
@@ -115,15 +116,16 @@ export interface OrderedTimeline {
 
 export type Timeline = TimelineProps
 export type TimelineProps = {
+    className?: string
 } & (OrderedTimeline | Bio)
 export const Timeline:
     React.FC<Timeline>
 =
-    (o) => {
+    ({ className, ...o }) => {
         const {years} = "years" in o? o: CollateBio(o);
 
         return <div {...{
-            children: years.map((y, i) => <Year key={i} {...y}/>), className: style.Timeline,
+            children: years.map((y, i) => <Year key={i} {...y}/>), className: classes(className, style.Timeline),
         }}/>
     }
 ;

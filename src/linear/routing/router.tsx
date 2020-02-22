@@ -1,4 +1,5 @@
-import { RouteProps, Switch, Route } from 'react-router-dom';
+import { RouteProps, Switch } from 'react-router-dom';
+import { Route } from 'linear/routes';
 import * as React from 'react';
 
 export interface RouteObj extends RouteProps {
@@ -6,12 +7,10 @@ export interface RouteObj extends RouteProps {
     path?: string
 }
 
-/** root routeProps */
-export type Router = {
-    routes: RouteObj[]
+export interface RouteContext {
+    routes: Route[]
 }
 
-export type RouteContext = Router;
 
 export const RouteContext = React.createContext<RouteContext | undefined>(undefined);
 
@@ -21,23 +20,22 @@ export const RouteContext = React.createContext<RouteContext | undefined>(undefi
  * in the RouteContext, but outside of the Switch.
  */
 export const Pages:
-    React.FC<Router>
+    React.FC<RouteContext>
 =
     (routeProps) => <RouteContext.Provider value={routeProps}>
         {routeProps.children}
     </RouteContext.Provider>
 ;
 
-export const Page:
-    React.FC
-=
-    () => {
+export const Page =
+    React.forwardRef((props, ref: React.Ref<HTMLElement>) => {
         const cntx = React.useContext(RouteContext);
         return <Switch>
-            {cntx?.routes.map((r,i) => <Route {...{
+            {cntx?.routes.map(({ render: Render, ...r }, i) => <Route {...{
+                render: () => <Render {...{...props}} ref={ref} />,
                 key: i,
                 ...r
             }}/>) ?? ""}
         </Switch>
-    }
+    })
 ;

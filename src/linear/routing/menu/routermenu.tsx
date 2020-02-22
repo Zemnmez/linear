@@ -1,19 +1,17 @@
-import { Route, RouteChildrenProps } from 'react-router-dom';
 import { RouteContext } from 'linear/routing';
 import * as React from 'react';
 import { DescribedError, ErrorBoundary } from 'linear/error';
 import style from './routermenu.module.css';
-import { RouteObj } from 'linear/routing';
 import classes from 'linear/classes';
-import { Link, isLinkable } from 'linear/Link';
+import { Link, isHTTPURL } from 'linear/safety';
 import fuse from 'fuse.js';
 import { must } from 'linear/higher/guard';
 import { ElementProperties } from 'linear/util';
-
+import { Route } from 'linear/routes';
 
 
 export const RouteMenuImpl:
-    React.FC<{}>
+    React.FC
 =
     () => {
         const routeProps = React.useContext(RouteContext);
@@ -40,7 +38,7 @@ export const RouteMenuImpl:
 ;
 
 export interface RoutesProps {
-    routes: RouteObj[]
+    routes: Route[]
     search: string
 }
 
@@ -73,13 +71,13 @@ export const Routes:
 ;
 
 export const DisplayRoute:
-    React.FC<RouteObj>
+    React.FC<Route>
 =
     p => {
 
         return <Link {...{
             className: style.DisplayRoute,
-            url: must(isLinkable)(new URL(
+            url: must(isHTTPURL)(new URL(
                 p.path|| "",
                 document.location.href
             ))

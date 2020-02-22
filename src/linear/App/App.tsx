@@ -5,8 +5,8 @@ import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Pages, Page } from 'linear/routing';
 import { RouteMenu } from 'linear/routing/menu';
-import { routesWithProps } from 'linear/routes';
 import style from './app.module.css';
+import { routes } from "linear/routes"
 import { ElementProperties } from 'linear/util';
 import classes from 'linear/classes';
 import { PullDown } from 'linear/PullDown';
@@ -16,16 +16,11 @@ const history = createBrowserHistory();
 export interface AppProps extends ElementProperties<"div"> {}
 
 const app:
-    React.FC<AppProps>
-= ({ className, ...etc}) =>
-    <div {...{
-        className: classes(className, style.App),
-        ...etc
-    }}>
+    React.FC
+= () =>
         <Suspense fallback={Loading}>
             <Routes/>
         </Suspense>
-    </div>
 
 export const App = ErrorBoundary(app);
 
@@ -37,10 +32,10 @@ const Routes = () => <Router history={history}>
         routes
     }}>
         <PullDown>
-            <RouteMenu/>
+            {RouteMenu}
 
-            <Page/>
-        </PullDown>>
+            {Page}
+        </PullDown>
 
     </Pages>
 </Router>

@@ -1,37 +1,45 @@
 import { ElementProperties } from "linear/util";
 import { ErrorBoundary } from 'linear/error';
 import classes from 'linear/classes';
-import React from 'react';
-import style from './pulldown.style.module.css';
+import React, { ForwardRefExoticComponent } from 'react';
+import style from './pulldown.module.css';
 
-export type PullDownChild = React.FC<{
-    className?: ElementProperties<"div">["className"]
-}>
+export interface Menu extends React.FC<Pick<ElementProperties<"div">, 'className'>> {}
+
+export interface Main extends React.ForwardRefExoticComponent<
+    Pick<ElementProperties<"div">,"className"> & { ref: any }
+> {}
 
 export interface PullDownParams extends React.PropsWithChildren<ElementProperties<"div">> {
-    children: [PullDownChild, PullDownChild]
+    children: [Menu, Main]
 }
 
-const pullDown:
+
+const onMainMounted = (instance: HTMLElement | null) =>
+    instance && instance.scrollIntoView()
+
+
+const PullDown_:
     React.FC<PullDownParams>
 =
     ({
         children: [ Pulldown, Main ],
         className,
         ...props
-    }) => <div {...{
-        className: classes(className, style.PullDown),
-        ...props
-    }}>
-        <Pulldown {...{
-            className: style.pullDownManu
-        }}/>
+    }) => {
 
-        <Main {...{
-            className: style.main
-        }}/>
 
-    </div>
+
+        return <div {...{
+            className: classes(className, style.PullDown),
+            ...props
+        }}>
+            <Pulldown className={style.pullDownMenu}/>
+            <Main className={style.main} ref={onMainMounted}/>
+
+        </div>
+    }
 ;
 
-export const PullDown = ErrorBoundary(pullDown);
+
+export const PullDown = ErrorBoundary(PullDown_);
