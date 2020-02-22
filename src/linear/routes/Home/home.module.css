@@ -1,8 +1,14 @@
 .Home {
     width: 100%; height: 100%;
     display: grid;
-    grid: "header" 100vh "timeline" 100vh / 100vw;
+    grid:
+        "header header header" 100vh
+        "...... ...... ......." 2rem
+        "...... time   ......." 10rem
+        "...... ...... ......." 1rem
+        "timeline timeline timeline" 100vh / 40vw 20vw 40vw;
 }
 
-.Header { grid-area: 'header' }
-.Timeline { grid-area: 'timeline' }
+.Header { grid-area: header }
+.Timeline { grid-area: timeline }
+.Time { grid-area: time}

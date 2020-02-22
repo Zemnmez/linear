@@ -28,6 +28,17 @@ const PullDown_:
         ...props
     }) => {
 
+        const [smooth, setSmooth] = React.useState(false);
+
+        const onMainMounted = React.useCallback(
+            (instance: HTMLElement | null) => {
+                if(!instance) return;
+                instance.scrollIntoView({
+                    behavior: smooth? "smooth": "auto"
+                });
+                setSmooth(true);
+        }, [ smooth ])
+
 
 
         return <div {...{
