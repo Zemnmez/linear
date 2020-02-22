@@ -6,6 +6,18 @@ import { createBrowserHistory } from 'history';
 
 export default { title: 'RouterMenu' };
 
+const home = {
+    path: "/",
+    title: 'home',
+    render: () => <>'home!'</>
+}
+
+const cv = {
+    path: "/cv",
+    title: "cv",
+    render: () => <>cv!</>
+}
+
 const history = createBrowserHistory();
 export const Default = () => <>
     <p>
@@ -16,16 +28,7 @@ export const Default = () => <>
     <Router history={history}>
 
         <Pages {...{
-            routes: [
-                {
-                    path: "/",
-                    title: 'home'
-                },
-                {
-                    path: "/cv",
-                    title: 'CV'
-                }
-            ]
+            routes: [home, cv]
         }}>
 
     

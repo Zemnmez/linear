@@ -4,7 +4,7 @@ export type Upgrade<T1, T2> =
 
 export const assertInvalidNever:
     (what: string) =>
-    (v: never) => asserts v is never
+    (v: never) => void
 =
     what => (v: never): asserts v is never =>
         { throw InvalidNever(v) };
