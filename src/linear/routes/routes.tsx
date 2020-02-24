@@ -7,6 +7,7 @@ const Test:
 = props => <div {...props}>test</div>;
 
 const Home = React.lazy(() => import('linear/routes/Home'))
+const SteamXX = React.lazy(() => import("linear/routes/posts/disclosures/steam"))
 
 
 
@@ -48,15 +49,15 @@ export const routes:
     Route[]
 = [
     {
-        path: "/test",
-        title: 'test',
-        render: Test
-    },
-
-    {
         path: "/",
         title: 'home',
         render: Home
     },
+
+    {
+        path: "/posts/disclosures/steam",
+        title: "steam stuff",
+        render: SteamXX
+    }
 
 ];
