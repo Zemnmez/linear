@@ -1,5 +1,5 @@
 import React from 'react';
-import { App } from 'linear/App';
+import { App } from 'linear/component/App';
 import * as serviceWorker from './serviceWorker';
 import { hydrate, render } from "react-dom";
 

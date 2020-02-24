@@ -2,8 +2,8 @@ import * as React from 'react';
 import poster from './ash.jpg';
 import ashVideo from './ash.mp4';
 import style from './video.module.css';
-import classes from 'linear/classes';
-import { ErrorBoundary } from 'linear/error';
+import classes from 'linear/dom/classes';
+import { ErrorBoundary } from 'linear/component/ErrorBoundary';
 import { ElementProperties } from 'linear/util';
 
 export interface Video extends ElementProperties<"video"> {

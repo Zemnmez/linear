@@ -1,19 +1,13 @@
 import React, { Suspense } from 'react';
-import { ErrorBoundary } from './node_modules/linear/error';
 import './base.css';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { Pages, Page } from './node_modules/linear/routing';
-import { RouteMenu } from './node_modules/linear/routing/menu';
-import style from './app.module.css';
-import { routes } from "./node_modules/linear/routes"
-import { ElementProperties } from './node_modules/linear/util';
-import classes from './node_modules/linear/dom/classes';
-import { PullDown } from './node_modules/linear/PullDown';
+import { Pages, Page, PullDown, RouteMenu, ErrorBoundary } from 'linear/component';
+import { routes } from "linear/routes"
 
 const history = createBrowserHistory();
 
-export interface AppProps extends ElementProperties<"div"> {}
+export interface AppProps extends React.HTMLProps<HTMLDivElement> {}
 
 const app:
     React.FC

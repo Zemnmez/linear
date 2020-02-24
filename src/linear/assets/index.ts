@@ -1,1 +1,1 @@
-export * from './time';
+export * from '../component/TimeEye';

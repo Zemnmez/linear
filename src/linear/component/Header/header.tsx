@@ -1,5 +1,5 @@
 import { Video } from './node_modules/linear/video';
-import * as React from 'react';
+import * as React from './node_modules/linear/component/Header/node_modules/react';
 import style from './header.module.css';
 import { ElementProperties } from './node_modules/linear/util';
 import { classes } from './node_modules/linear/dom/classes';

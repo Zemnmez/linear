@@ -6,7 +6,7 @@ const Test:
     React.FC<JSX.IntrinsicElements["div"]>
 = props => <div {...props}>test</div>;
 
-const Home = React.lazy(() => import('linear/routes/Home'))
+const Home = React.lazy(() => import('linear/page/Home'))
 const SteamXX = React.lazy(() => import("linear/routes/posts/disclosures/steam"))
 
 
