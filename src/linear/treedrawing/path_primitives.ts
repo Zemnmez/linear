@@ -6,6 +6,35 @@ export interface Stringer {
     toString(): string
 }
 
+export type Command = Command.Relative | Command.Absolute
+
+export namespace Command {
+    export const enum Relative {
+        /** Move the path cursor relative to current position */
+        Move = 'm',
+        /** Draw a horizontal line and move the path cursor to the relative position */
+        HorizontalLine = 'h',
+        /** Draw a vertical line to the given absolute path position, and move the path cursor there */
+        VerticalLine = 'v',
+        /** Draw a line relative to the current path position, and move the path cursor there */
+        Line = 'l'
+    }
+
+    export const enum Absolute {
+        /** Move the path cursor to an absolute position */
+        Move = 'M',
+        /** Draw a horizontal line and move the path cursor to the absolute position */
+        HorizontalLine = 'H',
+        /** Draw a vertical line relative to the current path position, and move the path cursr there */
+        VerticalLine = 'V',
+        /** Draw a line to the given absolute path position, and move the path cursor there */
+        Line = 'L'
+    }
+
+    export const isAbsolute =
+        (c: Command): c is Command.Absolute => c.toUpperCase() == c
+}
+
 type UpperCaseAlpha = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z';
 
 type LowerCaseAlpha = 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z';
@@ -24,53 +53,44 @@ interface IAbsolutePathNode extends IPathNode {
     0: UpperCaseAlpha
 }
 
-export type MoveNode = Parameters<
-    (command: 'm' | 'M' ...pt: Point) => never
->
-
 export type MoveRelativeNode = Parameters<
-    (command: 'm', ...pt: Point) => never
+    (command: Command.Relative.Move, ...pt: Point) => never
 >
 
 export type MoveAbsoluteNode = Parameters<
-    (command: 'M', ...pt: Point) => never
+    (command: Command.Absolute.Move, ...pt: Point) => never
 >
 
-export type LineNode = Parameters<
-    (command: 'L' | 'l', X: number, y: number) => never
->
+export type MoveNode = MoveRelativeNode | MoveAbsoluteNode
 
 export type AbsoluteLineNode = Parameters<
-    (command: 'L', ...pt: Point) => never
+    (command: Command.Absolute.Line, ...pt: Point) => never
 >
 
 export type RelativeLineNode = Parameters<
-    (command: 'l', ...pt: Point) => never
+    (command: Command.Relative.Line, ...pt: Point) => never
 >
 
-export type HorizontalLineNode = Parameters<
-    (command: 'h' | 'H', ...x: [Point[0]]) => never
->
+export type LineNode = AbsoluteLineNode | RelativeLineNode
+
 
 export type RelativeHorizontalLineNode = Parameters<
 
-(command: 'h', ...x: [Point[0]]) => never
+(command: Command.Relative.HorizontalLine, ...x: [Point[0]]) => never
 >
 
 export type AbsoluteHorizontalLineNode = Parameters<
-    (command: 'H', ...x: [Point[0]]) => never
+    (command: Command.Absolute.HorizontalLine, ...x: [Point[0]]) => never
 >
 
-export type VerticalLineNode = Parameters<
-    (command: 'v' | 'V', ...x: [Point[1]]) => never
->
+export type HorizontalLineNode = AbsoluteHorizontalLineNode | RelativeHorizontalLineNode
 
 export type RelativeVerticalLineNode = Parameters<
-    (command: 'v', ...x: [Point[1]]) => never
+    (command: Command.Relative.VerticalLine, ...x: [Point[1]]) => never
 >
 
 export type AbsoluteVerticalLineNode = Parameters<
-    (command: 'V', ...x: [Point[1]]) => never
+    (command: Command.Absolute.VerticalLine, ...x: [Point[1]]) => never
 >
 
 export type PathNode =
@@ -140,9 +160,9 @@ export namespace IPath {
             case 'L': case 'l':
                 const [ cmd, X, Y ] = nd;
                 if (X == 0 && Y != 0)
-                    return cmd == 'L'? ['V', Y]: ['v', Y];
+                    return Command.isAbsolute(cmd)? [Command.Absolute.VerticalLine, Y]: [Command.Relative.VerticalLine, Y];
                 if (Y == 0 && X != 0)
-                    return cmd == 'L'? ['H', X]: ['h', X];
+                    return Command.isAbsolute(cmd)? [Command.Absolute.HorizontalLine, X]: [Command.Relative.HorizontalLine, X];
                 return nd;
             default:
                 return nd
