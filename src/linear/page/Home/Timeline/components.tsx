@@ -1,10 +1,10 @@
 import { Bio, Event as BioEvent } from 'linear/bio';
 import { classes, Link, isHTTPURL } from 'linear/dom';
-import { Map } from 'linear/routes/Home/Timeline/node_modules/immutable';
 import { Month as MonthIndex } from 'linear/time/simpledate';
-import * as React from 'linear/routes/Home/Timeline/node_modules/react';
 import { must } from 'linear/higher/guard';
 import style from './style.module.css'
+import { Map } from 'immutable';
+import * as React from 'react';
 
 
 export type Tags = Pick<Event, 'tags'>;

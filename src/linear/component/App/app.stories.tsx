@@ -3,4 +3,4 @@ import * as React from 'react';
 
 export const App = () => <t.App/>;
 
-export default { title: 'app '};
+export default { title: 'app'};

@@ -2,7 +2,7 @@ import * as t from '.';
 import * as React from 'react';
 import 'linear/component/App/base.css';
 
-export default { title: __dirname };
+export default { title: __filename };
 
 
 export const Described_ErrorBoundary = () => <>
