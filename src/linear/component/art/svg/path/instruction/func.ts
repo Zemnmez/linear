@@ -1,0 +1,15 @@
+import * as command from '../command';
+import { Point2d as Point, X, Y } from '../vec';
+export type MoveToRel = (cmd: command.MoveToRel, p1: Point, ...pn: Point[]) => never;
+export type MoveToAbs = (cmd: command.MoveToAbs, p1: Point, ...pn: Point[]) => never;
+export type MoveTo = (cmd: command.MoveTo, p1: Point, ...pn: Point) => never;
+export type LineToRel = (cmd: command.LineToRel, p1: Point, ...pn: Point[]) => never;
+export type LineToAbs = (cmd: command.LineToAbs, p1: Point, ...pn: Point[]) => never;
+export type LineTo = (cmd: command.LineTo, p1: Point, ...pn: Point) => never;
+export type LineToHoriz = (cmd: command.LineToHoriz, x1: X, ...xn: X[]) => never;
+export type LineToHorizAbs = (cmd: command.LineToHorizAbs, x1: X,  ...xn: X[]) => never;
+export type LineToHorizRel = (cmd: command.LineToHorizRel, x1: X, ...xn: X[]) => never;
+export type LineToVertAbs = (cmd: command.LineToVertAbs, y1: Y, ...yn: Y[]) => never;
+export type LineToVertRel = (cmd: command.LineToVertRel, y1: Y, ...yn: Y[]) => never;
+export type LineToVert = (cmd: command.LineToVert, y1: Y, ...yn: Y[]) => never;
+export type ClosePath = (cmd: command.ClosePath) => never;
