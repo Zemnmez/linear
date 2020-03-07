@@ -47,6 +47,9 @@ export const Title:
 
 export type EventProps = Event;
 export type Event = BioEvent;
+export const EventProps = {
+
+}
 export const Event:
     React.FC<Event>
 =
