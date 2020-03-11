@@ -1,123 +1,83 @@
-import React from 'react';
-import { ViewBoxed } from '../art';
-import { Path as SVGPath } from './../svg/path';
-import * as cmd from '../svg/path/command';
+import { Scale } from 'linear/component/art/scale';
+
 export interface Config {
     smallSquare: number
     bigSquare: number
     gap: number
 }
 
-export interface Props extends React.SVGAttributes<SVGGElement>, Config { }
+export const size:
+    (c: Config) => [number, number]
+=
+    ({smallSquare: s, bigSquare: b, gap: g}) =>
+        [s + g + b + g + s, s + g + b + g + s];
+;
 
-export const Props = {
-    smallSquare: 1,
-    bigSquare: 5,
-    gap: 1
-}
+const rect:
+    (w: number, h: number) => string
+=
+    (w, h) => `l${[w,0]},${[0,h]},${[-w, 0]}z`
+;
 
-export const Size = ({smallSquare:S, bigSquare:B, gap:G}: Props): [number, number] =>
-    [S+G+B+G+S, S+G+B+G+S]
+
+const sq:
+    (w: number) => string
+=
+    w => rect(w,w)
+;
 
 export const Path:
-    (f: typeof Props) => SVGPath
+    (f: Config) => string
 =
-    ({ smallSquare, bigSquare, gap, ...attr}) => {
-        const rect = (w: number, h: number): SVGPath => [
-            [cmd.LineToHorizRel, [w]],
-            [cmd.LineToVertRel, [h]],
-            [cmd.LineToHorizRel, [-w]],
-            [cmd.ClosePath]
-        ];
-        const sq = (w: number) => rect(w,w);
-        return [
-            // top left small sq
-            [cmd.MoveToAbs, [0, 0]],
-            ...sq(smallSquare),
+    ({ smallSquare: smsq, bigSquare: bgsq, gap }) => {
+        // top left small sq
+        return `${sq(smsq)}` +
 
-            // top rectangle
-            [cmd.MoveToAbs, [smallSquare+gap, 0]],
-            ...rect(bigSquare, smallSquare),
+        // top long rect
+        `m${smsq + gap},0` +
+        `${rect(bgsq, smsq)}` +
 
-            // left rectangle
-            [cmd.MoveToAbs, ]
-        ]
-        return <g {...attr}>
-            <path {...{
-                d:
-                // top left small sq
-                `M0,0`+
-                `${sq(smallSquare)}` +
+        // middle sq
+        `m0,${gap + smsq}` +
+        `${sq(bgsq)}` +
 
-                // draw top rectangle
-                `M${smallSquare+gap},0`+
-                `${rect(bigSquare, smallSquare)}` +
+        // left long rect
+        `m${-gap - smsq},0` +
+        `${rect(smsq, bgsq)}` +
 
-                // draw left rectangle
-                `M0,${smallSquare+gap}` +
-                `${rect(smallSquare, bigSquare)}` +
+        // bottom long rect
+        `m${smsq+gap},${bgsq+gap}` +
+        `${rect(bgsq, smsq)}` +
 
-                // draw center square
-                `M${smallSquare+gap},${smallSquare+gap}` +
-                `${sq(bigSquare)}` +
+        // bottom right small sq
+        `m${bgsq+gap},0` +
+        `${sq(smsq)}` +
 
-                // draw bottom rectangle
-                `M${smallSquare+gap},${smallSquare+gap+bigSquare+gap}`+
-                `${rect(bigSquare,smallSquare)}` +
-
-                // draw bottom right square
-                `M${smallSquare+gap+bigSquare+gap},${smallSquare+gap+bigSquare+gap}` +
-                `${sq(smallSquare)}`+
-
-                // draw right rectangle
-                `M${smallSquare+gap+bigSquare+gap},${smallSquare+gap}`+
-                `${rect(smallSquare,bigSquare)}`
-            }}/>
-        </g>
+        // right long rect
+        `m0,${-gap - bgsq}` +
+        `${rect(smsq,bgsq)}`
     }
 ;
 
-export const Element:
-    React.FC<Props>
+const self = {
+    path: Path,
+    size: size
+}
+
+export const props:
+    (p:  Config) => React.SVGAttributes<SVGPathElement>
 =
-    ({ smallSquare, bigSquare, gap, ...attr}) => {
-        const rect = (w: number, h: number) => `h${w}v${h}h${-w}z`;
-        const sq = (w: number) => rect(w,w);
-        return <g {...attr}>
-            <path {...{
-                d:
-                // top left small sq
-                `M0,0`+
-                `${sq(smallSquare)}` +
-
-                // draw top rectangle
-                `M${smallSquare+gap},0`+
-                `${rect(bigSquare, smallSquare)}` +
-
-                // draw left rectangle
-                `M0,${smallSquare+gap}` +
-                `${rect(smallSquare, bigSquare)}` +
-
-                // draw center square
-                `M${smallSquare+gap},${smallSquare+gap}` +
-                `${sq(bigSquare)}` +
-
-                // draw bottom rectangle
-                `M${smallSquare+gap},${smallSquare+gap+bigSquare+gap}`+
-                `${rect(bigSquare,smallSquare)}` +
-
-                // draw bottom right square
-                `M${smallSquare+gap+bigSquare+gap},${smallSquare+gap+bigSquare+gap}` +
-                `${sq(smallSquare)}`+
-
-                // draw right rectangle
-                `M${smallSquare+gap+bigSquare+gap},${smallSquare+gap}`+
-                `${rect(smallSquare,bigSquare)}`
-            }}/>
-        </g>
+    (p) => {
+        const [ width, height ] = size(p);
+        return {
+            transform: `rotate(-45, ${width/2}, ${height/2})`
+        }
     }
 ;
 
-export const SVG = ViewBoxed(Element, Size);
 
-export default SVG;
+export const scaled = {
+    path: Scale(self, 'bigSquare', 'gap', 'smallSquare'),
+    props
+};
+export default self;

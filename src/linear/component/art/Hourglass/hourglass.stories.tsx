@@ -1,17 +1,7 @@
-import * as t from '.';
-import { withKnobs, number } from "@storybook/addon-knobs";
-import React from 'react';
+import pathGen, * as t from '.';
+import { withKnobs } from "@storybook/addon-knobs";
+import * as svg from '../svg';
+import { Knobs } from 'linear/component/defaults_knobs';
 export default { title: 'hourglass', decorators: [withKnobs] }
 
-const Hourglass:
-    React.FC<{width: number, height: number, strokeWidth: number}>
-=
-    ({width, height, strokeWidth}) => <svg viewBox={`0 0 ${width} ${height}`}>
-        <t.Hourglass size={[width,height]} strokeWidth={strokeWidth} />
-    </svg>
-;
-
-export const Render = () => <Hourglass
-    width={number("width", t.HourglassProps.size[0])}
-    height={number("height", t.HourglassProps.size[1])}
-    strokeWidth={number("stroke width", t.HourglassProps.strokeWidth)} />
+export const Hourglass = Knobs(svg.PathSVG(pathGen), t.HourglassProps)

@@ -1,77 +1,73 @@
 import React from 'react';
-import { Path } from '../svg/path';
-import * as cmd from '../svg/path/command';
+import { Area } from '../svg';
+import { DefaultProps, Type } from 'linear/component/defaults';
 
-type Point = Parameters<
-    (X: number, Y: number) => never
->
-
-type WH = Parameters<
-    (width: number, height: number) => never
->
-
-export interface HourglassConfig {
-    size?: WH,
-    strokeWidth?: number
+export interface HourglassProps extends Area {
+    strokeWidth?: number,
+    stroke: React.SVGAttributes<SVGPathElement>["stroke"]
 }
 
-export interface HourglassProps extends Omit<React.SVGProps<SVGGElement>, 'strokeWidth'>, HourglassConfig {
-    pathProps?: React.SVGProps<SVGPathElement>
-}
 
-export const HourglassProps = {
-    size: [ 10, 10 ],
-    strokeWidth: 1
+export const HourglassProps: DefaultProps<HourglassProps> = {
+    width: Object.assign(10, {
+        range:  {
+            min: 0,
+            max: 100,
+            step: 1
+        }
+    }),
+
+    height: Object.assign( 10, {
+        range: {
+            min: 0,
+            max: 100,
+            step: 1
+        }
+    }),
+
+    x: 0,
+
+    y: 0,
+
+    stroke: Object.assign('black', {
+        type: Type.color as Type.color
+    }),
+
+    strokeWidth: Object.assign(1, {
+        range: {
+            min:0,
+            max: 100,
+            step: 1
+        }
+    })
 }
 
 export const HourglassPath:
     (p: HourglassProps) =>
-        Path
+        string
 =
     ({
-        size: [ width, height ] = HourglassProps.size,
+        width = HourglassProps.width,
+        height = HourglassProps.height,
+        x = HourglassProps.x,
+        y = HourglassProps.y,
         strokeWidth = HourglassProps.strokeWidth,
     }) => {
         const paddingFromStroke = strokeWidth /2;
         const padding = paddingFromStroke;
+        const innerWidth = width - padding;
+        const innerHeight = height - padding;
 
-        return [
-            [cmd.MoveToAbs, [padding, padding]],
-            [cmd.LineToAbs, [width - padding, padding]],
-            [cmd.LineToAbs, [padding, height - padding]],
-            [cmd.LineToAbs, [width - padding, height - padding]],
-            [cmd.ClosePath]
-        ]
+        return `m${[padding,padding]}l${[innerWidth, 0]} ${[-innerWidth, innerHeight]} ` +
+            `${[innerWidth, 0]}z`;
     }
 ;
 
-export const Hourglass:
-    React.FC<HourglassProps>
-= ({ size: [ width, height ] = HourglassProps.size, strokeWidth = HourglassProps.strokeWidth, pathProps, ...groupProps}) =>{
-    const paddingFromStroke = strokeWidth /2;
-    const padding = paddingFromStroke;
-    const [ TL, TR, BL, BR ] = [
-        [padding, padding],
-        [width - padding, padding],
-        [padding, height - padding],
-        [width - padding, height - padding]
-    ]
+export const Props =
+    ({ strokeWidth, stroke = "black" }: HourglassProps): React.SVGAttributes<SVGPathElement> =>
+        ({ strokeWidth, fill: "none", stroke })
 
-    return <g {...groupProps}>
-        <path {...{
-            d: `
-            M ${TL}
-            L ${TR}
-            L ${BL}
-            L ${BR}
-            Z
-            `,
-            style: {
-                stroke: 'black',
-                strokeWidth,
-                fill: 'none'
-            },
-            ...pathProps
-        }}/>
-    </g>
+export default {
+    path: HourglassPath,
+    props: Props
 }

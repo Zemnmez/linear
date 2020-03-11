@@ -1,5 +1,6 @@
 import * as t from 'linear/page/Home/Timeline';
 import * as React from 'react';
+import { Knobs } from 'linear/component/defaults_knobs';
 import { Bio } from 'linear/bio';
 import { withKnobs, number, date, text } from "@storybook/addon-knobs";
 

@@ -1,0 +1,7 @@
+.svg {
+    transition: var(--transition, all 1s ease-in-out);
+}
+.Path {
+    d: var(--path);
+    transition: var(--transition, all 1s ease-in-out);
+}
