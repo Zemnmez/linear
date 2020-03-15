@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: personal website (zemn.me)
+Parameters:
+  RootDomain:
+    Description: Fully qualified root DNS name to deploy to
+    Type: String
+    Default: zemn.me.
+
+Resources:
+  Certificate:
+   Type: AWS::CertificateManager::Certificate
+   Properties:
+    DomainName: !Ref RootDomain
+    SubjectAlternativeNames:
+      - !Ref RootDomain
+  
+  ZemnMeZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: !Ref RootDomain
+
+  ZemnMeRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Comment: The root domain DNS record, zemn.me.
+      Name: !Ref RootDomain
+      Type: Alias
+      ResourceRecords: [!Ref CloudFront]
+
+  CloudFront:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: primary distribution for root domain
+
+        Origins:
+        - DomainName: !Ref StaticWebAssets
+          Id: StaticAssetsOrigin
+
+        DefaultRootObject: index.html
+        DefaultCacheBehavior:
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: None
+
+          TargetOriginId: StaticAssetsOrigin
+          ViewerProtocolPolicy: allow-all
+        Enabled: true
+        ViewerCertificate:
+          AcmCertificateArn: !Ref Certificate
+          MinimumProtocolVersion: TLSv1.2_2018
+          SslSupportMethod: sni-only
+
+        Aliases:
+          - !Ref RootDomain
+
+  StaticWebAssets:
+    Type: AWS::S3::Bucket
+        
