@@ -25,7 +25,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "cnfn-deploy": "aws cloudformation deploy --template-file cloudformation.yaml --stack-name ZemnMe --parameter-overrides BucketName=ZemnMe",
+    "s3-sync": "aws sync ./public s3://ZemnMe",
+    "deploy": "yarn build && yarn cfn-deploy && yarn s3-sync"
   },
   "eslintConfig": {
     "extends": "react-app"

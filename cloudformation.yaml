@@ -5,6 +5,9 @@ Parameters:
     Description: Fully qualified root DNS name to deploy to
     Type: String
     Default: zemn.me.
+  BucketName:
+    Description: Name of bucket holding static assets
+    Type: String
 
 Resources:
   Certificate:
@@ -57,4 +60,6 @@ Resources:
 
   StaticWebAssets:
     Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
         
