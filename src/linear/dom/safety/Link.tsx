@@ -22,7 +22,7 @@ export interface HTTPURL extends URL {
 }
 
 export interface Link extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-    url?: HTTPURL
+    url?: HTTPURL | string
 }
 
 export type LinkProps = Link;
@@ -45,8 +45,15 @@ export const isLocalLink =
 export const isHTTPURL =
     Any(isProtocol('http:'))(isProtocol('https:')).guard;
 
-export const mustHTTPURL =
+export const assertHTTPURL =
         must(isHTTPURL);
+
+export const mustHTTPURL:
+        (url: URL | string) => HTTPURL
+=
+        u =>
+            assertHTTPURL(u instanceof URL? u : new URL(u, document.location.href))
+;
 
 export const Link:
     React.FC<Link>
@@ -54,12 +61,15 @@ export const Link:
     ({ url, ...etc }) => {
         const urlString = url === undefined?
             "": url.toString();
-        if (url&&isLocalLink(url))
-            return <RouterLink {...{
-                to: url.pathname,
-                ...etc
-            }}/>;
 
+        if (url) {
+            const u = mustHTTPURL(url);
+            if (isLocalLink(u))
+                return <RouterLink {...{
+                    to: u.pathname,
+                    ...etc
+                }}/>;
+        }
 
         return <a {...{
             href: urlString,

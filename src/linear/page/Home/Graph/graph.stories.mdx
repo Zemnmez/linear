@@ -1,0 +1,40 @@
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { number, withKnobs } from '@storybook/addon-knobs';
+import { Bio } from 'linear/bio';
+import { Graph } from '.';
+
+<Meta title="Graph"/>
+
+# Graph
+
+A flexibly sized SVG graph showing Timeline activities.
+
+NB: the graph *must* be given a designated size by its parent
+or it will grow indefinitely!
+
+# Preview
+
+<Preview>
+    <Story name="basic">
+        <div style={{
+            "width": "100%",
+            "height": "100%"
+        }}>
+            <Graph {...{
+                timeline: Bio.timeline,
+                style: {
+                    "max-height": "10rem%"
+                },
+                padding: number("padding", 60, {
+                    range: true,
+                    min: 0,
+                    max: 100
+                })
+            }}/>
+        </div>
+    </Story>
+</Preview>
+
+# Props
+
+<Props of={Graph}/>

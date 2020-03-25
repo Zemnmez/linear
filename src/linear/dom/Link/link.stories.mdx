@@ -1,0 +1,26 @@
+import { Link } from '.';
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { mustHTTPURL } from 'linear/dom/safety/Link';
+
+<Meta title='Link'/>
+
+# Link
+Link is a safe way of making hyperlinks. URLs are parsed
+to prevent `javascript:` URI injection.
+
+# Preview
+
+<Preview>
+    <Story name="basic">
+        <Link url="https://google.com">
+            Google
+        </Link>
+    </Story>
+</Preview>
+
+# Props
+
+- url: the URL to go to (string | URL)
+- ... all other props allowed on `<a>`
+
+<Props of={Link} />

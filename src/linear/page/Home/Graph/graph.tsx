@@ -132,16 +132,18 @@ const analysis:
 
 export interface GraphProps extends Omit<GraphChildrenProps, keyof Sizable> {
     className?: string
+    style?: React.HTMLAttributes<HTMLDivElement>["style"]
 }
 
 export const Graph:
     (p: GraphProps) => React.ReactElement
 =
-    ({ className, ...etc }) => {
+    ({ className, style: css, ...etc }) => {
         const { wh: d, ref } = useResizeObserver();
 
         return <div {...{
             ...classes(style.Graph, className),
+            style: css,
             ref
         }}>
             {d?<GraphChildren {...{

@@ -4,6 +4,7 @@ import { classes } from 'linear/dom/classes';
 
 export interface DividerProps {
     className?: string
+    children?: React.ReactNode
 }
 
 export const Divider:
