@@ -63,7 +63,7 @@ export const Path:
 export const props:
     (p:  Config) => React.SVGAttributes<SVGPathElement>
 =
-    (p) => {
+    p => {
         const [ width, height ] = size(p);
         /**
          * the rotation itself is pretty simple,

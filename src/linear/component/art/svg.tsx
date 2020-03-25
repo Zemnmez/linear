@@ -131,6 +131,7 @@ export const PathSVG: {
 }
 
 =
+    // TODO: theres a bug here i dont want to fix
     (p: PathProps<any> | SelfSizedPathProps<any>) =>
         "width" in p? SizedPathSVG(p): SelfSizedPathSVG(p)
 ;

@@ -1,0 +1,25 @@
+import HourglassSVG from '.';
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { withKnobs, number, color } from "@storybook/addon-knobs";
+
+<Meta title='Hourglass' />
+
+# Hourglass
+Hourglass is a cool lil hourglass icon!
+
+# Preview
+
+<Preview>
+    <Story name="basic">
+        <HourglassSVG {...{
+            w: number("width", 10),
+            h: number("height", 10),
+            strokeWidth: number("stroke width", .1),
+            stroke: color("stroke", "black")
+        }} />
+    </Story>
+</Preview>
+
+# Props
+
+<Props of={HourglassSVG} />

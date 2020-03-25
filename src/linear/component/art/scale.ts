@@ -1,7 +1,5 @@
 import assert from '@zemnmez/macros/assert.macro';
 import log from '@zemnmez/macros/log.macro';
-import { T } from 'ts-toolbelt';
-import { configure } from '@testing-library/react';
 
 export interface Scalable<cfg extends object> {
     path(this: Scalable<cfg>, cfg: cfg): string
