@@ -1,0 +1,20 @@
+.Divider {
+    display: grid;
+    grid: "left-line ... content ... right-line" /
+        1fr 3rem min-content 3rem 1fr ;
+}
+
+.Divider > * {
+    grid-area: content
+}
+
+.Divider::before, .Divider::after {
+    content: "";
+    border-top: 1px solid black;
+    height: 0;
+    width: 100%;
+    margin: auto 0;
+}
+
+.Divider::before { grid-area: left-line }
+.Divider::after { grid-area: right-line }

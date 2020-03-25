@@ -1,4 +1,5 @@
-import { RouteContext } from 'linear/component/routing';
+export default () => {throw 1 };
+/*import { RouteContext } from 'linear/component/routing';
 import * as React from 'react';
 import { DescribedError, ErrorBoundary } from 'linear/component/ErrorBoundary';
 import style from './routermenu.module.css';
@@ -100,3 +101,4 @@ const routeMenu:
     </div>
 
 export const RouteMenu = ErrorBoundary(routeMenu);
+*/

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import style from './error.module.css';
 import { ElementProperties } from 'linear/util';
+import { classes } from 'linear/dom/classes';
+import { ErrorBox } from './ErrorBox';
 
 type div = JSX.IntrinsicElements["div"];
 
@@ -8,28 +10,23 @@ export interface ErrorBox extends div {
     error: any
 }
 
-export const ErrorBox:
-    React.FC<ErrorBox>
-=
-    ({error, ...etc}) => {
-        let errorString = error?.human;
+interface ErrorStringProps {
+    error: string,
+    className?: string
+}
+
+
+
+const errorString =
+    (error: any) => {
+        let errorString: string | undefined = error?.human;
+
         if (process.env.NODE_ENV != "production")
-            errorString = [errorString, error].filter(v => !!v).join("; ");
-        errorString = typeof errorString == "string"?
-            errorString: undefined;
+            errorString = [errorString, error]
+                .filter(v => !!v).join("; ");
 
-        return <div {...{
-            ...etc,
-            className: style.Error,
-        }}>
-            {errorString?
-                <div className={style.ErrorString}>
-                    {errorString}
-                </div>:<></>}
-
-        </div>
-    }
-;
+        return errorString;
+    };
 
 export interface HumanError extends Error {
     /** a message for a human to read */
@@ -79,9 +76,12 @@ class ErrorBoundaryClass<T extends RequestedProps>
         return <>
             {this.state.error
                 ? <ErrorBox
-                    error={this.state.error}
                     className={this.props.childProps.className}
-                />
+                >
+
+                        {errorString(this.state.error)}
+
+                </ErrorBox>
 
                 : ""
             }

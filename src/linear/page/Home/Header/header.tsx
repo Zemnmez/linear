@@ -1,4 +1,4 @@
-import { Video } from 'linear/video';
+import { Video } from 'linear/page/Home/video';
 import * as React from 'react';
 import style from './header.module.css';
 import { ElementProperties } from 'linear/util';
@@ -8,13 +8,13 @@ export interface Header extends ElementProperties<"header"> {
     name: string
 }
 
-type HeaderProps = Header;
+export type HeaderProps = Header;
 
 export const Header:
     React.FC<Header>
 =
     ({ name, className, ...etc }) => <header {...{
-            className: classes(className, style.Header),
+            ...classes(className, style.Header),
             ...etc
         }}>
         <div {...{

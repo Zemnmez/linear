@@ -2,8 +2,9 @@ import React, { Suspense } from 'react';
 import './base.css';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import { Pages, Page, PullDown, RouteMenu, ErrorBoundary } from 'linear/component';
-import { routes } from "linear/routes"
+import { ErrorBoundary } from 'linear/component/ErrorBoundary';
+import { Pages } from "linear/routes";
+import { Loading } from 'linear/component/Loading';
 
 const history = createBrowserHistory();
 
@@ -18,19 +19,8 @@ const app:
 
 export const App = ErrorBoundary(app);
 
-const Loading = () => <> loadin </>
-
 
 const Routes = () => <Router history={history}>
-    <Pages {...{
-        routes
-    }}>
-        <PullDown>
-            {RouteMenu}
-
-            {Page}
-        </PullDown>
-
-    </Pages>
+    <Pages/>
 </Router>
 export default App;

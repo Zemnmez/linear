@@ -1,9 +1,12 @@
 import assert from '@zemnmez/macros/assert.macro';
 import log from '@zemnmez/macros/log.macro';
+import { T } from 'ts-toolbelt';
+import { configure } from '@testing-library/react';
 
 export interface Scalable<cfg extends object> {
     path(this: Scalable<cfg>, cfg: cfg): string
     size(this: Scalable<cfg>, cfg: cfg): [number, number]
+    props?: (this: Scalable<cfg>, cfg: cfg) => React.SVGAttributes<SVGPathElement>
 }
 
 /**
@@ -18,34 +21,53 @@ type Filter<T, T2> = Pick<T,ValueOf<{
     [K in keyof T]: T[K] extends T2? K: never
 }>>;
 
-/**
- * Scales a path generator such that it is always
- * contained in a box of given width and height.
- */
-export const Scale:
-    <cfg extends object>(s: Scalable<cfg>, ...keys: (keyof Filter<cfg, number>)[]) =>
-    (cfg: cfg & { width: number, height: number }) => string
-=
-    (s, ...keys) => cfg => {
-        const [width, height] = s.size(cfg);
-        const { width: tWidth, height: tHeight } = cfg;
-        const k = scaleFactor(width, height, tWidth, tHeight);
-
-        log("calculated scale factor: ", k);
-        assert(typeof k == "number");
-
-        const copy = {
-            ...cfg
-        }
-
-
-        // scale cfg values
-        // gotta bypass types bc Filter<> isnt propagated
-        for (const key of keys) (copy[key] as any as number) *= k;
-
-        return s.path(copy);
+export class ScaledGenerator<cfg extends object> implements Scalable<cfg & {width: number, height: number}> {
+    scalable: Scalable<cfg>;
+    keys: (keyof Filter<cfg, number>)[];
+    props: Scalable<cfg & {width: number, height: number}>["props"];
+    constructor(s: Scalable<cfg>, ...keys: (
+        keyof Filter<cfg, number>
+    )[]) {
+        this.scalable = s;
+        this.keys = keys;
+        if (this.scalable.props) this.props = this._props;
     }
-;
+
+    scaleFactor(cfg: cfg & { width: number, height: number}) {
+        const [ w, h ] = this.scalable.size(cfg);
+        const { width: tWidth, height: tHeight } = cfg;
+
+        return scaleFactor(w, h, tWidth, tHeight);
+    }
+
+
+    scaledConfig(cfg: cfg & { width: number, height: number})  {
+        const k = this.scaleFactor(cfg);
+
+        const copy = {...cfg};
+
+        for (const key of this.keys) (copy[key] as any as number) *=k;
+        return copy;
+    }
+
+    path(cfg: cfg & { width: number, height: number }) {
+        return this.scalable.path(this.scaledConfig(cfg));
+    }
+
+    size(cfg: cfg & { width: number, height: number }) {
+        return this.scalable.size(this.scaledConfig(cfg));
+    }
+
+    private _props(cfg: cfg & {width: number, height: number}) {
+        return this.scalable.props!(this.scaledConfig(cfg))
+    }
+}
+
+export const Scale =
+    <cfg extends object>(s: Scalable<cfg>, ...keys: (
+        keyof Filter<cfg, number>
+    )[]) =>
+        new ScaledGenerator(s, ...keys);
 
 const scaleFactor =
     (width: number, height: number, targetWidth: number, targetHeight: number): number =>

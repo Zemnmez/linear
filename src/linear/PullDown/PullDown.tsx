@@ -1,7 +1,7 @@
-import { ElementProperties } from "./node_modules/linear/util";
-import { ErrorBoundary } from './node_modules/linear/component/error';
-import classes from './node_modules/linear/dom/classes';
-import React, { ForwardRefExoticComponent } from 'react';
+import { ElementProperties } from "linear/util";
+import { ErrorBoundary } from 'linear/component/ErrorBoundary';
+import classes from 'linear/dom/classes';
+import React from 'react';
 import style from './pulldown.module.css';
 
 export interface Menu extends React.FC<Pick<ElementProperties<"div">, 'className'>> {}
@@ -42,7 +42,7 @@ const PullDown_:
 
 
         return <div {...{
-            className: classes(className, style.PullDown),
+            ...classes(className, style.PullDown),
             ...props
         }}>
             <Pulldown className={style.pullDownMenu}/>

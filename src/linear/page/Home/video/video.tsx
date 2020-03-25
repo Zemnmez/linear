@@ -18,7 +18,7 @@ const video:
         loop: true,
         poster: poster,
         playsInline: true,
-        className: classes(style.Video, className),
+        ...classes(style.Video, className),
         ...etc
     }}>
 

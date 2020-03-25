@@ -59,25 +59,43 @@ export const Path:
     }
 ;
 
-const self = {
-    path: Path,
-    size: size
-}
 
 export const props:
     (p:  Config) => React.SVGAttributes<SVGPathElement>
 =
     (p) => {
         const [ width, height ] = size(p);
+        /**
+         * the rotation itself is pretty simple,
+         * but it is going to cause the rendered
+         * of the shape to change. to fix this,
+         * we need to scale it down a bit to keep it in the bounding box.
+         *
+         * In this case, the new width and height of our shape
+         * is what was the diameter of the rectangle before.
+         *
+         * this is a right triangle sort of thing...
+         * a^2/|b^2
+         *  -c^2
+         * d^2 = w^2 + h^2
+         */
+        const d = Math.sqrt(width ** 2 + height ** 2);
+        const scale = width / d;
+        const diff = (width -(scale * width)) /2;
         return {
-            transform: `rotate(-45, ${width/2}, ${height/2})`
+            transform:
+                `translate(${diff} ${diff}) scale(${scale}) ` +
+                `rotate(-45, ${width/2}, ${height/2})`
         }
     }
 ;
 
-
-export const scaled = {
-    path: Scale(self, 'bigSquare', 'gap', 'smallSquare'),
+const self = {
+    path: Path,
+    size: size,
     props
-};
+}
+
+export const scaled = Scale(self, 'bigSquare', 'gap', 'smallSquare');
+
 export default self;

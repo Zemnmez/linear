@@ -1,3 +1,4 @@
-import Zemnmez from "./zemnmez";
+
+import zemnmez from './zemnmez_rot';
 export * from './zemnmez_rot';
-export default Zemnmez;
+export default zemnmez;

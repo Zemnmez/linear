@@ -4,11 +4,19 @@
     grid:
         "header header header" 100vh
         "...... ...... ......." 2rem
-        "...... time   ......." 10rem
+        "time time time" 10rem
         "...... ...... ......." 1rem
-        "timeline timeline timeline" 100vh / 40vw 20vw 40vw;
+        "timeline timeline timeline" auto
+        "...... ...... ......." 3rem
+        "divider divider divider"
+        "...... ...... ......." 3rem
+        "graph graph graph" 20rem
+        "...... ...... ......." 30rem
+        / 1fr 2fr 1fr;
 }
 
 .Header { grid-area: header }
 .Timeline { grid-area: timeline }
-.Time { grid-area: time}
+.WideEyeOrnament { grid-area: time}
+.Graph { grid-area: graph }
+.Divider { grid-area: divider }

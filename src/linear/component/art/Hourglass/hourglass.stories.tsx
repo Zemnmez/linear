@@ -1,7 +1,11 @@
 import pathGen, * as t from '.';
-import { withKnobs } from "@storybook/addon-knobs";
-import * as svg from '../svg';
-import { Knobs } from 'linear/component/defaults_knobs';
-export default { title: 'hourglass', decorators: [withKnobs] }
+import { withKnobs, number, color } from "@storybook/addon-knobs";
+import React from 'react';
+export default { title: 'component/art', decorators: [withKnobs] }
 
-export const Hourglass = Knobs(svg.PathSVG(pathGen), t.HourglassProps)
+export const Hourglass = () => <t.HourglassSVG {...{
+    w: number("width", 10),
+    h: number("height", 10),
+    strokeWidth: number("stroke width", .1),
+    stroke: color("stroke", "black")
+}} />

@@ -1,4 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
+import { must } from 'linear/higher/guard';
 import { All, Any } from 'linear/higher/guard';
 import * as React from 'react';
 
@@ -24,6 +25,8 @@ export interface Link extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     url?: HTTPURL
 }
 
+export type LinkProps = Link;
+
 export const isProtocol =
     <p extends Readonly<string>>(p: p) =>
     Object.assign(
@@ -41,6 +44,9 @@ export const isLocalLink =
 
 export const isHTTPURL =
     Any(isProtocol('http:'))(isProtocol('https:')).guard;
+
+export const mustHTTPURL =
+        must(isHTTPURL);
 
 export const Link:
     React.FC<Link>

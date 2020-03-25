@@ -1,63 +1,109 @@
 import * as React from 'react';
 import router from 'react-router-dom';
-import { Route as Route_ } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 const Test:
     React.FC<JSX.IntrinsicElements["div"]>
 = props => <div {...props}>test</div>;
 
 const Home = React.lazy(() => import('linear/page/Home'))
-const SteamXX = React.lazy(() => import("linear/routes/posts/disclosures/steam"))
+const NotFound = React.lazy(() => import("linear/page/NotFound"));
 
-
+type SuggestedElement =  HTMLDivElement
 
 type MaybeLazy<T extends React.FC<any>>
     = React.LazyExoticComponent<T> | T;
 
 
-export interface SuggestedProps<R extends HTMLElement = HTMLElement> {
+interface suggestedProps {
     className?: string;
-    ref?: React.Ref<R>
 }
 
-export type RouteComponent<P extends SuggestedProps<R>, R extends HTMLElement> =
-    MaybeLazy<(React.RefForwardingComponent<P>) | React.FC<P>>
+export type SuggestedProps = React.RefAttributes<SuggestedElement> & suggestedProps;
 
-interface _Route<P extends SuggestedProps<R>, R extends HTMLElement> extends Omit<router.RouteProps, 'render'> {
-    render: RouteComponent<P, R>,
+export interface PageProps {
+    children: React.LazyExoticComponent<
+        React.ForwardRefExoticComponent<SuggestedProps>> | React.ForwardRefExoticComponent<SuggestedProps>
     title: string,
-    path: string
+    path: string,
+    props: SuggestedProps,
+    inexact?: true
 }
 
-export interface Route extends _Route<SuggestedProps<HTMLElement>, HTMLElement> {}
+const TitledPage: React.FC<Pick<PageProps, 'title'>> =
+    ({ title, children }) => {
+        document.title = ["zemnmez", title].join(" / ");
 
-
-export interface RouteProps extends Route {
-    className?: string
-}
-
-export const Route:
-    React.FC<RouteProps>
-=
-    ({render: Render, className, ...props}) => <Route_ {...{
-        render: () => <Render className={className}/>,
-        ...props
-    }}/>
-;
-
-export const routes:
-    Route[]
-= [
-    {
-        path: "/",
-        title: 'home',
-        render: Home
-    },
-
-    {
-        path: "/posts/disclosures/steam",
-        title: "steam stuff",
-        render: SteamXX
+        return <>{children}</>
     }
 
-];
+const Page = React.forwardRef<HTMLDivElement, PageProps>(
+    ({ children: Child, title, path, props, inexact }, ref) =>
+        <Route {...{
+            path: path,
+            exact: !inexact,
+        }}>
+            <TitledPage title={title}>
+                <Child {...{ ref, ...props }}/>
+            </TitledPage>
+        </Route>
+)
+
+
+export interface PagesProps extends SuggestedProps {
+    children?: React.ReactNode
+}
+
+export const Pages =
+    React.forwardRef<HTMLDivElement, PagesProps>(
+        ({ children, ...props }, ref) => {
+            const etc = { props, ref };
+            return <Switch>
+                {children}
+    <Page {...{
+        path: '/',
+        title: 'Home',
+        ...etc
+    }}>
+        {Home}
+    </Page>
+
+    <Page {...{
+        path: '/',
+        title: 'Not Found',
+        ...etc
+    }}>
+        {NotFound}
+    </Page>
+</Switch>
+        }
+    )
+
+/*
+export const Pages =
+        React.forwardRef<HTMLDivElement, PagesProps>(
+            ({ className }, ref ) => <Switch>
+                <Route {...{
+                    path: "/",
+                    title: 'home',
+                    render: Home,
+                    exact: true,
+                    props: {
+                        className
+                    },
+                    ref
+                }}/>
+
+                <Route {...{
+                    path: "/",
+                    title: 'Not Found',
+                    render: NotFound,
+                    exact: true,
+                    props: {
+                        className
+                    },
+                    ref
+                }}/>
+            </Switch>
+        )
+*/

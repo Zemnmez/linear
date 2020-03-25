@@ -12,11 +12,16 @@ export type TagsProps = Tags;
 export const Tags:
     React.FC<Tags>
 =
+    () => <></>
+;
+
+/*
     ({ tags }) => <ul {...{
         className: style.Tags,
         children: tags?.map(t => <li>{t}</li>)
     }}/>
 ;
+*/
 
 export type Description = Pick<Event, 'description'>;
 export type DescriptionProps = Description;
@@ -56,7 +61,6 @@ export const Event:
     ({description, tags, title, url, priority,
         duration}) => <div {...{
         className: style.Event,
-        "data-tags": tags?.join(","),
         children: [
             ...description? [<Description {...{description}}/>]: [],
             ...tags? [<Tags {...{tags}}/>]: [],
@@ -127,7 +131,9 @@ export const Timeline:
         const {years} = "years" in o? o: CollateBio(o);
 
         return <div {...{
-            children: years.map((y, i) => <Year key={i} {...y}/>), className: classes(className, style.Timeline),
+            children: years.map((y, i) =>
+            <Year key={i} {...y}/>),
+            ...classes(className, style.Timeline),
         }}/>
     }
 ;

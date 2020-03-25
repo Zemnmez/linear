@@ -1,0 +1,23 @@
+.WideEyeOrnament {
+    display: grid;
+    grid: '... left-ornament ... eye ... right-ornament ...' /
+        1fr 1fr 1fr 10rem 1fr 1fr 1fr;
+}
+
+.WideEyeOrnament::after{
+    content: "";
+    height: 0;
+    margin: auto 0;
+}
+
+.WideEyeOrnament::after { grid-area: right-ornament; }
+
+.TimeEye { grid-area: eye; margin: auto }
+.HourglassSVG {
+    grid-area: left-ornament;
+    max-width: 2rem;
+    max-height: 2rem;
+    margin: auto;
+    width: 100%;
+    height: 100%;
+}

@@ -3,17 +3,29 @@ import { Timeline } from "linear/page/Home/Timeline";
 import { Header } from 'linear/page/Home/Header';
 import { Bio } from 'linear/bio';
 import { classes } from 'linear/dom/classes';
-import { TimeEye } from 'linear/component';
 import * as React from 'react';
 import style from './home.module.css';
+import { WideEyeOrnament } from "./WideEyeOrnament";
+import { Graph } from "./Graph";
+import { Divider } from 'linear/component/Divider';
 
 
-const Home_ = React.forwardRef((
-    { className, ...props}: JSX.IntrinsicElements["div"],
-    ref: React.Ref<HTMLDivElement>) => <div ref={ref} className={classes(className, style.Home)} {...props}>
+export interface HomeProps {
+    className?: string
+}
+
+const Home_ = React.forwardRef<HTMLDivElement, HomeProps>((
+    { className }: JSX.IntrinsicElements["div"], ref) =>
+    <div ref={ref} {...classes(className, style.Home)}>
+
     <Header className={style.Header} name={Bio.who.handle}/>
-    <TimeEye className={style.Time} />
+    <WideEyeOrnament className={style.WideEyeOrnament} />
     <Timeline className={style.Timeline} {...Bio} />
+    <Divider className={style.Divider}> ⁂ </Divider>
+    <Graph {...{
+        timeline: Bio.timeline,
+        className: style.Graph
+    }}/>
 </div>);
 
 export const Home = Home_;

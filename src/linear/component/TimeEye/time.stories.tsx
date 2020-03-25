@@ -3,4 +3,4 @@ import * as t from '.';
 export default { title: 'assets' }
 
 
-export const time: React.FC = () => <t.Time/>
+export const time: React.FC = () => <t.TimeEye/>

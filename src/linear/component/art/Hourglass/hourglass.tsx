@@ -1,73 +1,33 @@
 import React from 'react';
-import { Area } from '../svg';
-import { DefaultProps, Type } from 'linear/component/defaults';
+import { Scale } from 'linear/component/art/scale';
+import { PathSVG } from 'linear/component/art/svg';
 
-export interface HourglassProps extends Area {
-    strokeWidth?: number,
-    stroke: React.SVGAttributes<SVGPathElement>["stroke"]
+export interface HourglassConfig {
+    w: number, h: number,
+    strokeWidth: number, stroke: string
 }
 
-
-export const HourglassProps: DefaultProps<HourglassProps> = {
-    width: Object.assign(10, {
-        range:  {
-            min: 0,
-            max: 100,
-            step: 1
-        }
-    }),
-
-    height: Object.assign( 10, {
-        range: {
-            min: 0,
-            max: 100,
-            step: 1
-        }
-    }),
-
-    x: 0,
-
-    y: 0,
-
-    stroke: Object.assign('black', {
-        type: Type.color as Type.color
-    }),
-
-    strokeWidth: Object.assign(1, {
-        range: {
-            min:0,
-            max: 100,
-            step: 1
-        }
-    })
-}
-
-export const HourglassPath:
-    (p: HourglassProps) =>
-        string
-=
-    ({
-        width = HourglassProps.width,
-        height = HourglassProps.height,
-        x = HourglassProps.x,
-        y = HourglassProps.y,
-        strokeWidth = HourglassProps.strokeWidth,
-    }) => {
-        const paddingFromStroke = strokeWidth /2;
-        const padding = paddingFromStroke;
-        const innerWidth = width - padding;
-        const innerHeight = height - padding;
-
-        return `m${[padding,padding]}l${[innerWidth, 0]} ${[-innerWidth, innerHeight]} ` +
-            `${[innerWidth, 0]}z`;
+export const Hourglass = {
+    size({ w, h, strokeWidth }: HourglassConfig): [number, number] { return [w+strokeWidth, h+strokeWidth] },
+    path({ w, h, strokeWidth }: HourglassConfig) {
+        const padding = strokeWidth / 2;
+        return `m${padding},${padding}h${w}l${-w},${h}h${w}z`
+    },
+    props({ stroke, strokeWidth }: HourglassConfig): React.SVGAttributes<SVGPathElement> {
+        return { strokeWidth, fill: "none", stroke }
     }
-;
-
-export const Props =
-    ({ strokeWidth, stroke = "black" }: HourglassProps): React.SVGAttributes<SVGPathElement> =>
-        ({ strokeWidth, fill: "none", stroke })
-
-export default {
-    path: HourglassPath,
-    props: Props
 }
+
+export const scaled = Scale(Hourglass, 'w', 'h', 'strokeWidth');
+
+export interface HourglassSVGProps extends Partial<HourglassConfig> {
+    className?: string
+}
+
+export const HourglassSVG =
+    ({ w = 10, h = 10, strokeWidth = .5, stroke = "black", className }: HourglassSVGProps) => <PathSVG {...{
+        generator: Hourglass,
+        w, h, strokeWidth, stroke, className
+    }}/>
+
+export default HourglassSVG;

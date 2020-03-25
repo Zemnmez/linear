@@ -14,10 +14,12 @@ export interface BioJson {
 
 export type Bio = Upgrade<BioJson, {
     birthdate: Date,
-    timeline: Event[],
+    timeline: Timeline,
     links: KV<string, URL>,
     employment: Employment[]
 }>
+
+export type Timeline = Event[];
 
 export interface Who {
     handle: string,
@@ -76,7 +78,9 @@ export const ParseBio:
 export const Timeline:
     (t: JsonEvent[]) => Event[]
 =
-    t => t.map(Event)
+    t => t.map(Event).sort(
+        ({ date: A }, { date: B }) => (+A) - (+B)
+    )
 ;
 
 const Event:
