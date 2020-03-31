@@ -33,7 +33,7 @@
     "build-storybook": "build-storybook -s public",
     "cnfn-deploy": "aws cloudformation deploy --template-file cloudformation.yaml --stack-name ZemnMe --parameter-overrides BucketName=ZemnMe",
     "s3-sync": "aws sync ./public s3://ZemnMe",
-    "deploy": "yarn build && yarn cfn-deploy && yarn s3-sync"
+    "deploy": "yarn test --coverage && yarn build && yarn cfn-deploy && yarn s3-sync"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -61,6 +61,7 @@
     "@types/d3-interpolate": "^1.3.1",
     "@types/d3-scale": "^2.1.1",
     "@types/d3-scale-chromatic": "^1.3.1",
+    "@types/jest": "^25.1.4",
     "@types/node": "^13.7.6",
     "@types/react": "^16.9.25",
     "@zemnmez/macros": "^1.1.0",
@@ -71,6 +72,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "sharp": "^0.24.1",
     "storybook-react-router": "^1.0.8",
+    "ts-jest": "^25.3.0",
     "ts-toolbelt": "^6.1.13",
     "typescript": "^3.7.5"
   }

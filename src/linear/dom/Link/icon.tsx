@@ -1,20 +1,19 @@
-import { scaled, RectProps } from './art';
-import { SizedPathSVG } from 'linear/component/art/svg';
+import rectPath, { RectProps } from './art';
+import { SelfSizedPathSVG } from 'linear/component/art/svg';
 import React from 'react';
 
 export interface LinkIconProps {
-    visited: boolean
     external: boolean
     className?: string
 }
 
-const visitedProps: RectProps = {
+const externalProps: RectProps = {
     strokeWidth: 1,
     d: 4,
     fill: 'none'
 }
 
-const unvisitedProps: RectProps = {
+const internalProps: RectProps = {
     strokeWidth: 0,
     d: 1,
     fill: 'black'
@@ -24,12 +23,12 @@ const unvisitedProps: RectProps = {
 export const LinkIcon:
     (props: LinkIconProps) => React.ReactElement
 =
-    ({ visited, className }) => {
+    ({ className, external }) => {
         const props: RectProps =
-            visited? visitedProps: unvisitedProps;
+            external? externalProps: internalProps;
 
-        return <SizedPathSVG {...{
-            generator: scaled,
+        return <SelfSizedPathSVG {...{
+            generator: rectPath,
             className,
             ...props
         }} />

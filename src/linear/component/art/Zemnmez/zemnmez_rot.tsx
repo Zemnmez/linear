@@ -10,7 +10,10 @@ export const size:
     (c: Config) => [number, number]
 =
     ({smallSquare: s, bigSquare: b, gap: g}) =>
-        [s + g + b + g + s, s + g + b + g + s];
+        [
+            s + g + b + g + s,
+            s + g + b + g + s
+        ];
 ;
 
 const rect:
@@ -65,6 +68,7 @@ export const props:
 =
     p => {
         const [ width, height ] = size(p);
+
         /**
          * the rotation itself is pretty simple,
          * but it is going to cause the rendered

@@ -1,5 +1,6 @@
 import { Bio, Event as BioEvent } from 'linear/bio';
-import { classes, Link, isHTTPURL } from 'linear/dom';
+import { classes, isHTTPURL } from 'linear/dom';
+import { Section, Link, Footnote } from 'linear/component/ReferenceTracker/components';
 import { Month as MonthIndex } from 'linear/time/simpledate';
 import { must } from 'linear/higher/guard';
 import style from './style.module.css'
@@ -60,13 +61,11 @@ export const Event:
 =
     ({description, tags, title, url, priority,
         duration}) => <div {...{
-        className: style.Event,
-        children: [
-            ...description? [<Description {...{description}}/>]: [],
-            ...tags? [<Tags {...{tags}}/>]: [],
-            ...title? [<Title {...{title}}/>]: []
-        ]
-    }}/>
+        className: style.Event
+    }}>
+        {title?<Title {...{title, url}}/>:<></>}
+        {description?<Description {...{description}}/>: <></>}
+    </div>
 ;
 
 export interface MonthProps {
@@ -131,10 +130,12 @@ export const Timeline:
         const {years} = "years" in o? o: CollateBio(o);
 
         return <div {...{
-            children: years.map((y, i) =>
-            <Year key={i} {...y}/>),
-            ...classes(className, style.Timeline),
-        }}/>
+            ...classes(className, style.Timeline)
+        }}>
+
+            {years.map((y, i) =>
+            <Year key={i} {...y}/>)}
+        </div>
     }
 ;
 

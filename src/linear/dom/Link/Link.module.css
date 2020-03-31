@@ -1,5 +1,16 @@
-.icon {
+.Link::after {
     vertical-align: super;
-    width: 1em;
-    height: 1em;
+
+    display: inline-block;
+    content: "";
+}
+
+.Link[target=_blank]::after {
+    font-variant: small-caps;
+    font-size: 60%;
+    content: " ";
+}
+
+.Link:visited::after {
+    background-color:white;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Scale } from 'linear/component/art/scale';
-import { PathSVG } from 'linear/component/art/svg';
+import { PathSVG } from 'linear/component/art/svg/path/component';
 
 export interface HourglassConfig {
     w: number, h: number,
@@ -26,8 +26,9 @@ export interface HourglassSVGProps extends Partial<HourglassConfig> {
 
 export const HourglassSVG =
     ({ w = 10, h = 10, strokeWidth = .5, stroke = "black", className }: HourglassSVGProps) => <PathSVG {...{
-        generator: Hourglass,
-        w, h, strokeWidth, stroke, className
+        gen: Hourglass,
+        className,
+        cfg: { w, h, strokeWidth, stroke }
     }}/>
 
 export default HourglassSVG;

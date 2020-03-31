@@ -1,7 +1,7 @@
 import { scaled as RotPath, Config } from './zemnmez_rot';
 import log from '@zemnmez/macros/log.macro';
 import React from 'react';
-import { PathSVG } from '../svg';
+import { SizedPathSVG } from '../svg';
 
 export interface LoadProps {
     className?: string,
@@ -32,7 +32,7 @@ export const Load:
 
         log("playing frame", frame)
 
-        return <PathSVG {...{
+        return <SizedPathSVG {...{
             className,
             generator: RotPath,
             transition: `all ${switchTime/4}ms ease-in-out`,

@@ -68,7 +68,7 @@ const PathStyle:
     (props: PathStyleProps) => React.CSSProperties
 =
     ({ path, transition }) => ({
-        '--path': `path("${mustValidPath(path)})`,
+        '--path': `path("${mustValidPath(path)}")`,
         ...(transition?{
             '--transition': transition
         }: {})
@@ -124,14 +124,3 @@ export const SizedPathSVG =
             <SizedPath {...c} />
         </svg>
     }
-
-export const PathSVG: {
-    <T extends Area>(p: Omit<PathProps<T>, 'width' | 'height'>): JSX.Element,
-    <T extends object>(p: SelfSizedPathProps<T>): JSX.Element
-}
-
-=
-    // TODO: theres a bug here i dont want to fix
-    (p: PathProps<any> | SelfSizedPathProps<any>) =>
-        "width" in p? SizedPathSVG(p): SelfSizedPathSVG(p)
-;

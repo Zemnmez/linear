@@ -1,5 +1,4 @@
 import assert from '@zemnmez/macros/assert.macro';
-import log from '@zemnmez/macros/log.macro';
 
 export interface Scalable<cfg extends object> {
     path(this: Scalable<cfg>, cfg: cfg): string
@@ -8,7 +7,7 @@ export interface Scalable<cfg extends object> {
 }
 
 /**
- * extract all values ot T
+ * extract all values of T
  */
 type ValueOf<T> = T[keyof T]
 
@@ -19,7 +18,7 @@ type Filter<T, T2> = Pick<T,ValueOf<{
     [K in keyof T]: T[K] extends T2? K: never
 }>>;
 
-export class ScaledGenerator<cfg extends object> implements Scalable<cfg & {width: number, height: number}> {
+export class Generator<cfg extends object> implements Scalable<cfg & {width: number, height: number}> {
     scalable: Scalable<cfg>;
     keys: (keyof Filter<cfg, number>)[];
     props: Scalable<cfg & {width: number, height: number}>["props"];
@@ -65,7 +64,7 @@ export const Scale =
     <cfg extends object>(s: Scalable<cfg>, ...keys: (
         keyof Filter<cfg, number>
     )[]) =>
-        new ScaledGenerator(s, ...keys);
+        new Generator(s, ...keys);
 
 const scaleFactor =
     (width: number, height: number, targetWidth: number, targetHeight: number): number =>
@@ -88,7 +87,6 @@ const scaleFactor =
     */
    {
 
-        log("width", width, "height", height, "target width", targetWidth, "target height", targetHeight);
         assert(typeof width == 'number');
         assert(typeof height == 'number');
         assert(typeof targetWidth == 'number');

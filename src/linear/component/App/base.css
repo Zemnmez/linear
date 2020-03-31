@@ -5,7 +5,7 @@ html, body {
     display: flex;
     --fgc: black;
     --bgc: white;
-    font-family: 'Lora', serif;
+    font-family: 'EB Garamond', serif;
     font-variant-ligatures: historical-ligatures common-ligatures additional-ligatures;
     font-size: 1.03rem;
 }
@@ -19,10 +19,7 @@ p::first-letter {
 }
 
 a:link {
-    font-family: 'EB Garamond', serif;
-    font-style: italic;
     color: inherit;
-    text-transform: lowercase;
     text-decoration: none;
 }
 

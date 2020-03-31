@@ -1,5 +1,5 @@
 import rot, { scaled as rotPath } from './zemnmez_rot';
-import { PathSVG } from '../svg';
+import { SizedPathSVG } from '../svg';
 import React from 'react';
 import { withKnobs, number, date, text } from "@storybook/addon-knobs";
 
@@ -26,7 +26,7 @@ export const Rot_Raw = () => <svg width={100} height={100}>
 </svg>
 
 export const Zemn_Rot = () =>
-        <PathSVG
+        <SizedPathSVG
             generator={rotPath}
             smallSquare={number("smallSquare", 1, {
                 range: true,

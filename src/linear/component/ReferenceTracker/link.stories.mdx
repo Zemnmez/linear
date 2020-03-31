@@ -1,0 +1,28 @@
+import { Link, Section, Footnote } from './components';
+import { Meta, Story, Preview } from '@storybook/addon-docs/blocks';
+import { mustHTTPURL } from 'linear/dom/safety/Link';
+
+<Meta title='Reference Tracker'/>
+
+# Reference Tracker
+The Reference Tracker makes links that use numbered references.
+
+# Preview
+
+<Preview>
+    <Story name="basic">
+        <Section>
+            <Link url="https://google.com">google</Link>
+            <Link url="https://google.com">google</Link>
+            <Link url="https://facebook.com">Facebook</Link>
+            <Footnote/>
+        </Section>
+    </Story>
+</Preview>
+
+# Props
+
+- url: the URL to go to (string | URL)
+- ... all other props allowed on `<a>`
+
+<Props of={Link} />

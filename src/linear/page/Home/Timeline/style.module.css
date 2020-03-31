@@ -1,5 +1,7 @@
 .Event { margin: 1rem 0 }
-.Description { }
+.Description, .Title { display: inline }
+.Description::after, .Title::after,
+.Description::before, .Title::before {content: " "}
 .Month { }
 .Timeline { display: flex; flex-wrap: wrap; justify-content: space-evenly; }
 .Timeline > *, .Timeline::after {
@@ -84,4 +86,3 @@
     grid-area: stretchMarkerM;
 }
 */
-.Tags { display: none }
