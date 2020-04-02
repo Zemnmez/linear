@@ -1,28 +1,69 @@
 import React from 'react';
-import { Context, useIndexer, useIndex, defaultContextValue } from './hooks'
+import * as hooks from './hooks';
+import * as immutable from 'immutable';
+import * as indexer from './indexer';
+import { toIndex } from './indexutil';
 import style from './components.module.css';
 import { Link as NormalLink, LinkProps as NormalLinkProps } from 'linear/dom/Link';
 
 export const Section:
     React.FC
 =
-    ({ children }) => <Context.Provider value={defaultContextValue}>
-        {children}
-    </Context.Provider>
+    ({ children }) => {
+        const [index, setIndex] = React.useState<hooks.Index>(toIndex({
+            entries: {},
+            slots: []
+        }));
+
+        React.useEffect(() => console.log("sect", index.entries.size), [index]);
+
+        const declare = React.useCallback((s: string): number => {
+            const ret = indexer.add(index)(s);
+            setIndex(index);
+            return ret;
+        }, [ index, setIndex ])
+
+        const remove = React.useCallback((s: string) =>
+            indexer.remove(index)(s)
+        , [ index, setIndex ]);
+
+        return <hooks.Context.Provider value={{
+            declare, remove, value: index
+        }}>
+            {children}
+        </hooks.Context.Provider>
+    }
 ;
 
-export const Footnote:
+interface FootnoteProps {
+    n: number,
+    url: string
+}
+
+const Footnote:
+    (props: FootnoteProps) => React.ReactElement
+=
+    ({ url }) => <li>
+        <NormalLink url={url}>{url}</NormalLink>
+    </li>
+;
+
+export const Footnotes:
     () => React.ReactElement
 =
     () => {
-        const index = useIndex();
+        const indEntries = hooks.useIndex()?.value?.entries;
+        const [entries, setEntries] = React.useState<immutable.Map<string, number>>();
+        React.useEffect(() => setEntries(indEntries), [ indEntries ]);
+
 
         return <div {...{
             className: style.Footnote
         }}>
-            {[...index.entries.entries()].map(
-                ([url, number]) => <React.Fragment key={url}>{number}: {url}</React.Fragment>
-            )}
+            {entries?<ol>{[...entries.entries()].map(
+                ([url, n]) => <Footnote key={n} {...{url, n}}/>
+            )}</ol>
+            :<></>}
         </div>
     }
 ;
@@ -38,7 +79,7 @@ export const Link:
             url instanceof URL?
                 url.toString(): url
         ): undefined;
-        const index = useIndexer(urlString);
+        const index = hooks.useIndexer(urlString);
 
         return <NormalLink {...{
             url,

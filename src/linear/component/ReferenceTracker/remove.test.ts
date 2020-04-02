@@ -1,5 +1,5 @@
 import { remove } from './indexer';
-import { IndexLike, toIndex, fromIndex } from './testutil';
+import { IndexLike, toIndex, fromIndex } from './indexutil';
 
 type Test<K extends string | number | symbol> = Parameters<
     (

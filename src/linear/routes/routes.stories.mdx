@@ -1,0 +1,49 @@
+import { Page, Pages } from './routes';
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
+import Test from 'linear/component/App/test';
+
+<Meta
+    title="routes"
+    component={Pages}
+    subcomponents={[Pages]}
+/>
+
+# Routes
+
+This package binds [Page] components to `Page`s.
+
+## Pages
+
+The primary way of consuming the page routes.
+
+<Preview>
+    <Story name="Pages">
+        <Test>
+            <Pages/>
+        </Test>
+    </Story>
+</Preview>
+
+
+
+## Page
+
+A `Page` binds a route to a component. Its child is a single 
+component, which must be a ref forwarding component forwarding
+to a `<div>` tag.
+
+<Preview>
+    <Story name="Page">
+        <Test>
+            <Page {...{
+                path: '/',
+                exact: false,
+                title: 'Example',
+            }}>
+                {React.forwardRef((props) => "hello!")}
+            </Page>
+        </Test>
+    </Story>
+</Preview>
+
+<Props of={Page}/>

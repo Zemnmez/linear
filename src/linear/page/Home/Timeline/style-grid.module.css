@@ -2,15 +2,27 @@
 .Description, .Title { display: inline }
 .Description::after, .Title::after,
 .Description::before, .Title::before {content: " "}
-.Month { }
-.Timeline { display: flex; flex-wrap: wrap; justify-content: space-evenly; }
-.Timeline > *, .Timeline::after {
+.title { text-transform: lowercase }
+
+.Timeline {
     --unit-size: 20rem;
+    --space-around: 6rem;
+    display: grid;
+    
+    grid-template-columns: repeat(3, var(--unit-size));
+    max-width: calc(var(--unit-size) * 3 + var(--space-around));
+    width: 100%;
+    margin: auto;
+    justify-content: space-around;
+}
+
+.Timeline > *, .Timeline::after {
     /*flex-basis: var(--unit-size); 8*/
     width: 100%;
+
     max-width: var(--unit-size);
     min-width: 0;
-    justify-content: stretch;
+    --unit-size: 20rem;
 }
 .Month[data-month="0"]::before { content: 'jan' }
 .Month[data-month="1"]::before { content: 'feb' }
@@ -28,11 +40,11 @@
 .Month .Event { margin-left: 2rem }
 .Year::before {
     content: attr(data-year);
-    font-size: xx-large;
+    /* font-size: xx-large; */
     text-align: center;
     grid-area: header;
     width: 100%;
-    border-bottom: 1px solid black;
+    /* border-bottom: 1px solid black; */
     padding: 1rem 0;
     margin-bottom: 1rem;
 }
@@ -41,9 +53,9 @@
 }
 .Year {
     display: grid;
-    grid:   "xxx header xxxx"
-            "xxx article xxxx"
-            "xxx stretchMarkerM xxxx" minmax(0, 1fr)
+    grid:   "... header ............"
+            "... article ..........."
+            "... stretchMarkerM ...." minmax(0, 1fr)
                 / 0 minmax(0, var(--unit-size)) 0;
     flex-grow: 1;
 }
@@ -62,7 +74,6 @@
 
 .stretchMarkerM::before, .stretchMarkerM::after {
     content: "";
-    flex-basis: clamp(0%, 100%, 5rem);
 }
 
 

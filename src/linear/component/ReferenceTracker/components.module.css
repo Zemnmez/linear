@@ -1,3 +1,4 @@
 .Footnote {
-
+    column-width: 15rem;
+    word-break: break-word;
 }

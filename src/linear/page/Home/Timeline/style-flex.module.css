@@ -1,0 +1,94 @@
+.Event { margin: 1rem 0 }
+.Description, .Title { display: inline }
+.Description::after, .Title::after,
+.Description::before, .Title::before {content: " "}
+.title { text-transform: lowercase }
+.Timeline {
+    display: flex; flex-wrap: wrap; justify-content: space-evenly;
+    --unit-size: 20rem;
+    --space-around: 6rem;
+    --full-size: calc(3 * var(--unit-size)) + var(--space-around);
+    padding: 0 calc(70% - var(--full-size));
+}
+.Timeline > *, .Timeline::after {
+    /*flex-basis: var(--unit-size); 8*/
+    width: 100%;
+    max-width: var(--unit-size);
+    min-width: 0;
+    justify-content: stretch;
+}
+.Month[data-month="0"]::before { content: 'jan' }
+.Month[data-month="1"]::before { content: 'feb' }
+.Month[data-month="2"]::before { content: 'mar' }
+.Month[data-month="3"]::before { content: 'apr' }
+.Month[data-month="4"]::before { content: 'may' }
+.Month[data-month="5"]::before { content: 'jun' }
+.Month[data-month="6"]::before { content: 'jul' }
+.Month[data-month="7"]::before { content: 'aug' }
+.Month[data-month="8"]::before { content: 'sep' }
+.Month[data-month="9"]::before { content: 'oct' }
+.Month[data-month="10"]::before { content: 'nov' }
+.Month[data-month="11"]::before { content: 'dec' }
+.Month::before { opacity: .5 }
+.Month .Event { margin-left: 2rem }
+.Year::before {
+    content: attr(data-year);
+    /* font-size: xx-large; */
+    text-align: center;
+    grid-area: header;
+    width: 100%;
+    /* border-bottom: 1px solid black; */
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+}
+.Year article {
+    grid-area: article
+}
+.Year {
+    display: grid;
+    grid:   "xxx header xxxx"
+            "xxx article xxxx"
+            "xxx stretchMarkerM xxxx" minmax(0, 1fr)
+                / 0 minmax(0, var(--unit-size)) 0;
+    flex-grow: 1;
+}
+
+
+/*
+    The logic here is to fill any free space we fit into
+    with some lovely decorations :)
+*/
+.stretchMarkerM {
+    width: 100%; height: 100%;
+    grid-area: stretchMarkerM;
+    display: flex;
+    margin: auto;
+    width: 0;
+}
+
+.stretchMarkerM::before, .stretchMarkerM::after {
+    content: "";
+    flex-basis: clamp(0%, 100%, 5rem);
+}
+
+
+.stretchMarkerLine {
+    content: "";
+    grid-area: line;
+
+    border: 0;
+    border-left: 1px dotted black;
+    margin: 0 auto;
+    flex-grow: 1;
+}
+
+
+/*
+.Year::after {
+    content: "";
+    border-left: 1px dotted black;
+    width: 0;
+    margin: 0 auto;
+    grid-area: stretchMarkerM;
+}
+*/

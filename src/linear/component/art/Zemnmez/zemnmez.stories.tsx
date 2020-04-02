@@ -3,7 +3,7 @@ import { SizedPathSVG } from '../svg';
 import React from 'react';
 import { withKnobs, number, date, text } from "@storybook/addon-knobs";
 
-export default { title: 'zemnmez', decorators: [withKnobs] }
+export default { title: 'art/zemnmez', decorators: [withKnobs] }
 
 export { Load } from './load';
 

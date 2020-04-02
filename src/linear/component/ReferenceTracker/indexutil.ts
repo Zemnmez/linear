@@ -1,8 +1,9 @@
 import { Index } from './indexer';
+import * as immutable from 'immutable';
 
 export interface IndexLike<K extends string | number | symbol> {
     entries: Record<K, number>
-    slots: Index<K>["slots"]
+    slots: (number | undefined)[]
 }
 
 export const toIndex:
@@ -10,7 +11,7 @@ export const toIndex:
 =
     ({ entries, slots }) => ({
         entries: new Map(Object.entries(entries)) as any,
-        slots
+        slots: immutable.List(slots)
     })
 ;
 
@@ -31,7 +32,7 @@ export const fromIndex:
 =
     ({ entries, slots }) => ({
         entries: fromEntries([...entries.entries()]),
-        slots
+        slots: [...slots]
     })
 ;
 

@@ -14,9 +14,11 @@ export interface HomeProps {
     className?: string
 }
 
+console.log(style.Home, classes(style.Home));
+
 const Home_ = React.forwardRef<HTMLDivElement, HomeProps>((
     { className }: JSX.IntrinsicElements["div"], ref) =>
-    <div ref={ref} {...classes(className, style.Home)}>
+    <div ref={ref} {...classes(style.Home, className)}>
 
     <Header className={style.Header} name={Bio.who.handle}/>
     <WideEyeOrnament className={style.WideEyeOrnament} />
@@ -29,3 +31,5 @@ const Home_ = React.forwardRef<HTMLDivElement, HomeProps>((
 </div>);
 
 export const Home = Home_;
+
+export default Home;

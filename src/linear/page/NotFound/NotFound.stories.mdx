@@ -1,0 +1,16 @@
+import { NotFound } from '.';
+import { Test } from 'linear/component/App/test';
+
+<Meta title="page/NotFound" Component={NotFound}/>
+
+A NotFound page! it redirects to "/".
+
+<Preview>
+    <Story name="NotFound">
+        <Test>
+            <NotFound/>
+        </Test>
+    </Story>
+</Preview>
+
+<Props of={NotFound}/>

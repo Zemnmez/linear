@@ -10,9 +10,9 @@
         "...... ...... ......." 3rem
         "divider divider divider"
         "...... ...... ......." 3rem
-        "graph graph graph" 20rem
+        "...... graph ........" 20rem
         "...... ...... ......." 30rem
-        / 1fr 2fr 1fr;
+        / 1fr 50rem 1fr;
 }
 
 .Header { grid-area: header }

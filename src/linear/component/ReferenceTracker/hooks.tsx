@@ -1,18 +1,15 @@
 import * as indexer from './indexer';
 import React from 'react';
 
-interface Context {
-    index: indexer.Index<string>
+export interface Index extends indexer.Index<string> {}
+
+export interface Context {
+    declare(s: string): number
+    remove(s: string): void
+    value: Readonly<Index>
 }
 
-export const defaultContextValue = {
-    index: {
-        entries: new Map(),
-        slots: []
-    }
-}
-
-export const Context = React.createContext<Context>(defaultContextValue);
+export const Context = React.createContext<Context | undefined>(undefined);
 
 export const useIndexer:
     (key: string | undefined) => number | undefined
@@ -23,21 +20,18 @@ export const useIndexer:
         React.useEffect(() => {
             if (!ctx) return;
             if (!key) return;
-            setMyIndex(indexer.add(ctx.index)
-            (key));
+            const newIndex = ctx.declare(key);
+            if (newIndex != myIndex) setMyIndex(newIndex);
 
-            return () => {
-                indexer.remove(ctx.index)(key);
-                //setMyIndex(0);
-            };
+            return () => ctx.remove(key);
         }, [ ctx, key ]);
-
+        
         return myIndex;
     }
 ;
 
 export const useIndex:
-    () => indexer.Index<string>
+    () => Context | undefined
 =
-    () => React.useContext(Context).index
+    () => React.useContext(Context)
 ;

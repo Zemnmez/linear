@@ -1,5 +1,4 @@
 import * as React from 'react';
-import router from 'react-router-dom';
 import { Route, Switch } from 'react-router-dom';
 
 const Test:
@@ -37,7 +36,7 @@ const TitledPage: React.FC<Pick<PageProps, 'title'>> =
         return <>{children}</>
     }
 
-const Page = React.forwardRef<HTMLDivElement, PageProps>(
+export const Page = React.forwardRef<HTMLDivElement, PageProps>(
     ({ children: Child, title, path, props, inexact }, ref) =>
         <Route {...{
             path: path,

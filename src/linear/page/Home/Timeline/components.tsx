@@ -1,9 +1,9 @@
 import { Bio, Event as BioEvent } from 'linear/bio';
 import { classes, isHTTPURL } from 'linear/dom';
-import { Section, Link, Footnote } from 'linear/component/ReferenceTracker/components';
+import { Link } from 'linear/dom/Link';
 import { Month as MonthIndex } from 'linear/time/simpledate';
 import { must } from 'linear/higher/guard';
-import style from './style.module.css'
+import style from './style-flex.module.css'
 import { Map } from 'immutable';
 import * as React from 'react';
 
@@ -15,14 +15,6 @@ export const Tags:
 =
     () => <></>
 ;
-
-/*
-    ({ tags }) => <ul {...{
-        className: style.Tags,
-        children: tags?.map(t => <li>{t}</li>)
-    }}/>
-;
-*/
 
 export type Description = Pick<Event, 'description'>;
 export type DescriptionProps = Description;
@@ -133,7 +125,7 @@ export const Timeline:
             ...classes(className, style.Timeline)
         }}>
 
-            {years.map((y, i) =>
+            {years.sort(({ year: a}, { year: b}) => b-a).map((y, i) =>
             <Year key={i} {...y}/>)}
         </div>
     }

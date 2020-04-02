@@ -1,8 +1,8 @@
-
+import * as immutable from 'immutable';
 
 export interface Index<K> {
-    entries: Map<K, number>
-    slots: (number | undefined)[]
+    entries: immutable.Map<K, number>
+    slots:  immutable.List<number | undefined>
 }
 
 const minusOneAsUndefined =
@@ -20,9 +20,9 @@ export const getEmptySlot:
 =
     ind => {
         const index = minusOneAsUndefined(ind.slots.findIndex(v => v == undefined))
-            ?? ind.slots.length;
+            ?? ind.slots.size;
 
-        ind.slots[index] = index;
+        ind.slots = ind.slots.set(index, index );
 
         return index;
     }
@@ -66,7 +66,7 @@ export const remove:
         const slot = ind.entries.get(k);
         if (slot == undefined) return false;
         ind.entries.delete(k);
-        ind.slots[slot] = undefined;
+        ind.slots = ind.slots.set(slot, undefined)
         return true;
     }
 ;

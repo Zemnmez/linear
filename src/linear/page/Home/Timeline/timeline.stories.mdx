@@ -1,19 +1,37 @@
-import * as t from 'linear/page/Home/Timeline';
-import * as React from 'react';
-import { Knobs } from 'linear/component/defaults_knobs';
+import { Timeline, Event } from '.';
 import { Bio } from 'linear/bio';
 import { withKnobs, number, date, text } from "@storybook/addon-knobs";
 
+<Meta title="generic/Timeline"/>
 
-export const Timeline = () =>
-    <t.Timeline {...Bio} />
+# Timeline
 
-export const Event = () =>
-    <t.Event {...{
+A flexible multi-column timeline of my work over time.
+
+## Preview
+
+<Preview>
+    <Story name="basic">
+        <Timeline {...Bio}/>
+    </Story>
+</Preview>
+
+## Props
+<Props of={Timeline}/>
+
+
+## Components
+
+### Event
+
+<Story name="event">
+    <Event {...{
         title: text("title", Bio.timeline[0].title),
         date: new Date(date("date", Bio.timeline[0].date)),
         description: text("description", Bio.timeline[0].description || ""),
         url: new URL(text("url", (Bio.timeline[0].url + "") || "")),
     }}/>
+</Story>
 
-export default { title: __filename, decorators: [withKnobs] }
+# Props
+<Props of={Event}/>
