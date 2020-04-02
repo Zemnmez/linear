@@ -132,10 +132,54 @@ export const Bio = ParseBio({
     ],
     "timeline": [
         {
+            date: [16, 'jun', 2019],
+            title: 'react-oauth2-hook',
+            url: 'https://github.com/Zemnmez/react-oauth2-hook',
+            description: 'An entirely clientside implementation of an oauth2 implicit client, with React hooks'
+        },
+        {
+            date: [25, 'feb', 2020],
+            title: 'SVGShot',
+            url: 'https://github.com/Zemnmez/svgshot',
+            description: "small tool for taking SVG 'screenshots' of webpages"
+        },
+        {
+            date: [4, 'dec', 2019],
+            title: 'UK Government Vulnerability Disclosure Initiative',
+            url: 'https://www.ncsc.gov.uk/information/vulnerability-reporting',
+            description: 'responsible disclosure program created with the UK National Cyber Security Center covering all government assets'
+        },
+        {
+            date: [5, 'sep', 2018],
+            title: 'Cross-site information assertion leak via Content Security Policy',
+            url: 'https://hackerone.com/reports/16910',
+            description: 'CSP1 information leak allowing efficient deanonymisation of internet users'
+        },
+        {
+            date: [2, 'aug', 2019],
+            title: 'If CORS is just a header, why don’t attackers just ignore it?',
+            url: 'https://medium.com/@Zemnmez/if-cors-is-just-a-header-why-dont-attackers-just-ignore-it-63e57c323cef?source=your_stories_page---------------------------',
+            description: 'article on common security misconceptions around CORS',
+            tags: [ 'article', 'security' ]
+        },
+        {
+            date: [1, 'feb', 2020],
+            title: "HackFortress Shmoocon 2019 Champions",
+            tags: [ 'accolade', 'security', 'gaming' ],
+            description: 'defended title for hybrid gaming ctf'
+        },
+        {
+            date: [17, 'may', 2019],
+            title: 'Full Steam Ahead: Remotely Executing Code in Modern Desktop Applications',
+            description: 'technical talk at offensive AppSec conference Infiltrate summarising through example research into hybrid web / desktop application security',
+            tags: [ 'talk', 'security', 'gaming ' ],
+            url: 'https://vimeo.com/335206831'
+        },
+        {
             date: [11, 'jul', 2019],
             title: "National Cyber Security Centre 'Turing' challenge coin",
             priority: 5,
-            tags: [ 'accolade' ],
+            tags: [ 'accolade', 'security' ],
             url: "https://twitter.com/zemnmez/status/1149278890969456640",
             description: "award for my work on UK government vulnerability disclosure policy and my responsible disclosure of vulnerabilities in the UK tax system."
         },
@@ -163,6 +207,19 @@ export const Bio = ParseBio({
             ],
             "title": "reactive-d3",
             "url": "https://github.com/Zemnmez/reactive-d3"
+        },
+        {
+            date: [2, 'sep', 2018],
+            title: 'I hacked video games like 300 times and all I got was this stupid talk',
+            tags: [ 'talk', 'gaming', 'security' ],
+            description: 'talk at game dev days 2018 in Graz, Austria summarising some security concepts for game developers',
+            url: 'https://www.youtube.com/watch?v=NjMMK-FkTW4&list=PLFqM5L7fs0mO3O3-BBZfA-sHeT86Gesd8&index=15&'
+        },
+        {
+            title: 'CSVPretty',
+            url: 'https://github.com/Zemnmez/csvpretty',
+            description: 'typescript pretty printer for the CSV format',
+            date: [23, 'jul', 2019]
         },
         {
             "date": [7, 'jan', 2019],

@@ -173,8 +173,8 @@ const GraphChildren:
         const [XAxisSize, setXAxisSize] = React.useState<Sizable>(nilSizable);
         const [YAxisSize, setYAxisSize] = React.useState<Sizable>(nilSizable);
 
-        const canvasWidth = width - YAxisSize.width;
-        const canvasHeight = height - XAxisSize.height;
+        const canvasWidth = width - YAxisSize.width - (padding);
+        const canvasHeight = height - XAxisSize.height - (padding);
 
         const { tags, firstDate, lastDate } = React.useMemo(
             () => analysis(timeline)

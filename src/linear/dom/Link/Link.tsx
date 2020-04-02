@@ -24,3 +24,5 @@ export const Link:
         </SafeLink>
     }
 ;
+
+export default Link;
