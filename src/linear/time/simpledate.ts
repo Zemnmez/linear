@@ -48,20 +48,18 @@ type MonthDates = {
 
 type Dates = MonthDates;
 
+type ValueOf<T> = T[keyof T];
 
-type ValueOf<T> = T[keyof T]
+export type SimpleDate = DateFull | DateYear | DateMonth;
 
-export type SimpleDate = DateFull | DateYear | DateMonth
-export default SimpleDate;
-
-export type DateYear = [ number ]
+export type DateYear = [ number ];
 export type DateMonth = ValueOf<{
     [month in Month]: [MonthName<month>, number]
-}>
+}>;
 
 export type DateFull = ValueOf<{
     [month in Month]: [Dates[month], MonthName<month>, number]
-}>
+}>;
 
 export const Parse:
     (s: SimpleDate) => Date
@@ -72,7 +70,7 @@ export const Parse:
             year: number = 0;
 
         switch (date.length) {
-        case 1: [year] = date; break;
+        case 1: [year] = date; break
         case 2: [monthName, year] = date; break;
         case 3: [dateOf, monthName, year] = date; break;
 
@@ -85,3 +83,5 @@ export const Parse:
         return new Date(year, month, dateOf)
     }
 ;
+
+//export default SimpleDate;

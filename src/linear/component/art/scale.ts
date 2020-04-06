@@ -1,5 +1,3 @@
-import assert from '@zemnmez/macros/assert.macro';
-
 export interface Scalable<cfg extends object> {
     path(this: Scalable<cfg>, cfg: cfg): string
     size(this: Scalable<cfg>, cfg: cfg): [number, number]
@@ -87,11 +85,6 @@ const scaleFactor =
     */
    {
 
-        assert(typeof width == 'number');
-        assert(typeof height == 'number');
-        assert(typeof targetWidth == 'number');
-        assert(typeof targetHeight == 'number');
-
         const [k1, k2] = [
             targetWidth / width,
             targetHeight / height
@@ -103,10 +96,6 @@ const scaleFactor =
         ];
 
         const scaleFactor = u1 < u2? k1: k2;
-
-        assert((scaleFactor * width) <= targetWidth, scaleFactor * width);
-        assert((scaleFactor * height) <= targetHeight, scaleFactor * width);
-        assert(typeof scaleFactor == "number");
 
         return scaleFactor;
     }
