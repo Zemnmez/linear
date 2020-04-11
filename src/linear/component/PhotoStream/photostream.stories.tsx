@@ -1,3 +1,12 @@
-import image from './photos/DSC01487';
+import Photos from './photos';
+import React from 'react';
+import Test from 'linear/component/App/test';
+import style from './photostream.module.css';
 
-export const test = () => JSON.stringify(image)
+export default { title: "hi!"}
+
+export const test = () => <Test><div {...{
+    className: style.PhotoStream
+}}>
+    <Photos/>
+</div></Test>

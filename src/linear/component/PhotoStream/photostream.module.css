@@ -1,0 +1,13 @@
+
+.PhotoStream {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.PhotoStream img {
+    width: 100%;
+    height: auto;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
