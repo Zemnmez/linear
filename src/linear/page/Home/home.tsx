@@ -7,6 +7,7 @@ import * as React from 'react';
 import style from './home.module.css';
 import { WideEyeOrnament } from "./WideEyeOrnament";
 import { Graph } from "./Graph";
+import PhotoStream from 'linear/component/PhotoStream/photostream';
 import { Divider } from 'linear/component/Divider';
 
 

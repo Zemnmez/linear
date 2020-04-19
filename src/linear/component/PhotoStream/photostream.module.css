@@ -3,11 +3,21 @@
     display: flex;
     width: 100%;
     flex-wrap: wrap;
+    justify-content: space-around;
 }
 
 .PhotoStream img {
+    --image-tile-size: 40rem;
+    width: 10rem;
+    height: 30rem;
+    flex-shrink: 1;
+    object-fit: cover;
+    margin: 1px;
+}
+
+.PhotoStream img.full {
     width: 100%;
     height: auto;
-    flex-shrink: 1;
-    flex-grow: 1;
+    margin: 0;
+    flex-grow: 0;
 }

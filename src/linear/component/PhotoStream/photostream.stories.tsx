@@ -1,12 +1,10 @@
-import Photos from './photos';
+import PhotoStream from './photostream';
 import React from 'react';
 import Test from 'linear/component/App/test';
 import style from './photostream.module.css';
 
 export default { title: "hi!"}
 
-export const test = () => <Test><div {...{
-    className: style.PhotoStream
-}}>
-    <Photos/>
-</div></Test>
+export const test = () => <Test>
+    <PhotoStream/>
+</Test>
