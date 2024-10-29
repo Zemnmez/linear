@@ -1,8 +1,0 @@
-.graph {}
-.graph .boxes {}
-.graph .event {}
-.graph .x.y.axis {}
-
-.graph * { stroke: none }
-.graph .event { fill: var(--fgc) }
-.graph .event:hover { fill: var(--fgc-highlight) }
