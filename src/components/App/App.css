@@ -1,9 +1,0 @@
-@media print {
-  html, body { max-width: 210mm ; max-height: 297mm; margin: auto }
-}
-
-@page {
-  size: A4;
-  margin: 0;
-  marks: none;
-}
